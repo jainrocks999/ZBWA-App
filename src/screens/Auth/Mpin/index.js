@@ -1,151 +1,232 @@
+// import React, { useState } from "react";
+// import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
+// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+// import BackArrow from "../../../assets/Icon/BackArrow.svg";
+// import Arrow from "../../../assets/Icon/Arrow.svg";
+// import { useNavigation } from "@react-navigation/native";
+// import OtpInputs from "react-native-otp-inputs";
+// import styles from "./style";
+// import LinearGradient from 'react-native-linear-gradient';
+// import LottieView from 'lottie-react-native';
+
+// const Mpin = () => {
+
+//   const navigation = useNavigation()
+//   const [code, setCode] = useState('')
+
+//   return (
+//     <LinearGradient colors={['#FFFBD3', '#FFFFFF', '#FFF8BA']} style={{ flex: 1 }}>
+//       <KeyboardAwareScrollView
+//         style={{ flex: 1, }}
+//         extraScrollHeight={-100}
+//         enableOnAndroid={true}
+//         keyboardShouldPersistTaps="always"
+//         contentContainerStyle={{ flexGrow: 1 }}>
+//           <View style={styles.view}>
+//             <View style={{ height: 310 }}>
+//               <LottieView style={styles.lottie} source={require('../../../assets/Json/Mpin-forgotpass animation.json')} autoPlay loop />
+//             </View>
+//           </View>
+//           <View style={{position:'absolute',bottom:135,left:0,right:0}}>
+//           <View style={styles.main}>
+//             <View style={styles.yellow}>
+//               <View style={styles.backView}>
+//                 <View style={{ flexDirection: 'row' }}>
+//                   <Text style={styles.back}>Back </Text>
+//                 </View>
+//                 <TouchableOpacity
+//                   activeOpacity={0.5}
+//                   onPress={() => navigation.goBack()}
+//                   style={styles.arrow}>
+//                   <BackArrow />
+//                 </TouchableOpacity>
+//               </View>
+//               <View style={{ alignItems: 'center' }}>
+//                 <View style={styles.black}>
+//                   <View style={styles.view1}>
+//                     <Text style={styles.setup}>Setup your mPIN</Text>
+//                     <Text style={styles.mpin}>mPIN</Text>
+//                     <View style={styles.inputView}>
+//                       <TextInput style={styles.input}
+//                         placeholder="New mPIN"
+//                         keyboardType="number-pad"
+//                         placeholderTextColor={'#FFFFFF'}
+//                       />
+//                     </View>
+//                     <View style={styles.inputView}>
+//                       <TextInput style={styles.input}
+//                         keyboardType="number-pad"
+//                         placeholder="Confirm mPIN"
+//                         placeholderTextColor={'#FFFFFF'}
+//                       />
+//                     </View>
+//                   </View>
+//                   <View style={styles.buttonContainer}>
+//                     <TouchableOpacity style={styles.button}>
+//                       <Text style={styles.verify}>Verify</Text>
+//                       <Arrow />
+//                     </TouchableOpacity>
+//                   </View>
+//                 </View>
+//               </View>
+//             </View>
+//           </View>
+//           </View>
+//       </KeyboardAwareScrollView>
+//     </LinearGradient>
+//   )
+// }
+// export default Mpin;
+
 import React,{useState} from "react";
-import {View,Text,Image,TextInput,TouchableOpacity,ScrollView  } from "react-native";
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import BackArrow from "../../../assets/Icon/BackArrow.svg";
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import ForwardArrow from "../../../assets/Icon/ForwardArrow.svg";
 import Arrow from "../../../assets/Icon/Arrow.svg";
+import Eye from "../../../assets/Icon/eye.svg"
 import { useNavigation } from "@react-navigation/native";
-import OtpInputs from "react-native-otp-inputs";
-import styles from "./style";
 import LinearGradient from 'react-native-linear-gradient';
-import LottieView from 'lottie-react-native';
+import styles from "./style";
+import axios from "axios";
+import Toast from "react-native-simple-toast";
+import Loader from "../../../components/Loader";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Storage from "../../../components/LocalStorage";
+
+const Login = () => {
+
+  const navigation = useNavigation()
+  const [mobile,setMobile]=useState('')
+  const [pin,setPin]=useState('')
+  const [loader,setLoader]=useState(false)
+
+  const userLogin =()=>{
+    if(mobile==''){
+      Toast.show('Please enter your phone number')
+    }
+    else if(pin==''){
+      Toast.show('Please enter your pin')
+    }
+    else{
+      setLoader(true)
+    axios({
+      method: 'post',
+      url: 'http://45.79.123.102:49002/api/user/login',
+      data: {
+        "mobile": mobile,
+        "action": "mpin",
+        "mpin": pin
+      }
+    })
+    .then(function(response) {
+      if(response.data.code=='200'){
+        setLoader(false)
+        Toast.show(response.data.message )
+        AsyncStorage.setItem(Storage.user_id,response.data.data._id)
+        AsyncStorage.setItem(Storage.username,response.data.data.name)
+        AsyncStorage.setItem(Storage.user_token,response.data.data.token)
+        navigation.replace('Home')
+      }
+      else{
+        setLoader(false)
+        Toast.show(response.data.message )
+      }
+    })
+    .catch(function(error) {
+      setLoader(false)
+      console.log("error", error)
+      Toast.show(error.response.data.message)
+    })
+   }
+  }
 
 
-const Mpin=()=>{
+  return (
+    // <View style={{flex:1}}>
+    <LinearGradient colors={['#FFFBD3', '#FFFFFF', '#FFF8BA']} style={{ flex: 1 }}>
+      {loader?<Loader/>:null}
+     <ScrollView contentContainerStyle={{flexGrow:1,}}>
+      <KeyboardAwareScrollView
+       extraScrollHeight={0}
+       enableOnAndroid={true}
+       keyboardShouldPersistTaps="handled"
+       behavior={Platform.OS === "ios" ? "padding" : "height"}
+       contentContainerStyle={{ flexGrow: 1 }}>    
 
-  const navigation=useNavigation()
-  const [code,setCode]=useState('')
-
-
-  return(
-    <LinearGradient colors={['#FFFBD3', '#FFF8BA']} style={{flex: 1}}>  
-    <KeyboardAwareScrollView
-    style={{flex:1,}}
-    extraScrollHeight={-100}
-    enableOnAndroid={true}
-    keyboardShouldPersistTaps="always"
-    contentContainerStyle={{flexGrow:1}}
-    >
-      <View style={{flex:1,}}>
-     <View style={{alignItems:'center',justifyContent:'center',marginTop:80}}>
-      {/* <Image source={require('../../../assets/Logo/Group.png')}/> */}
-      <View style={{height:310}}>
-        <LottieView style={{height:306,width:306}} source={require('../../../assets/Json/Mpin-forgotpass animation.json')} autoPlay loop />
-        </View>
-      </View>
-      <View style={{alignItems:'center',justifyContent:'center',marginTop:27,}}>
-        <View style={{height:240,width:'90%',backgroundColor:'#FCDA64',borderRadius:40}}>
-           <View style={{
-            paddingHorizontal:40,
-            paddingVertical:15,
-            flexDirection:'row',
-            justifyContent:'space-between',
-            alignItems:'center'
+          <View style={{
+            // position:'absolute',bottom:150,left:0,right:0
             }}>
-            <View style={{flexDirection:'row'}}>
-               <Text style={{fontFamily:'Montserrat-Bold',fontSize:18,color:'#000'}}>Back </Text>
-            </View>
-            <TouchableOpacity 
-            activeOpacity={0.5}
-            onPress={()=>navigation.goBack()}
-            style={{
-              width:42,
-              height:38,
-              backgroundColor:'#000000',
-              borderTopLeftRadius:80,
-              borderTopRightRadius:40,
-              borderBottomLeftRadius:80,
-              borderBottomRightRadius:40,
-              alignItems:'center',
-              justifyContent:'center'
-              }}>
-                 <BackArrow/>
-            </TouchableOpacity>
-           </View>
-           <View style={{alignItems:'center'}}>
-           <View style={{
-            backgroundColor:'#000000',
-            width:'94%',
-            height:223,
-            borderTopLeftRadius:40,
-            borderTopRightRadius:80,
-            borderBottomLeftRadius:40,
-            borderBottomRightRadius:80,
-            }}>
-              <View style={{paddingHorizontal:40,marginTop:10}}>
-                  <Text style={{color:'#FCDA64',fontSize:10,fontFamily:'Montserrat-Regular'}}>Setup your mPIN</Text>
-                  <Text style={{fontFamily:'Montserrat-Bold',color:'#fff',fontSize:18,marginTop:2}}>mPIN</Text>
-                  <View style={{
-                    borderBottomWidth:1,
-                    borderColor:'#FFFFFF',
-                    flexDirection:'row',
-                    alignItems:'center',
-                    width:'90%',
-                    marginTop:15,
-                    height:30
-                    }}>
-                   
-                    <TextInput style={{
-                      color:'#FFFFFF',
-                      height:35,
-                      borderColor:'#fff',
-                      marginTop:4,
-                      width:'90%',
-                      fontSize:12,
-                      fontFamily:'Montserrat-Regular'
-                    }}
-                      placeholder="New mPIN"
-                      keyboardType="number-pad"
-                      placeholderTextColor={'#FFFFFF'}
-                    />
-                  </View>
-                  <View style={{
-                    borderBottomWidth:1,
-                    borderColor:'#FFFFFF',
-                    flexDirection:'row',
-                    alignItems:'center',
-                    width:'90%',
-                    marginTop:15,
-                    height:30
-                    }}>
-                   
-                    <TextInput style={{
-                      color:'#FFFFFF',
-                      height:35,
-                      borderColor:'#fff',
-                      marginTop:4,
-                      width:'90%',
-                      fontSize:12,
-                      fontFamily:'Montserrat-Regular'
-                    }}
-                      keyboardType="number-pad"
-                      placeholder="Confirm mPIN"
-                      placeholderTextColor={'#FFFFFF'}
-                    />
-                  </View>
+          <View style={styles.main}>
+            <Image style={styles.logo} source={require('../../../assets/Logo/Zbwa.png')} />
+          </View>
+          <View style={[styles.container,{marginTop:25}]}>
+            <View style={styles.yellow}>
+              <View style={styles.view}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={styles.signup}>Sign up </Text>
+                  <Text style={styles.free}>for free</Text>
+                </View>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  onPress={() => navigation.navigate('RegisterPage')}
+                  style={styles.arrowContainer}>
+                  <ForwardArrow />
+                </TouchableOpacity>
               </View>
-                <View style={{marginTop:52,alignItems:'flex-end'}}>
-                    <TouchableOpacity style={{
-                      height:65,
-                      width:130,
-                      borderRadius:20,
-                      alignItems:'center',
-                      justifyContent:'center',
-                      backgroundColor:'#FCDA64',
-                      flexDirection:'row',
-                    }}>
-                      <Text style={{color:'#000000',fontSize:18,fontFamily:'Montserrat-Bold',marginRight:14}}>Verify</Text>
-                      <Arrow/>
+              <View style={{ alignItems: 'center' }}>
+                <View style={styles.black}>
+                  <View style={{ paddingHorizontal: 40, marginTop: 10 }}>
+                    <Text style={styles.already}>Already Registered user?</Text>
+                    <Text style={styles.login}>Login</Text>
+                    <View style={styles.country}>
+                      <Text style={styles.ninety}>+91</Text>
+                      <TextInput style={styles.input}
+                        placeholder="Phone Number"
+                        placeholderTextColor={'#FFFFFF'}
+                        onChangeText={(value)=>setMobile(value)}
+                        value={mobile}
+                        keyboardType="phone-pad"
+                      />
+                    </View>
+                    <View style={styles.inputContainer}>
+
+                      <TextInput style={styles.pass}
+                        placeholder="mPin"
+                        placeholderTextColor={'#FFFFFF'}
+                        keyboardType="number-pad"
+                        value={pin}
+                        onChangeText={(value)=>setPin(value)}
+                      />
+                      <Eye />
+                    </View>
+                    <View style={{ marginTop: 0 }}>
+                     
+                      <Text
+                        onPress={() => navigation.navigate('Login')}
+                        style={styles.mpin}>Login with Password</Text>
+                    </View>
+                  </View>
+                  <View style={{ marginTop: 50, alignItems: 'flex-end' }}>
+                    <TouchableOpacity
+                      onPress={() => 
+                        // navigation.replace('Home')
+                        userLogin()
+                      }
+                      style={styles.button}>
+                      <Text style={styles.text}>Login</Text>
+                      <Arrow />
                     </TouchableOpacity>
                   </View>
-              
-           </View>
-           </View>
-        </View>
-      </View>
-      </View>
-      {/* <View style={{height:50,borderWidth:1}}/> */}
+
+                </View>
+              </View>
+            </View>
+          </View>
+          </View>
       </KeyboardAwareScrollView>
-     </LinearGradient>
+      </ScrollView>
+    </LinearGradient>
+    // </View>
   )
 }
-export default Mpin;
+export default Login;

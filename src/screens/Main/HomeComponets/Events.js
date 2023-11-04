@@ -1,19 +1,19 @@
-import React,{useState} from "react";
-import { View, Text, TouchableOpacity,StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Arrow from "../../../assets/Icon/BlackArrow.svg";
 import Computer from "../../../assets/Icon/computer.svg";
 import { useNavigation } from "@react-navigation/native";
 import Current from "../../../components/Current";
 import Upcomming from "../../../components/Upcomming";
 import Past from "../../../components/Past";
-import { TabView, SceneMap,TabBar } from 'react-native-tab-view';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import LottieView from 'lottie-react-native';
 
 const renderScene = SceneMap({
     first: Current,
     second: Upcomming,
-    third:Past
-  });
+    third: Past
+});
 
 
 const Events = () => {
@@ -21,131 +21,140 @@ const Events = () => {
     const navigation = useNavigation()
     const [index, setIndex] = useState(0);
     const [routes] = React.useState([
-      { key: 'first', title: 'Current ' },
-      { key: 'second', title: 'Upcoming' },
-      { key: 'third', title: 'Past ' },
+        { key: 'first', title: 'Current ' },
+        { key: 'second', title: 'Upcoming ' },
+        { key: 'third', title: 'Past ' },
     ]);
-  
+
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-            <View style={{ width: '100%', height: 215, backgroundColor: '#FCDA64' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 5 }}>
+        <View style={styles.container}>
+            <View style={styles.main}>
+                <View style={styles.view}>
                     <TouchableOpacity
                         onPress={() => navigation.goBack()}
                         activeOpacity={0.5}
-                        style={{
-                            width: 50,
-                            alignItems: 'center',
-                            height: 40,
-                            justifyContent: 'center'
-                        }}>
+                        style={styles.arrow}>
                         <Arrow />
                     </TouchableOpacity>
-                    <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: 16, color: '#000000' }}>Events</Text>
+                    <Text style={styles.events}>Events</Text>
                     <View style={{ width: 46 }} />
                 </View>
-                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <View style={styles.flex}>
                     <View style={{ marginTop: -20 }}>
-                        {/* <Computer /> */}
-                        <View style={{height:140}}>
-        <LottieView style={{height:140,width:140}} source={require('../../../assets/Json/Event Animation.json')} autoPlay loop />
-        </View>
+                        <View style={{ height: 140 }}>
+                            <LottieView style={styles.lottie}
+                                source={require('../../../assets/Json/Event Animation.json')}
+                                autoPlay loop />
+                        </View>
                     </View>
                 </View>
             </View>
-            <View style={{ backgroundColor: '#FFFFFF', flex: 1, marginTop: -60, borderTopLeftRadius: 50, borderTopRightRadius: 50 }}>
-            <View style={{flex:1}}>
+            <View style={styles.flat}>
+                <View style={{ flex: 1 }}>
                     <TabView
-                       navigationState={{ index, routes }}
-                       renderScene={renderScene}
-                       onIndexChange={setIndex}
-                       initialLayout={{ width: '100%', }}
-                       renderTabBar={props => <TabBar
-                       indicatorStyle={{ 
-                       height:0,
-                     
-                       }}
-                       renderLabel={({route, color,focused}) => (
-                       <Text style={[{ 
-                        color:focused?'#000000': 'grey',fontFamily:focused?'Montserrat-SemiBold':'Montserrat-Medium'}]}>
-                              {route.title}
-                       </Text>
-                        )}
-                       {...props} 
-                       style={{  
-                        backgroundColor:'#FFFFFF',
-                        marginVertical:4,
-                        marginTop:10,
-                        marginHorizontal:5,
-                        elevation:0,
-                        borderRadius:60
-                    }}/>}
-                       sceneContainerStyle={{backgroundColor:'#fff'}}
+                        navigationState={{ index, routes }}
+                        renderScene={renderScene}
+                        onIndexChange={setIndex}
+                        initialLayout={{ width: '100%', }}
+                        renderTabBar={props => <TabBar
+                            indicatorStyle={{
+                                height: 0,
+
+                            }}
+                            renderLabel={({ route, color, focused }) => focused ? (
+                                <View style={styles.row}>
+                                    <View style={styles.view1} />
+                                    <Text style={styles.focus}>
+                                        {route.title}
+                                    </Text>
+                                </View>
+                            ) : (
+                                <Text style={styles.unFocus}>
+                                    {route.title}
+                                </Text>
+                            )}
+                            {...props}
+                            style={styles.align} />}
+                        sceneContainerStyle={{ backgroundColor: '#fff' }}
                     />
-                    </View>
+                </View>
             </View>
         </View>
     )
 }
 export default Events;
-const styles= StyleSheet.create({
-    container:
-    {
-        flex: 1,
-        backgroundColor:'red',
-       // paddingTop:Platform.OS=='android'?0:40
+const styles = StyleSheet.create({
+    container: { 
+        flex: 1, 
+        backgroundColor: '#FFFFFF' 
     },
-    card:
-    {
-       
-    }, 
-    main:
-    {
-        flexDirection:'row',
-        paddingHorizontal:20,
-        marginBottom:10,
-        marginTop:20
+    main: { 
+        width: '100%', 
+        height: 215, 
+        backgroundColor: '#FCDA64' 
     },
-    imageContainer:
-    {
-        height:84,
-        width:84,
-        borderRadius:42
+    view: { 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'space-between', 
+        paddingTop: 5 
     },
-    camera:
-    {
-        width:28,
-        height:28, 
-        shadowColor:'red',
-        shadowOpacity:0.25,
-        shadowRadius:8,
-        shadowOffset:{height:5,width:0},
-        elevation:2,
-        borderRadius:14,
-        marginLeft:-28,marginTop:63,
-        backgroundColor:'red',
-        alignItems:'center',
-        justifyContent:'center'
+    arrow: {
+        width: 50,
+        alignItems: 'center',
+        height: 40,
+        justifyContent: 'center'
     },
-    change:
-    {
-        fontSize:14,
-        //fontSize: hp('1.9%'),
-        marginHorizontal:15,
-        marginTop:5,
-        color:'red'
+    events: { 
+        fontFamily: 'Montserrat-Bold', 
+        fontSize: 16, 
+        color: '#000000' 
     },
-    title:
-    { 
-        fontSize:14,
-        fontFamily:'Montserrat-Medium' ,
+    flex: { 
+        alignItems: 'center', 
+        justifyContent: 'center' 
     },
-    buttomview:
-    {
-        bottom:0,
-        left:0,
-        right:0,
-        position:'absolute'
+    lottie: { 
+        height: 140, 
+        width: 140 
     },
+    flat: { 
+        backgroundColor: '#FFFFFF', 
+        flex: 1, 
+        marginTop: -60, 
+        borderTopLeftRadius: 50, 
+        borderTopRightRadius: 50 
+    },
+    row: { 
+        flexDirection: 'row', 
+        alignItems: 'center' 
+    },
+    view1: { 
+        height: 15, 
+        width: 14, 
+        backgroundColor: '#FCDA64', 
+        borderTopLeftRadius: 20, 
+        borderBottomLeftRadius: 20, 
+        marginTop: 1 
+    },
+    focus: {
+        color: '#000000', 
+        fontFamily: 'Montserrat-SemiBold', 
+        marginLeft: -10, 
+        fontSize: 14
+    },
+    unFocus: {
+        color: 'grey', 
+        fontFamily: 'Montserrat-Medium', 
+        fontSize: 14
+    },
+    align: {
+        backgroundColor: '#FFFFFF',
+        marginVertical: 4,
+        marginTop: 10,
+        marginHorizontal: 5,
+        elevation: 0,
+        borderRadius: 60
+    }
 })

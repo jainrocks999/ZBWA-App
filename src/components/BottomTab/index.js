@@ -1,6 +1,10 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import {useNavigation} from "@react-navigation/native";
+import Home from "../../assets/Icon/Home.svg";
+import People from "../../assets/Icon/People.svg";
+import Msg from "../../assets/Icon/Msg.svg";
+
 const BottomTab = ({onPress}) => {
     const navigation=useNavigation()
     return (
@@ -16,17 +20,17 @@ const BottomTab = ({onPress}) => {
             paddingHorizontal: 20
         }}>
             <TouchableOpacity activeOpacity={0.5}>
-                <Image source={require('../../assets/Icon/home.png')} />
+                <Home/>
             </TouchableOpacity>
             <TouchableOpacity 
               onPress={onPress}
              activeOpacity={0.5}>
-                <Image source={require('../../assets/Icon/people.png')} />
+                <People/>
             </TouchableOpacity>
             <TouchableOpacity 
             onPress={()=>navigation.navigate('ZBWGroup')}
             activeOpacity={0.5}>
-                <Image source={require('../../assets/Icon/msg.png')} />
+                <Msg/>
             </TouchableOpacity>
         </View>
     )

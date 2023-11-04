@@ -24,6 +24,12 @@ import OurPartner from "../screens/Main/HomeComponets/OurPartner";
 import AddComplaints from "../screens/Main/HomeComponets/AddComplaints";
 import CreatePassword from "../screens/Auth/CreatePassword";
 import Otp from "../screens/Auth/Otp";
+import About from "../screens/Main/HomeComponets/About";
+import Contact from "../screens/Main/HomeComponets/Contact";
+import TermService from "../screens/Main/HomeComponets/TermService";
+import ChangePassword from "../screens/Auth/ChangePassword";
+import SetPin from "../screens/Auth/SetPin";
+
 
 const Stack = createNativeStackNavigator();
 function Navigate() {
@@ -41,6 +47,8 @@ function Navigate() {
         <Stack.Screen name="Forgot" component={ForgotPassword}/>
         <Stack.Screen name='CreatePassword' component={CreatePassword}/>
         <Stack.Screen name='Otp' component={Otp}/>
+        <Stack.Screen name='ChangePassword' component={ChangePassword}/>
+        <Stack.Screen name="SetPin" component={SetPin}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -65,6 +73,9 @@ function Home(){
          <Stack1.Screen name='Complaints' component={Complaints}/>
          <Stack1.Screen name='OurPartner' component={OurPartner}/>
          <Stack1.Screen name='AddComplaints' component={AddComplaints}/>
+         <Stack1.Screen name='About' component={About}/>
+         <Stack1.Screen name='Contact' component={Contact}/>
+         <Stack1.Screen name='Terms' component={TermService}/>
       </Stack1.Navigator>
   )
 }

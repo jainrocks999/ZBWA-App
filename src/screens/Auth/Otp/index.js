@@ -1,6 +1,6 @@
-import React,{useState} from "react";
-import {View,Text,Image,TextInput,TouchableOpacity,ScrollView  } from "react-native";
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import React, { useState,useEffect } from "react";
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import BackArrow from "../../../assets/Icon/BackArrow.svg";
 import Arrow from "../../../assets/Icon/Arrow.svg";
 import { useNavigation } from "@react-navigation/native";
@@ -8,110 +8,177 @@ import OtpInputs from "react-native-otp-inputs";
 import styles from "./style";
 import LinearGradient from "react-native-linear-gradient";
 import LottieView from 'lottie-react-native';
+import axios from "axios";
+import Loader from "../../../components/Loader";
+import Toast from "react-native-simple-toast";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Storage from "../../../components/LocalStorage";
+
+const OtpPage = ({route}) => {
+  const navigation = useNavigation()
+  const data=route.params
+  // console.log('this is route data',data);
+  const [code, setCode] = useState(data.data)
+  const [mobile,setMobile]=useState(data.mobile)
+  const [loader,setLoader]=useState(false)
 
 
-const OtpPage=()=>{
+  const verifyOtp =()=>{
+    if(mobile==''){
+      Toast.show('Please enter your phone number')
+    }
+    else if(code==''){
+      Toast.show('Please enter otp code')
+    }
+    else{
+      setLoader(true)
+      axios({
+        method: 'post',
+        url: 'http://45.79.123.102:49002/api/user/signup',
+        data: {
+          "mobile": mobile,
+          "password": data.password,
+          "first_name": data.first,
+          "last_name": data.last,
+          "business_name": data.business,
+          "gst": data.gst,
+          "email": "",
+          "otp": code
+        }
+      })
+      .then(function(response) {
+        if(response.data.code=='200'){
+          setLoader(false)
+          navigation.replace('SetPin',{
+            data:response.data.data._id
+          })
+        }
+        else{
+          setLoader(false)
+          Toast.show(response.data.message )
+        }
+      })
+      .catch(function(error) {
+        setLoader(false)
+        Toast.show(error?.response?.data?.message)
+        console.log("error", error?.response?.data?.message)
+      })
+   }
+  }
 
-  const navigation=useNavigation()
-  const [code,setCode]=useState('')
+  const resendOtp=()=>{
+    setLoader(true)
+    axios({
+      method: 'post',
+      url: 'http://45.79.123.102:49002/api/user/send/otp',
+      data: {
+        "mobile": mobile,
+        "action": "signup"
+      }
+    })
+      .then(function (response) {
+        if (response.data.code == '200') {
+          setLoader(false)
+          console.log('this is resposs', response.data);
+          Toast.show(response.data.message)
+          setCode(response.data.data)
+        }
+        else {
+          setLoader(false)
+          Toast.show(response.data.message)
+        }
+      })
+      .catch(function (error) {
+        setLoader(false)
+        console.log("error", error)
+        Toast.show(error.response.data.message)
+      })
+  }
 
-
-  return(
-    <LinearGradient colors={['#FFFBD3', '#FFF8BA']} style={{flex: 1}}>  
-
-    <KeyboardAwareScrollView
-              style={{flex:1}}
-              extraScrollHeight={-100}
-              enableOnAndroid={true}
-              keyboardShouldPersistTaps="always"
-              contentContainerStyle={{flexGrow:1}}
-              >
-      <View style={{flex:1}}>
-     <View style={{alignItems:'center',justifyContent:'center',marginTop:70}}>
-      {/* <Image source={require('../../../assets/Logo/Group.png')}/> */}
-      <View style={{height:310}}>
-        <LottieView style={{height:306,width:306}} source={require('../../../assets/Json/OTP Animation.json')} autoPlay loop />
-        </View>
-      </View>
-      <View style={{alignItems:'center',justifyContent:'center',marginTop:38,}}>
-        <View style={{height:240,width:'90%',backgroundColor:'#FCDA64',borderRadius:40}}>
-           <View style={{
-            paddingHorizontal:40,
-            paddingVertical:15,
-            flexDirection:'row',
-            justifyContent:'space-between',
-            alignItems:'center'
-            }}>
-            <View style={{flexDirection:'row'}}>
-               <Text style={{fontFamily:'Montserrat-Bold',fontSize:18,color:'#000'}}>Back </Text>
+ 
+  return (
+    <LinearGradient colors={['#FFFBD3', '#FFFFFF', '#FFF8BA']} style={{ flex: 1 }}>
+       {loader?<Loader/>:null}
+       <ScrollView contentContainerStyle={{ flexGrow: 1, }}>
+        <KeyboardAwareScrollView
+          extraScrollHeight={0}
+          enableOnAndroid={true}
+          keyboardShouldPersistTaps="handled"
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          contentContainerStyle={{ flexGrow: 1 }}
+        >
+          
+          <View style={{}}>
+          <View style={styles.view}>
+            <View style={{ height: 310 }}>
+              <LottieView style={styles.lottie} source={require('../../../assets/Json/OTP Animation.json')} autoPlay loop />
             </View>
-            <TouchableOpacity 
-            activeOpacity={0.5}
-            onPress={()=>navigation.goBack()}
-            style={{
-              width:42,
-              height:38,
-              backgroundColor:'#000000',
-              borderTopLeftRadius:80,
-              borderTopRightRadius:40,
-              borderBottomLeftRadius:80,
-              borderBottomRightRadius:40,
-              alignItems:'center',
-              justifyContent:'center'
-              }}>
-                 <BackArrow/>
-            </TouchableOpacity>
-           </View>
-           <View style={{alignItems:'center'}}>
-           <View style={{
-            backgroundColor:'#000000',
-            width:'94%',
-            height:223,
-            borderTopLeftRadius:40,
-            borderTopRightRadius:80,
-            borderBottomLeftRadius:40,
-            borderBottomRightRadius:80,
-            }}>
-              <View style={{paddingHorizontal:40,marginTop:10}}>
-                  <Text style={{color:'#FCDA64',fontSize:10,fontFamily:'Montserrat-Regular'}}>Verify your phone number</Text>
-                  <Text style={{fontFamily:'Montserrat-Bold',color:'#fff',fontSize:18,marginTop:2}}>OTP</Text>
-                   <View style={{marginTop:30}}>
-                   <OtpInputs
-                      handleChange={code => setCode(code)}
-                      numberOfInputs={6}
-                      autofillFromClipboard={true}
-                      keyboardType={'numeric'}
-                      style={styles.inputView}
-                      // inputContainerStyles={[styles.otp]}
-                      inputStyles={styles.otp}
-                    />
-                   </View>
-                  <View style={{marginTop:10}}>
-                  <Text style={{color:'#FCDA64',fontSize:10,fontFamily:'Montserrat-Regular'}}>Resend OTP</Text>
-                  </View>
+          </View>
+          <View style={[styles.main,{marginTop:44}]}>
+            <View style={styles.yellow}>
+              <View style={styles.backView}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={styles.back}>Back </Text>
                 </View>
-                <View style={{marginTop:45,alignItems:'flex-end'}}>
-                    <TouchableOpacity style={{
-                      height:65,
-                      width:130,
-                      borderRadius:20,
-                      alignItems:'center',
-                      justifyContent:'center',
-                      backgroundColor:'#FCDA64',
-                      flexDirection:'row',
-                    }}>
-                      <Text style={{color:'#000000',fontSize:18,fontFamily:'Montserrat-Bold',marginRight:14}}>Verify</Text>
-                      <Arrow/>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  onPress={() => navigation.goBack()}
+                  style={styles.arrow}>
+                  <BackArrow />
+                </TouchableOpacity>
+              </View>
+              <View style={{ alignItems: 'center' }}>
+                <View style={styles.view1}>
+                  <View style={styles.view2}>
+                    <Text style={styles.verify1}>Verify your phone number</Text>
+                    <Text style={styles.otp1}>OTP</Text>
+                    <View style={[styles.border, { marginTop: 20 }]}>
+                    <TextInput style={styles.input}
+                          placeholder="Phone Numbers"
+                          placeholderTextColor={'#FFFFFF'}
+                          value={mobile}
+                          onChangeText={(val) => setMobile(val)}
+                          keyboardType="phone-pad"
+                          editable={false}
+                        />
+                    </View>
+                    <View style={{ marginTop: 10 }}>
+                      <OtpInputs
+                        handleChange={code => setCode(code)}
+                        numberOfInputs={6}
+                        autofillFromClipboard={true}
+                        keyboardType={'numeric'}
+                        style={styles.inputView}
+                        defaultValue={code}
+                        value={code}
+                        // inputContainerStyles={[styles.otp]}
+                        inputStyles={styles.otp}
+                      />
+                    </View>
+                    <View style={{ marginTop: 10 }}>
+                      <TouchableOpacity 
+                      onPress={()=>resendOtp()}
+                      activeOpacity={0.5}>
+                      <Text style={styles.resend}>Resend OTP</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                  <View style={[styles.buttonContainer,{marginTop:17}]}>
+                    <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={()=>verifyOtp()}
+                     style={styles.button}>
+                      <Text style={styles.verify}>Verify</Text>
+                      <Arrow />
                     </TouchableOpacity>
                   </View>
-              
-           </View>
-           </View>
-        </View>
-      </View>
-      </View>
-      {/* <View style={{height:50,borderWidth:1}}/> */}
+                </View>
+              </View>
+            </View>
+          </View>
+          </View>
       </KeyboardAwareScrollView>
+      </ScrollView>
     </LinearGradient>
   )
 }

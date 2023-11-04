@@ -1,15 +1,26 @@
 import React,{useState} from "react";
-import { View, Text,Dimensions, FlatList,Image, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text,Dimensions, FlatList,Image, ScrollView, TouchableOpacity,StyleSheet } from "react-native";
 import Menu from "../../../assets/Icon/Menu.svg";
 import Bell from "../../../assets/Icon/Bell.svg";
 import { ImageSlider } from "react-native-image-slider-banner";
 import BottomTab from "../../../components/BottomTab";
 import { useNavigation } from "@react-navigation/native";
 import Modal from "react-native-modal";
+import styles from "./style";
 import CircleCross from "../../../assets/Icon/CircleCross.svg";
 import Call from "../../../assets/Icon/Call.svg";
 import Gmail from "../../../assets/Icon/Gmail.svg";
 import Whatsapp from "../../../assets/Icon/Whatsapp.svg";
+import Image15 from "../../../assets/HomeImage/image15.svg";
+import Image16 from "../../../assets/HomeImage/image16.svg";
+import Image17 from "../../../assets/HomeImage/image17.svg";
+import Image18 from "../../../assets/HomeImage/image18.svg";
+import Image19 from "../../../assets/HomeImage/image19.svg";
+import Image20 from "../../../assets/HomeImage/image20.svg";
+import Image21 from "../../../assets/HomeImage/image21.svg";
+import Image22 from "../../../assets/HomeImage/image22.svg";
+import Image23 from "../../../assets/HomeImage/image23.svg";
+
 
 const HomeScreen = () => {
     const navigation=useNavigation()
@@ -47,8 +58,8 @@ const HomeScreen = () => {
     }
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-                <View style={{ height: 50, width: '100%', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center',paddingHorizontal: 20  }}>
+        <View style={styles.container}>
+                <View style={styles.header}>
                     <TouchableOpacity
                     onPress={()=>navigation.openDrawer()}
                     >
@@ -57,8 +68,12 @@ const HomeScreen = () => {
                     <Bell />
                 </View>
                 <ScrollView style={{ }}>
-
-                <View style={{alignItems:'center',justifyContent:'center',height:200,marginTop:20,paddingHorizontal: 20 }}>
+                <View style={{alignItems:'flex-end'}}>
+                    <Image 
+                    style={styles.img}
+                     source={require('../../../assets/HomeImage/image7.png')}/>
+                  </View>
+                <View style={styles.slider}>
                     <ImageSlider
                         data={[
                             { img: require('../../../assets/Banner/banner.png') },
@@ -66,7 +81,7 @@ const HomeScreen = () => {
                             { img: require('../../../assets/Banner/banner.png') }
                         ]}
                         localImg
-                        // autoPlay={true}
+                        autoPlay={true}
                         preview
                         caroselImageContainerStyle={{
                             width: Dimensions.get('window').width
@@ -90,7 +105,10 @@ const HomeScreen = () => {
                         }}
                     />
                 </View>
-                <View style={{marginTop:20,paddingHorizontal:10}}>
+                <View style={{marginTop:-24}}>
+                    <Image style={styles.img1} source={require('../../../assets/HomeImage/image8.png')}/>
+                </View>
+                <View style={styles.view}>
                     <FlatList
                     data={data}
                     numColumns={2}
@@ -98,51 +116,36 @@ const HomeScreen = () => {
                         <TouchableOpacity
                         activeOpacity={0.5}
                         onPress={()=>onItemPress(item.name)}
-                         style={{
-                            backgroundColor:'#FCDA64BF',
-                            width:'45%',
-                            height:150,
-                            alignItems:'center',
-                            justifyContent:'center',
-                            margin:10,
-                            borderRadius:10,
-                            shadowColor: '#FCDA64BF',
-                            shadowOpacity: 0.26,
-                            shadowOffset: { width: 2, height: 0 },
-                            shadowRadius: 20,
-                            elevation: 5,
-                            }}>
-                                <Image source={item.img}/>
-                                <Text style={{color:'#000000',fontFamily:'Montserrat-SemiBold',fontSize:12,marginTop:10}}>{item.name}</Text>
-
+                         style={styles.item}>
+                                {item.img}
+                                <Text style={styles.name}>{item.name}</Text>
                         </TouchableOpacity>
-                    )}
+                        )}
                     />
                 </View>
-
             </ScrollView>
             <Modal isVisible={isVisible}>
-                <View style={{ backgroundColor:'#FDEDB1',height:125,borderRadius:16,paddingLeft:20,width:'84%',alignSelf:'center' }}>
-                    <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-                      <Text style={{fontSize:16,fontFamily:'Montserrat-SemiBold',color:'#000000',marginTop:20}}>Contact Us</Text>
+                <View style={styles.modal}>
+                    <View style={styles.row}>
+                      <Text style={styles.contact}>Contact Us</Text>
                     <TouchableOpacity 
                     onPress={()=>setVisible(false)}
-                     style={{marginRight:5,marginTop:-10}}>
+                     style={styles.touch}>
                         <CircleCross/>
                     </TouchableOpacity>
                     </View>
-                    <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginTop:10,paddingRight:15}}>
-                        <TouchableOpacity style={{alignItems:'center',justifyContent:'center',paddingTop:7}}>
+                    <View style={styles.view1}>
+                        <TouchableOpacity style={styles.touch1}>
                             <Call/>
-                            <Text style={{marginTop:0,fontFamily:'Montserrat-Medium',color:'#000000',fontSize:14}}>Call</Text>
+                            <Text style={styles.text}>Call</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{alignItems:'center',justifyContent:'center'}}>
+                        <TouchableOpacity style={styles.emailContainer}>
                             <Gmail/>
-                            <Text style={{marginTop:-10,fontFamily:'Montserrat-Medium',color:'#000000',fontSize:14}}>Gmail</Text>
+                            <Text style={styles.email}>Gmail</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{alignItems:'center',justifyContent:'center',paddingTop:5}}>
+                        <TouchableOpacity style={styles.touch2}>
                             <Whatsapp/>
-                            <Text style={{marginTop:0,fontFamily:'Montserrat-Medium',color:'#000000',fontSize:14}}>Whatsapp</Text>
+                            <Text style={styles.text}>Whatsapp</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -155,41 +158,42 @@ const HomeScreen = () => {
     )
 }
 export default HomeScreen;
+
 const data=[
     {
-        img:require('../../../assets/LocalImage/image15.png'),
+        img:<Image15/>,
         name:'ZBW News'
     },
     {
-        img:require('../../../assets/LocalImage/image16.png'),
+        img:<Image16/>,
         name:'Become a Member'
     },
     {
-        img:require('../../../assets/LocalImage/image17.png'),
+        img:<Image17/>,
         name:'Secondary Member'
     },
     {
-        img:require('../../../assets/LocalImage/image18.png'),
+        img:<Image18/>,
         name:'Complaints'
     },
     {
-        img:require('../../../assets/LocalImage/image19.png'),
+        img:<Image19/>,
         name:'Events'
     },
     {
-        img:require('../../../assets/LocalImage/image20.png'),
+        img:<Image20/>,
         name:'Our Partners'
     },
     {
-        img:require('../../../assets/LocalImage/image23.png'),
+        img:<Image22/>,
         name:'Order Copies'
     },
     {
-        img:require('../../../assets/LocalImage/image22.png'),
+        img:<Image21/>,
         name:'Price Chart'
     },
     {
-        img:require('../../../assets/LocalImage/image24.png'),
+        img:<Image23/>,
         name:'Legal Support'
     },
 ]

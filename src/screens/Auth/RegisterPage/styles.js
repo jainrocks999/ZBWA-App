@@ -1,79 +1,106 @@
 import {Platform, StyleSheet} from 'react-native';
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f7f7f7',
+   main:{
+    alignItems:'center',
+    justifyContent:'center',
+    marginTop:20
   },
-  headerimg: {
-    backgroundColor: '#052a47',
-    paddingVertical: 50,
-    alignItems: 'center',
-    borderBottomEndRadius: 100,
-    borderBottomStartRadius: 100,
+   logo:{
+    height:168,
+    width:168,
   },
-  line: {
-    borderBottomWidth: 1,
-    marginHorizontal: Platform.OS == 'android' ? 240 : 270,
-    marginLeft: 12,
+   view:{
+    alignItems:'center',
+    justifyContent:'center',
   },
-  view: {
-    paddingVertical: 10,
-    borderWidth: 1,
-    justifyContent: 'center',
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 200,
+   yellow:{
+    height:430,
+    width:'90%',
+    backgroundColor:'#FCDA64',
+    borderRadius:40
   },
-  main: {
-    marginTop: 0,
-    marginLeft: 13,
-    paddingHorizontal: -5,
-  },
-  text: {
-    fontSize: 20,
-    color: '#474747',
-    // marginTop:-100,
-  },
-  card: {
-    // shadowColor: 'black',
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    shadowOffset: {height: 2, width: 0},
-    elevation: 2,
-    // borderRadius: 10,
-    //backgroundColor: 'white',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    //marginTop: 10,
-    //borderWidth: 1,
-  },
-  image: {
-    width: 34,
-    height: 34,
-    marginLeft: -10,
-  },
-  input1: {
-    marginLeft: 0,
-    paddingVertical: 10,
-    width: '100%',
-    color: '#474747',
-    //color: colors.textColor,
-  },
-  input: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    width: '67%',
-    marginLeft: 20,
-  },
-  error: {
-    width: '90%',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    paddingHorizontal: 22,
-    marginTop: 6,
-  },
-  warn: {
-    fontSize: 12,
-    color: 'red',
-  },
+   login:{
+    paddingHorizontal:40,
+    paddingVertical:15,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center'
+    },
+    loginText:{
+      fontFamily:'Montserrat-Bold',
+      fontSize:18,
+      color:'#000'
+    },
+    loginButton:{
+      width:42,
+      height:38,
+      backgroundColor:'#000000',
+      borderTopLeftRadius:40,
+      borderTopRightRadius:80,
+      borderBottomLeftRadius:40,
+      borderBottomRightRadius:80,
+      alignItems:'center',
+      justifyContent:'center'
+    },
+    black:{
+      backgroundColor:'#000000',
+      width:'94%',
+      height:430,
+      borderTopLeftRadius:40,
+      borderTopRightRadius:80,
+      borderBottomLeftRadius:40,
+      borderBottomRightRadius:80,
+    },
+    border:{
+      borderBottomWidth:1,
+      borderColor:'#FFFFFF',
+      flexDirection:'row',
+      alignItems:'center',
+      width:'90%',
+      height:30
+    },
+    button:{
+      height:65,
+      width:130,
+      borderRadius:20,
+      alignItems:'center',
+      justifyContent:'center',
+      backgroundColor:'#FCDA64',
+      flexDirection:'row',
+    },
+    signup:{
+      color:'#000000',
+      fontSize:18,
+      fontFamily:'Montserrat-Bold',
+      marginRight:14
+    },
+    input:{
+      color:'#FFFFFF',
+      height:35,
+      borderColor:'#fff',
+      marginTop:4,
+      width:'90%',
+      fontSize:12,
+      fontFamily:'Montserrat-Regular'
+    },
+    padding:{
+      paddingHorizontal:40,
+      marginTop:10
+    },
+    new:{
+      color:'#FCDA64',
+      fontSize:10,
+      fontFamily:'Montserrat-Regular'
+    },
+    sign:{
+      fontFamily:'Montserrat-Bold',
+      color:'#fff',
+      fontSize:18,
+      marginTop:2
+    },
+    ninety:{
+      color:'#FFFFFF',
+      fontSize:12,
+      fontFamily:'Montserrat-Regular'
+    },
 });

@@ -38,7 +38,7 @@ const Splash = () => {
   };
   return (
     // <View style={styles.container}>
-      <LinearGradient colors={['#FFFBD3' ,'#FFF8BA']} style={{
+      <LinearGradient colors={['#FFFBD3','#FFFFFF','#FFF8BA']} style={{
             flex: 1,
            alignItems:'center',
            justifyContent:'center'       

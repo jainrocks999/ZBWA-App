@@ -1,261 +1,215 @@
-import React from "react";
-import {View,Text,Image,TextInput,TouchableOpacity,ScrollView  } from "react-native";
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import React, { useState } from "react";
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ForwardArrow from "../../../assets/Icon/ForwardArrow.svg";
 import Arrow from "../../../assets/Icon/Arrow.svg";
 import Eye from "../../../assets/Icon/eye.svg";
 import { useNavigation } from "@react-navigation/native";
 import LinearGradient from 'react-native-linear-gradient';
+import styles from "./styles";
+import axios from "axios";
+import Toast from "react-native-simple-toast";
+import Loader from "../../../components/Loader";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Storage from "../../../components/LocalStorage";
+
+const Register = () => {
+  const navigation = useNavigation()
+  const [first, setFirst] = useState('')
+  const [last, setLast] = useState('')
+  const [business, setBusiness] = useState('')
+  const [gst, setGst] = useState('')
+  const [mobile, setMobile] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirm, setConfirm] = useState('')
+  const [loader, setLoader] = useState(false)
 
 
-const Register=()=>{
+  const handleRegister = () => {
+    if (first == '') {
+      Toast.show('Please enter your first name')
+    }
+    else if (last == '') {
+      Toast.show('Please enter your last name')
+    }
+    else if (business == '') {
+      Toast.show('Please enter your business name')
+    }
+    else if (gst == '') {
+      Toast.show('Please enter your GST number')
+    }
+    else if (mobile == '') {
+      Toast.show('Please enter your phone number')
+    }
+    else if (password == '') {
+      Toast.show('Please enter your password')
+    }
+    else if (confirm == '') {
+      Toast.show('Please enter your confirm password')
+    }
+    else if (password != confirm) {
+      Toast.show('password and confirm password must be same')
+    }
+    else {
+      setLoader(true)
+      axios({
+        method: 'post',
+        url: 'http://45.79.123.102:49002/api/user/send/otp',
+        data: {
+          "mobile": mobile,
+          "action": "signup"
+        }
+      })
+        .then(function (response) {
+          if (response.data.code == '200') {
+            setLoader(false)
+            console.log('this is resposs', response.data);
+            navigation.navigate('Otp',{
+              first:first,
+              last:last,
+              business:business,
+              gst:gst,
+              mobile:mobile,
+              password:password,
+              confirm:confirm,
+              data:response.data.data
+            })
+          }
+          else {
+            setLoader(false)
+            Toast.show(response.data.message)
+          }
+        })
+        .catch(function (error) {
+          setLoader(false)
+          console.log("error", error)
+          Toast.show(error.response.data.message)
 
-  const navigation=useNavigation()
+        })
+    }
+  }
 
 
-  return(
-    // <View style={{flex:1,backgroundColor:'#fff'}}>
-    <LinearGradient colors={['#FFFBD3', '#FFF8BA']} style={{flex: 1}}>  
+  return (
+    <LinearGradient colors={['#FFFBD3', '#FFFFFF', '#FFF8BA']} style={{ flex: 1 }}>
+      {loader ? <Loader /> : null}
+      <ScrollView contentContainerStyle={{ flexGrow: 1, }}>
         <KeyboardAwareScrollView
-              style={{flex:1,}}
-              extraScrollHeight={-100}
-              enableOnAndroid={true}
-              keyboardShouldPersistTaps="always"
-              contentContainerStyle={{flexGrow:1}}
-              >
-      <View style={{flex:1}}>
-     <View style={{alignItems:'center',justifyContent:'center',marginTop:20}}>
-      <Image style={{height:168,width:168,}} source={require('../../../assets/Logo/Zbwa.png')}/>
-      </View>
-      <View style={{alignItems:'center',justifyContent:'center',marginTop:20,}}>
-        <View style={{height:430,width:'90%',backgroundColor:'#FCDA64',borderRadius:40}}>
-           <View style={{
-            paddingHorizontal:40,
-            paddingVertical:15,
-            flexDirection:'row',
-            justifyContent:'space-between',
-            alignItems:'center'
-            }}>
-            <View style={{flexDirection:'row'}}>
-               <Text style={{fontFamily:'Montserrat-Bold',fontSize:18,color:'#000'}}>Login </Text>
+          extraScrollHeight={0}
+          enableOnAndroid={true}
+          keyboardShouldPersistTaps="handled"
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          contentContainerStyle={{ flexGrow: 1 }}
+        >
+          <View style={{
+
+          }}>
+            <View style={styles.main}>
+              <Image style={styles.logo} source={require('../../../assets/Logo/Zbwa.png')} />
             </View>
-            <TouchableOpacity 
-            activeOpacity={0.5}
-            onPress={()=>navigation.navigate('Login')}
-            style={{
-              width:42,
-              height:38,
-              backgroundColor:'#000000',
-              borderTopLeftRadius:40,
-              borderTopRightRadius:80,
-              borderBottomLeftRadius:40,
-              borderBottomRightRadius:80,
-              alignItems:'center',
-              justifyContent:'center'
-              }}>
-                 <ForwardArrow/>
-            </TouchableOpacity>
-           </View>
-           <View style={{alignItems:'center'}}>
-           <View style={{
-            backgroundColor:'#000000',
-            width:'94%',
-            height:430,
-            borderTopLeftRadius:40,
-            borderTopRightRadius:80,
-            borderBottomLeftRadius:40,
-            borderBottomRightRadius:80,
-            }}>
-              <View style={{paddingHorizontal:40,marginTop:10}}>
-                  <Text style={{color:'#FCDA64',fontSize:10,fontFamily:'Montserrat-Regular'}}>New user?</Text>
-                  <Text style={{fontFamily:'Montserrat-Bold',color:'#fff',fontSize:18,marginTop:2}}>Sign up</Text>
-                  <View style={{
-                    borderBottomWidth:1,
-                    borderColor:'#FFFFFF',
-                    flexDirection:'row',
-                    alignItems:'center',
-                    width:'90%',
-                    marginTop:20,
-                    height:30
-                    }}>
-                    
-                    <TextInput style={{
-                      color:'#FFFFFF',
-                      height:35,
-                      borderColor:'#fff',
-                      marginTop:4,
-                      width:'90%',
-                      fontSize:12,
-                      fontFamily:'Montserrat-Regular'
-                    }}
-                      placeholder="First Name"
-                      placeholderTextColor={'#FFFFFF'}
-                    />
+            <View style={[styles.view, { marginTop: 30 }]}>
+              <View style={styles.yellow}>
+                <View style={styles.login}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.loginText}>Login </Text>
                   </View>
-                  <View style={{
-                    borderBottomWidth:1,
-                    borderColor:'#FFFFFF',
-                    flexDirection:'row',
-                    alignItems:'center',
-                    width:'90%',
-                    marginTop:15,
-                    height:30
-                    }}>
-                    <TextInput style={{
-                      color:'#FFFFFF',
-                      height:35,
-                      borderColor:'#fff',
-                      marginTop:4,
-                      width:'90%',
-                      fontSize:12,
-                      fontFamily:'Montserrat-Regular'
-                    }}
-                      placeholder="Last Name"
-                      placeholderTextColor={'#FFFFFF'}
-                    />
-                  </View>
-                  <View style={{
-                    borderBottomWidth:1,
-                    borderColor:'#FFFFFF',
-                    flexDirection:'row',
-                    alignItems:'center',
-                    width:'90%',
-                    marginTop:15,
-                    height:30
-                    }}>
-                    <TextInput style={{
-                      color:'#FFFFFF',
-                      height:35,
-                      borderColor:'#fff',
-                      marginTop:4,
-                      width:'90%',
-                      fontSize:12,
-                      fontFamily:'Montserrat-Regular'
-                    }}
-                      placeholder="Business Name"
-                      placeholderTextColor={'#FFFFFF'}
-                    />
-                  </View>
-                  <View style={{
-                    borderBottomWidth:1,
-                    borderColor:'#FFFFFF',
-                    flexDirection:'row',
-                    alignItems:'center',
-                    width:'90%',
-                    marginTop:15,
-                    height:30
-                    }}>
-                    <TextInput style={{
-                      color:'#FFFFFF',
-                      height:35,
-                      borderColor:'#fff',
-                      marginTop:4,
-                      width:'90%',
-                      fontSize:12,
-                      fontFamily:'Montserrat-Regular'
-                    }}
-                      placeholder="GST Number"
-                      placeholderTextColor={'#FFFFFF'}
-                    />
-                  </View>
-                  <View style={{
-                    borderBottomWidth:1,
-                    borderColor:'#FFFFFF',
-                    flexDirection:'row',
-                    alignItems:'center',
-                    width:'90%',
-                    marginTop:15,
-                    height:30
-                    }}>
-                       <Text style={{
-                      color:'#FFFFFF',
-                      fontSize:12,
-                      fontFamily:'Montserrat-Regular'}}>+91</Text>
-                    <TextInput style={{
-                      color:'#FFFFFF',
-                      height:35,
-                      borderColor:'#fff',
-                      marginTop:4,
-                      width:'90%',
-                      fontSize:12,
-                      marginLeft:12,
-                      fontFamily:'Montserrat-Regular'
-                    }}
-                      placeholder="Phone Number"
-                      placeholderTextColor={'#FFFFFF'}
-                      keyboardType="number-pad"
-                    />
-                  </View>
-                  <View style={{
-                    borderBottomWidth:1,
-                    borderColor:'#FFFFFF',
-                    flexDirection:'row',
-                    alignItems:'center',
-                    width:'90%',
-                    marginTop:15,
-                    height:30
-                    }}>
-                    <TextInput style={{
-                      color:'#FFFFFF',
-                      height:35,
-                      borderColor:'#fff',
-                      marginTop:4,
-                      width:'90%',
-                      fontSize:12,
-                      fontFamily:'Montserrat-Regular'
-                    }}
-                      placeholder="Password"
-                      placeholderTextColor={'#FFFFFF'}
-                    />
-                    <Eye/>
-                  </View>
-                  <View style={{
-                    borderBottomWidth:1,
-                    borderColor:'#FFFFFF',
-                    flexDirection:'row',
-                    alignItems:'center',
-                    width:'90%',
-                    marginTop:15,
-                    height:30
-                    }}>
-                    <TextInput style={{
-                      color:'#FFFFFF',
-                      height:35,
-                      borderColor:'#fff',
-                      marginTop:4,
-                      width:'90%',
-                      fontSize:12,
-                      fontFamily:'Montserrat-Regular'
-                    }}
-                      placeholder="Confirm Passwaord"
-                      placeholderTextColor={'#FFFFFF'}
-                    />
-                    <Eye/>
-                  </View>
-                 
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => navigation.navigate('Login')}
+                    style={styles.loginButton}>
+                    <ForwardArrow />
+                  </TouchableOpacity>
                 </View>
-                <View style={{marginTop:30,alignItems:'flex-end'}}>
-                    <TouchableOpacity style={{
-                      height:65,
-                      width:130,
-                      borderRadius:20,
-                      alignItems:'center',
-                      justifyContent:'center',
-                      backgroundColor:'#FCDA64',
-                      flexDirection:'row',
-                    }}>
-                      <Text style={{color:'#000000',fontSize:18,fontFamily:'Montserrat-Bold',marginRight:14}}>Sign up</Text>
-                      <Arrow/>
-                    </TouchableOpacity>
+                <View style={{ alignItems: 'center' }}>
+                  <View style={styles.black}>
+                    <View style={styles.padding}>
+                      <Text style={styles.new}>New user?</Text>
+                      <Text style={styles.sign}>Sign up</Text>
+                      <View style={[styles.border, { marginTop: 20 }]}>
+                        <TextInput style={styles.input}
+                          placeholder="First Name"
+                          placeholderTextColor={'#FFFFFF'}
+                          value={first}
+                          onChangeText={(val) => setFirst(val)}
+                          keyboardType="default"
+                        />
+                      </View>
+                      <View style={[styles.border, { marginTop: 15 }]}>
+                        <TextInput style={styles.input}
+                          placeholder="Last Name"
+                          placeholderTextColor={'#FFFFFF'}
+                          value={last}
+                          onChangeText={(val) => setLast(val)}
+                          keyboardType="default"
+                        />
+                      </View>
+                      <View style={[styles.border, { marginTop: 15 }]}>
+                        <TextInput style={styles.input}
+                          placeholder="Business Name"
+                          placeholderTextColor={'#FFFFFF'}
+                          value={business}
+                          onChangeText={(val) => setBusiness(val)}
+                          keyboardType="default"
+                        />
+                      </View>
+                      <View style={[styles.border, { marginTop: 15 }]}>
+                        <TextInput style={styles.input}
+                          placeholder="GST Number"
+                          placeholderTextColor={'#FFFFFF'}
+                          value={gst}
+                          onChangeText={(val) => setGst(val)}
+                          keyboardType="default"
+                        />
+                      </View>
+                      <View style={[styles.border, { marginTop: 15 }]}>
+                        <Text style={[styles.ninety,{marginTop:1.5}]}>+91</Text>
+                        <TextInput style={styles.input}
+                          placeholder="Phone Number"
+                          placeholderTextColor={'#FFFFFF'}
+                          keyboardType="phone-pad"
+                          value={mobile}
+                          onChangeText={(val) => setMobile(val)}
+                        />
+                      </View>
+                      <View style={[styles.border, { marginTop: 15 }]}>
+                        <TextInput style={styles.input}
+                          placeholder="Password"
+                          placeholderTextColor={'#FFFFFF'}
+                          value={password}
+                          onChangeText={(val) => setPassword(val)}
+                          keyboardType="number-pad"
+                        />
+                        <Eye />
+                      </View>
+                      <View style={[styles.border, { marginTop: 15 }]}>
+                        <TextInput style={styles.input}
+                          placeholder="Confirm Password"
+                          placeholderTextColor={'#FFFFFF'}
+                          value={confirm}
+                          onChangeText={(val) => setConfirm(val)}
+                          keyboardType="number-pad"
+                        />
+                        <Eye />
+                      </View>
+
+                    </View>
+                    <View style={{ marginTop: 30, alignItems: 'flex-end' }}>
+                      <TouchableOpacity
+                        onPress={() => handleRegister()}
+                        style={styles.button}>
+                        <Text style={styles.signup}>Sign up</Text>
+                        <Arrow />
+                      </TouchableOpacity>
+                    </View>
+
                   </View>
-              
-           </View>
-           </View>
-        </View>
-      </View>
-      </View>
-      </KeyboardAwareScrollView>
-      </LinearGradient>
+                </View>
+              </View>
+            </View>
+          </View>
+        </KeyboardAwareScrollView>
+      </ScrollView>
+    </LinearGradient>
     // </View>
   )
 }
