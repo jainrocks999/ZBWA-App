@@ -65,7 +65,7 @@ console.log('this is route',route.params);
       <ScrollView contentContainerStyle={{flexGrow:1,}}>
       <KeyboardAwareScrollView
       // style={{flex:1}}
-       extraScrollHeight={0}
+       extraScrollHeight={-200}
        enableOnAndroid={true}
        keyboardShouldPersistTaps="handled"
        behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -147,6 +147,7 @@ console.log('this is route',route.params);
             </View>
           </View>
           </View>
+          <View style={{height:140}}/>
       </KeyboardAwareScrollView>
       </ScrollView>
     </LinearGradient>

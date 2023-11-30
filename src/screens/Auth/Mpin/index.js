@@ -1,83 +1,3 @@
-// import React, { useState } from "react";
-// import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
-// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-// import BackArrow from "../../../assets/Icon/BackArrow.svg";
-// import Arrow from "../../../assets/Icon/Arrow.svg";
-// import { useNavigation } from "@react-navigation/native";
-// import OtpInputs from "react-native-otp-inputs";
-// import styles from "./style";
-// import LinearGradient from 'react-native-linear-gradient';
-// import LottieView from 'lottie-react-native';
-
-// const Mpin = () => {
-
-//   const navigation = useNavigation()
-//   const [code, setCode] = useState('')
-
-//   return (
-//     <LinearGradient colors={['#FFFBD3', '#FFFFFF', '#FFF8BA']} style={{ flex: 1 }}>
-//       <KeyboardAwareScrollView
-//         style={{ flex: 1, }}
-//         extraScrollHeight={-100}
-//         enableOnAndroid={true}
-//         keyboardShouldPersistTaps="always"
-//         contentContainerStyle={{ flexGrow: 1 }}>
-//           <View style={styles.view}>
-//             <View style={{ height: 310 }}>
-//               <LottieView style={styles.lottie} source={require('../../../assets/Json/Mpin-forgotpass animation.json')} autoPlay loop />
-//             </View>
-//           </View>
-//           <View style={{position:'absolute',bottom:135,left:0,right:0}}>
-//           <View style={styles.main}>
-//             <View style={styles.yellow}>
-//               <View style={styles.backView}>
-//                 <View style={{ flexDirection: 'row' }}>
-//                   <Text style={styles.back}>Back </Text>
-//                 </View>
-//                 <TouchableOpacity
-//                   activeOpacity={0.5}
-//                   onPress={() => navigation.goBack()}
-//                   style={styles.arrow}>
-//                   <BackArrow />
-//                 </TouchableOpacity>
-//               </View>
-//               <View style={{ alignItems: 'center' }}>
-//                 <View style={styles.black}>
-//                   <View style={styles.view1}>
-//                     <Text style={styles.setup}>Setup your mPIN</Text>
-//                     <Text style={styles.mpin}>mPIN</Text>
-//                     <View style={styles.inputView}>
-//                       <TextInput style={styles.input}
-//                         placeholder="New mPIN"
-//                         keyboardType="number-pad"
-//                         placeholderTextColor={'#FFFFFF'}
-//                       />
-//                     </View>
-//                     <View style={styles.inputView}>
-//                       <TextInput style={styles.input}
-//                         keyboardType="number-pad"
-//                         placeholder="Confirm mPIN"
-//                         placeholderTextColor={'#FFFFFF'}
-//                       />
-//                     </View>
-//                   </View>
-//                   <View style={styles.buttonContainer}>
-//                     <TouchableOpacity style={styles.button}>
-//                       <Text style={styles.verify}>Verify</Text>
-//                       <Arrow />
-//                     </TouchableOpacity>
-//                   </View>
-//                 </View>
-//               </View>
-//             </View>
-//           </View>
-//           </View>
-//       </KeyboardAwareScrollView>
-//     </LinearGradient>
-//   )
-// }
-// export default Mpin;
-
 import React,{useState} from "react";
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -134,7 +54,7 @@ const Login = () => {
     })
     .catch(function(error) {
       setLoader(false)
-      console.log("error", error)
+      console.log("error", error.response.data)
       Toast.show(error.response.data.message)
     })
    }
@@ -147,7 +67,7 @@ const Login = () => {
       {loader?<Loader/>:null}
      <ScrollView contentContainerStyle={{flexGrow:1,}}>
       <KeyboardAwareScrollView
-       extraScrollHeight={0}
+       extraScrollHeight={-200}
        enableOnAndroid={true}
        keyboardShouldPersistTaps="handled"
        behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -200,7 +120,6 @@ const Login = () => {
                       <Eye />
                     </View>
                     <View style={{ marginTop: 0 }}>
-                     
                       <Text
                         onPress={() => navigation.navigate('Login')}
                         style={styles.mpin}>Login with Password</Text>
@@ -223,6 +142,7 @@ const Login = () => {
             </View>
           </View>
           </View>
+          <View style={{height:140}}/>
       </KeyboardAwareScrollView>
       </ScrollView>
     </LinearGradient>

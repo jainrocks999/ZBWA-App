@@ -12,6 +12,7 @@ import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
+import firestore from '@react-native-firebase/firestore';
 
 const Register = () => {
   const navigation = useNavigation()
@@ -52,6 +53,18 @@ const Register = () => {
     }
     else {
       setLoader(true)
+      // try{
+      // firestore().collection('users').doc('1').set({
+      //   name: `${first} ${last}`,
+      //   mobile:mobile ,
+      //   uid: '5'
+      // }).then((res)=>console.log(res)
+
+      // )
+      //   }catch(err){
+      //     setLoader(false)
+      // alert('Registration Unsuccessful! Try again');
+      //   }
       axios({
         method: 'post',
         url: 'http://45.79.123.102:49002/api/user/send/otp',
@@ -95,7 +108,7 @@ const Register = () => {
       {loader ? <Loader /> : null}
       <ScrollView contentContainerStyle={{ flexGrow: 1, }}>
         <KeyboardAwareScrollView
-          extraScrollHeight={0}
+          extraScrollHeight={-200}
           enableOnAndroid={true}
           keyboardShouldPersistTaps="handled"
           behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -207,6 +220,7 @@ const Register = () => {
               </View>
             </View>
           </View>
+          <View style={{height:140}}/>
         </KeyboardAwareScrollView>
       </ScrollView>
     </LinearGradient>

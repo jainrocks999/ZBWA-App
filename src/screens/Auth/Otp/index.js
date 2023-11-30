@@ -101,7 +101,7 @@ const OtpPage = ({route}) => {
        {loader?<Loader/>:null}
        <ScrollView contentContainerStyle={{ flexGrow: 1, }}>
         <KeyboardAwareScrollView
-          extraScrollHeight={0}
+          extraScrollHeight={-200}
           enableOnAndroid={true}
           keyboardShouldPersistTaps="handled"
           behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -177,6 +177,7 @@ const OtpPage = ({route}) => {
             </View>
           </View>
           </View>
+          <View style={{height:140}}/>
       </KeyboardAwareScrollView>
       </ScrollView>
     </LinearGradient>

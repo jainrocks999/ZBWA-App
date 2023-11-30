@@ -42,11 +42,11 @@ const Login = () => {
       if(response.data.code=='200'){
         setLoader(false)
         console.log('this is resposs',response.data);
-        // Toast.show(response.data.message )
-        // AsyncStorage.setItem(Storage.user_id,response.data.data._id)
-        // AsyncStorage.setItem(Storage.username,response.data.data.name)
-        // AsyncStorage.setItem(Storage.user_token,response.data.data.token)
-        // navigation.replace('Home')
+        Toast.show(response.data.message )
+        AsyncStorage.setItem(Storage.user_id,response.data.data._id)
+        AsyncStorage.setItem(Storage.username,response.data.data.name)
+        AsyncStorage.setItem(Storage.user_token,response.data.data.token)
+        navigation.replace('Home')
       }
       else{
         setLoader(false)
@@ -64,23 +64,16 @@ const Login = () => {
 
 
   return (
-    // <View style={{flex:1}}>
     <LinearGradient colors={['#FFFBD3', '#FFFFFF', '#FFF8BA']} style={{ flex: 1 }}>
       {loader?<Loader/>:null}
       <ScrollView contentContainerStyle={{flexGrow:1,}}>
       <KeyboardAwareScrollView
-      // style={{flex:1}}
-       extraScrollHeight={0}
+       extraScrollHeight={-200}
        enableOnAndroid={true}
        keyboardShouldPersistTaps="handled"
        behavior={Platform.OS === "ios" ? "padding" : "height"}
-       contentContainerStyle={{ flexGrow: 1 }}
-      >
-          {/* <View style={{flex:1}}> */}
-          <View style={{
-            // position:'absolute',bottom:150,left:0,right:0
-           
-            }}>
+       contentContainerStyle={{ flexGrow: 1 }}>
+          <View style={{}}>
           <View style={styles.main}>
             <Image style={styles.logo} source={require('../../../assets/Logo/Zbwa.png')} />
           </View>
@@ -150,11 +143,10 @@ const Login = () => {
             </View>
           </View>
           </View>
-          {/* </View> */}
+          <View style={{height:140}}/>
       </KeyboardAwareScrollView>
       </ScrollView>
     </LinearGradient>
-    // </View>
   )
 }
 export default Login;

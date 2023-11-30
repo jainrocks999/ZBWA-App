@@ -18,7 +18,7 @@ const CreatePassword = () => {
     <LinearGradient colors={['#FFFBD3', '#FFFFFF', '#FFF8BA']} style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{flexGrow:1,}}>
       <KeyboardAwareScrollView
-       extraScrollHeight={0}
+       extraScrollHeight={-200}
        enableOnAndroid={true}
        keyboardShouldPersistTaps="handled"
        behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -80,6 +80,7 @@ const CreatePassword = () => {
             </View>
           </View>
           </View>
+          <View style={{height:140}}/>
       </KeyboardAwareScrollView>
       </ScrollView>
     </LinearGradient>

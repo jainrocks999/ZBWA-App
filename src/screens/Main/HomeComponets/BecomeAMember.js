@@ -103,9 +103,6 @@ const BecomeaMember = () => {
                                         color: 'grey'
                                     }}>{item.title}</Text>
                                 }
-
-
-
                             </TouchableOpacity>
                         )}
                     />
@@ -116,8 +113,7 @@ const BecomeaMember = () => {
                     config={config}
                     style={{
                         flex: 1,
-                    }}
-                >
+                    }}>
                     <View style={{ flex: 1 }}>
                         {selectedId == 1 ? <PersonalDetail /> : null}
                         {selectedId == 2 ? <BusinessDetail onPress={() => onSwipeRight()} /> : null}

@@ -65,7 +65,7 @@ const ForgotPassword = () => {
       {loader?<Loader/>:null}
       <ScrollView contentContainerStyle={{flexGrow:1,}}>
       <KeyboardAwareScrollView
-       extraScrollHeight={0}
+       extraScrollHeight={-200}
        enableOnAndroid={true}
        keyboardShouldPersistTaps="handled"
        behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -105,7 +105,7 @@ const ForgotPassword = () => {
                       />
                         <View>
                           <Text 
-                          onPress={() => validate()} 
+                          // onPress={() => validate()} 
                           style={styles.otpText}>OTP</Text>
                         </View>
                       </View>
@@ -125,6 +125,7 @@ const ForgotPassword = () => {
             </View>
           </View>
           </View>
+          <View style={{height:140}}/>
       </KeyboardAwareScrollView>
       </ScrollView>
     </LinearGradient>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "995827315873",
+    "project_id": "zbwa-816d7",
+    "storage_bucket": "zbwa-816d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995827315873:android:91ba418dd33792d5c82ce0",
+        "android_client_info": {
+          "package_name": "com.zbwa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSXX7J9pqoKuwpNsFiZOej3s_HTZABR-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -27,6 +27,8 @@ end
 
 target 'ZBWA' do
   config = use_native_modules!
+  # pod 'lottie-react-native', :path => '../node_modules/lottie-react-native/lottie-react-native.podspec' 
+  # pod 'lottie-ios'
 
   # Flags change depending on the env values.
   flags = get_default_flags()

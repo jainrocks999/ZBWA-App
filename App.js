@@ -13,11 +13,44 @@ import 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
 import Store from './src/Redux/Store';
 import RootApp from './src/navigation';
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import PushNotification from "react-native-push-notification";
 
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
-
+PushNotification.createChannel(
+  {
+    channelId: "default-channel-id",
+    channelName: "My channel",
+    vibrate: true,
+  },
+  (created) => console.log(`createChannel returned '${created}'`)
+);
 const App = () => {
+  PushNotification.configure({
+    onRegister: function (token) {
+      console.log("TOKEN:", token);
+    },
+      onNotification: function (notification) {
+      console.log("NOTIFICATION:", notification);  
+      notification.finish(PushNotificationIOS.FetchResult.NoData);
+    },
+      onAction: function (notification) {
+      console.log("ACTION:", notification.action);
+      console.log("NOTIFICATION:", notification);
+      },
+      onRegistrationError: function(err) {
+      console.error(err.message, err);
+    },
+      permissions: {
+      alert: true,
+      badge: true,
+      sound: true,
+    },
+    popInitialNotification: true,
+    requestPermissions: true,
+  });
+
   return (
     <Fragment>
       {/* <SafeAreaView style={{backgroundColor:Platform.OS=='ios'?'#032e63':'#fff'}}/> */}

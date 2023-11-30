@@ -6,11 +6,14 @@ import {
     TouchableOpacity,
     FlatList,
     LayoutAnimation,
+    Alert,
 } from 'react-native';
 import DrawerLogo from "../../assets/Icon/DrawerLogo.svg";
 import DrawerCross from "../../assets/Icon/DrawerCross.svg";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import styles from "./style";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Storage from "../../components/LocalStorage";
 
 const Drawer = () => {
     const navigation = useNavigation()
@@ -49,11 +52,27 @@ const Drawer = () => {
                 <Text style={styles.same}>Terms of Service</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
-                onPress={()=>manageTerm()}
+                onPress={()=>manageContact()}
                 >
                 <Text style={styles.same}>Contact us</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                onPress={()=>{
+                    // Alert.alert("Confirmation","Are you sure you want to sign out ") 
+                    Alert.alert('Confirmation', 'Are you sure you want to sign out', [
+                    {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () =>{
+                        AsyncStorage.setItem(Storage.user_token,'')
+                        navigation.navigate('Login')}},
+                    ]);
+                }}
+                >
                 <Text style={styles.same}>Sign out</Text>
+                </TouchableOpacity>
                 <Text style={styles.same}>Delete user</Text>
                 <Text style={styles.same}>My QR Code</Text>
             </View>

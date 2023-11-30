@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { View, Text,Dimensions, FlatList,Image, ScrollView, TouchableOpacity,StyleSheet } from "react-native";
 import Menu from "../../../assets/Icon/Menu.svg";
 import Bell from "../../../assets/Icon/Bell.svg";
@@ -6,6 +6,10 @@ import { ImageSlider } from "react-native-image-slider-banner";
 import BottomTab from "../../../components/BottomTab";
 import { useNavigation } from "@react-navigation/native";
 import Modal from "react-native-modal";
+import axios from "axios";
+import Toast from "react-native-simple-toast";
+import Loader from "../../../components/Loader";
+import Storage from "../../../components/LocalStorage";
 import styles from "./style";
 import CircleCross from "../../../assets/Icon/CircleCross.svg";
 import Call from "../../../assets/Icon/Call.svg";
@@ -20,12 +24,49 @@ import Image20 from "../../../assets/HomeImage/image20.svg";
 import Image21 from "../../../assets/HomeImage/image21.svg";
 import Image22 from "../../../assets/HomeImage/image22.svg";
 import Image23 from "../../../assets/HomeImage/image23.svg";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const HomeScreen = () => {
     const navigation=useNavigation()
     const [isVisible,setVisible]=useState(false)
+    const [loader,setLoader]=useState(false)
+    const [banner,setBanner]=useState([])
 
+    useEffect(()=>{
+        handleBannerData()
+    },[])
+
+    const handleBannerData=async()=>{
+        const user_token=await AsyncStorage.getItem(Storage.user_token)
+        console.log('this is user token',user_token);
+        let arr=[]
+        setLoader(true)
+        axios({
+            method: 'get',
+            url: 'http://45.79.123.102:49002/api/slider/all/1',
+            headers: `Authorization: ${user_token}`
+          })
+          .then(function(response) {
+            if(response.data.code=='200'){
+                response.data.data.map((item)=>
+                arr.push({img:item.banner})
+                )
+                setBanner(arr)
+                console.log('this is response',response.data.data);
+              setLoader(false)
+            }
+            else{
+              setLoader(false)
+              Toast.show(response.data.message )
+            }
+          })
+          .catch(function(error) {
+            setLoader(false)
+            console.log("error", error.response.data)
+            Toast.show(error.response.data.message)
+          })
+    }
 
     const onItemPress=(title)=>{
         if(title=='ZBW News'){
@@ -56,9 +97,10 @@ const HomeScreen = () => {
             navigation.navigate('OurPartner')
         }
     }
-
+console.log('this is aray forr banner',banner);
     return (
         <View style={styles.container}>
+            {loader?<Loader/>:null}
                 <View style={styles.header}>
                     <TouchableOpacity
                     onPress={()=>navigation.openDrawer()}
@@ -75,20 +117,19 @@ const HomeScreen = () => {
                   </View>
                 <View style={styles.slider}>
                     <ImageSlider
-                        data={[
-                            { img: require('../../../assets/Banner/banner.png') },
-                            { img: require('../../../assets/Banner/banner.png') },
-                            { img: require('../../../assets/Banner/banner.png') }
-                        ]}
-                        localImg
+                        data={banner}
+                        // localImg
                         autoPlay={true}
                         preview
                         caroselImageContainerStyle={{
                             width: Dimensions.get('window').width
                         }}
                         caroselImageStyle={{
-                            width: Dimensions.get('window').width-40,                            height:180,
-                            justifyContent:'space-between'
+                            width: Dimensions.get('window').width-40,                            
+                            height:180,
+                            justifyContent:'space-between',
+                            borderWidth:1,
+                            borderRadius:20
                         }}
                         indicatorContainerStyle={{
                             bottom:-25
