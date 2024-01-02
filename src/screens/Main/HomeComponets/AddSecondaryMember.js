@@ -85,7 +85,7 @@ const AddSecondaryMember = () => {
                     style={styles.view}>
                     <Upload />
                     <View style={styles.row}>
-                        <Text style={styles.place}>{'Salary Slip'}</Text>
+                        <Text style={styles.place}>{'Salary Slip / Company Auth Letter'}</Text>
                         <Text style={{ color: 'red' }}>*</Text>
                     </View>
                 </TouchableOpacity>
@@ -179,13 +179,13 @@ const styles = StyleSheet.create({
         alignItems: 'center' 
     },
     place: { 
-        marginLeft: 40, 
+        marginLeft: 20, 
         fontSize: 14, 
         fontFamily: 'Montserrat-Medium', 
         color: '#000000' 
     },
     buttonView: { 
-        marginTop: 140, 
+        marginTop: 40, 
         alignItems: 'center', 
         justifyContent: 'center' 
     },

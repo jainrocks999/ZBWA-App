@@ -29,6 +29,7 @@ import Contact from "../screens/Main/HomeComponets/Contact";
 import TermService from "../screens/Main/HomeComponets/TermService";
 import ChangePassword from "../screens/Auth/ChangePassword";
 import SetPin from "../screens/Auth/SetPin";
+import ViewPdf from "../screens/Main/HomeComponets/ViewPdf";
 
 
 const Stack = createNativeStackNavigator();
@@ -76,6 +77,7 @@ function Home(){
          <Stack1.Screen name='About' component={About}/>
          <Stack1.Screen name='Contact' component={Contact}/>
          <Stack1.Screen name='Terms' component={TermService}/>
+         <Stack1.Screen name="ViewPdf" component={ViewPdf}/>
       </Stack1.Navigator>
   )
 }

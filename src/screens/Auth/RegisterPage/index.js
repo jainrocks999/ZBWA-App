@@ -10,9 +10,8 @@ import styles from "./styles";
 import axios from "axios";
 import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Storage from "../../../components/LocalStorage";
-import firestore from '@react-native-firebase/firestore';
+import CheckBox from "@react-native-community/checkbox";
+
 
 const Register = () => {
   const navigation = useNavigation()
@@ -24,6 +23,7 @@ const Register = () => {
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [loader, setLoader] = useState(false)
+  const [toggleCheckBox,setToggleCheckBox]=useState(false)
 
 
   const handleRegister = () => {
@@ -53,18 +53,6 @@ const Register = () => {
     }
     else {
       setLoader(true)
-      // try{
-      // firestore().collection('users').doc('1').set({
-      //   name: `${first} ${last}`,
-      //   mobile:mobile ,
-      //   uid: '5'
-      // }).then((res)=>console.log(res)
-
-      // )
-      //   }catch(err){
-      //     setLoader(false)
-      // alert('Registration Unsuccessful! Try again');
-      //   }
       axios({
         method: 'post',
         url: 'http://45.79.123.102:49002/api/user/send/otp',
@@ -214,13 +202,30 @@ const Register = () => {
                         <Arrow />
                       </TouchableOpacity>
                     </View>
-
+                    <View style={{flexDirection:'row',alignItems:'center',marginTop:10}}>
+                    <CheckBox
+                       style={{height:25,width:30}}
+                      //  disabled={false}
+                       value={toggleCheckBox}
+                       onValueChange={(newValue) => setToggleCheckBox(newValue)}  
+                       tintColors={{true: '#FCDA64', false: '#FCDA64'}}
+                       onTintColor='#FCDA64'
+                       onCheckColor='#FCDA64'            
+                       />
+                       <View style={{flexDirection:'row'}}>
+                      <Text style={{fontSize:15,marginLeft:10,color:'#000'}}>{'I agree to the '}</Text>
+                      <Text style={{borderBottomWidth:1,borderBottomColor:'#000',fontSize:15,color:'#000'}}>Terms and Conditions</Text>
+                      </View>
+                    </View>
                   </View>
                 </View>
               </View>
+              
             </View>
+            
           </View>
-          <View style={{height:140}}/>
+         
+          <View style={{height:160}}/>
         </KeyboardAwareScrollView>
       </ScrollView>
     </LinearGradient>

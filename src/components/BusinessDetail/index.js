@@ -1,12 +1,14 @@
 import React,{useState} from "react";
-import { View,Text,TextInput,TouchableOpacity,StyleSheet } from "react-native";
+import { View,Text,TextInput,TouchableOpacity,StyleSheet,ScrollView } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import BackArrow from "../../assets/Icon/BackArrow.svg";
+
 
 const BusinessDetail=({onPress})=>{
     const [toggleCheckBox,setToggleCheckBox]=useState(false)
     return(
         <View style={styles.container}>
+            <ScrollView style={{flex:1}}>
         <View style={styles.main}>
             <View style={{}}>
                 <Text style={styles.heading}>Business Name</Text>
@@ -80,6 +82,7 @@ const BusinessDetail=({onPress})=>{
             </View>
             
         </View>
+        <View style={{height:140}}/>
         <View style={styles.bottom}>
                 <TouchableOpacity 
                    onPress={onPress}
@@ -91,6 +94,7 @@ const BusinessDetail=({onPress})=>{
                 </TouchableOpacity>
                 <View style={{width:40}}/>
             </View>
+            </ScrollView>
     </View>
     )
 }

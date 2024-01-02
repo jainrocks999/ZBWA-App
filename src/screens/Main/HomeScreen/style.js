@@ -15,8 +15,8 @@ export default StyleSheet.create({
         paddingHorizontal: 20 
     },
     img: { 
-        height: 120, 
-        width: 80 
+        height:120, 
+        width:80 
     },
     slider: { 
         alignItems: 'center', 
@@ -35,14 +35,14 @@ export default StyleSheet.create({
     },
     item: {
         backgroundColor: '#FCDA64BF',
-        width: '45%',
+        width: '44%',
         height: 150,
         alignItems: 'center',
         justifyContent: 'center',
         margin: 10,
         borderRadius: 10,
         shadowColor: '#FCDA64BF',
-        shadowOpacity: 0.26,
+        shadowOpacity: 0.5,
         shadowOffset: { width: 2, height: 2 },
         shadowRadius: 20,
         elevation: 5,

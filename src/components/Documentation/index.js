@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import Upload from "../../assets/Icon/Upload.svg";
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import BackArrow from "../../assets/Icon/BackArrow.svg";
+import CheckBox from "@react-native-community/checkbox";
 
 const Documentation = ({ onPress }) => {
+  const [toggleCheckBox, setToggleCheckBox] = useState(false)
   const checklistImage = {
     title: 'Select Image',
     quality: 0.7,
@@ -76,6 +78,21 @@ const Documentation = ({ onPress }) => {
         </TouchableOpacity>
 
       </View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20,paddingHorizontal:17, }}>
+        <CheckBox
+          style={{ height: 25, width: 30 }}
+           disabled={false}
+          value={toggleCheckBox}
+          onValueChange={(newValue) => setToggleCheckBox(newValue)}
+          tintColors={{ true: '#FCDA64', false: '#FCDA64' }}
+          onTintColor='#FCDA64'
+          onCheckColor='#FCDA64'
+        />
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={{ fontSize: 15, marginLeft: 10, color: '#000',fontFamily:'Montserrat-Regular' }}>{'I agree to the '}</Text>
+          <Text style={{ borderBottomWidth: 1, borderBottomColor: '#000', fontSize: 15, color: '#000' }}>Terms and Conditions</Text>
+        </View>
+      </View>
       <View style={styles.bottom}>
         <TouchableOpacity
           onPress={onPress}
@@ -105,7 +122,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderWidth: 1,
     borderColor: '#FCDA64',
-    marginTop: 38,
+    marginTop: 32,
     justifyContent: 'flex-start',
     paddingHorizontal: 10,
     flexDirection: 'row',
