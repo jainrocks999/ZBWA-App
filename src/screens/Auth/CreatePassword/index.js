@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import BackArrow from "../../../assets/Icon/BackArrow.svg";
@@ -18,9 +18,14 @@ import Storage from "../../../components/LocalStorage";
 const CreatePassword = ({route}) => {
 console.log('this is route',route.params);
   const navigation = useNavigation()
-  const [code, setCode] = useState(route.params.data)
+  const [code, setCode] = useState('')
   const [mobile,setMobile]=useState(route.params.mobile)
   const [loader,setLoader]=useState(false)
+
+
+  useEffect(()=>{
+      setCode(route.params.data)
+  },[])
 
 
   const resendOtp =()=> {
@@ -52,10 +57,53 @@ console.log('this is route',route.params);
     })
     .catch(function(error) {
       setLoader(false)
-      console.log("error", error)
-      // Toast.show(error?.response?.data?.message)
+      console.log("error", error.response.data)
+      Toast.show(error?.response?.data?.message)
     })
    }
+  }
+
+  const verifyOtp=()=>{
+    // navigation.navigate('ChangePassword')
+    if(mobile==''){
+      Toast.show('Please enter your phone number')
+    }
+    else if(code==''){
+      Toast.show(`Please enter otp sent on ${mobile}`)
+    }
+    else{
+      setLoader(true)
+      axios({
+        method: 'post',
+        url: 'http://45.79.123.102:49002/api/user/verify/otp',
+        data: {
+          "otp": code,
+          "mobile": mobile,
+          "action": "reset_password"
+      }
+      })
+    .then(function(response) {
+      if(response.data.code=='200'){
+        setLoader(false)
+        Toast.show(response.data.message )
+        navigation.navigate('ChangePassword',{
+          mobile:mobile
+        })
+        console.log('this is response',response.data);
+      }
+      else{
+        setLoader(false)
+        Toast.show(response.data.message )
+      }
+      setLoader(false)
+    })
+    .catch(function(error) {
+      setLoader(false)
+      console.log("error", error.response.data)
+      Toast.show(error?.response?.data?.message)
+      console.log("error", error)
+    })
+    }
   }
 
 
@@ -104,7 +152,7 @@ console.log('this is route',route.params);
                         placeholderTextColor={'#FFFFFF'}
                         value={mobile}
                         onChangeText={(val)=>setMobile(val)}
-                        keyboardType="phone-pad"
+                        keyboardType="number-pad"
                       />
                         <Edit/>
                       </View>
@@ -113,11 +161,12 @@ console.log('this is route',route.params);
                           handleChange={code => setCode(code)}
                           numberOfInputs={6}
                           // secureTextEntry
-                          value={code}
+                          // value={code}
                           defaultValue={code}
-                          autofillFromClipboard={true}
+                          // autofillFromClipboard={true}
                           keyboardType={'numeric'}
                           style={styles.inputView1}
+                          inputContainerStyles={{width:35,borderWidth:0,borderColor:'red',alignItems:'center'}}
                           // inputContainerStyles={[styles.otp]}
                           inputStyles={styles.otp}
                         />
@@ -136,7 +185,7 @@ console.log('this is route',route.params);
                   <View style={{ marginTop: 27, alignItems: 'flex-end' }}>
                     <TouchableOpacity
                     activeOpacity={0.5}
-                     onPress={()=>navigation.navigate('ChangePassword')}
+                     onPress={()=>verifyOtp()}
                      style={styles.button}>
                       <Text style={styles.verify}>Verify</Text>
                       <Arrow />

@@ -1,17 +1,69 @@
-import react, { useState } from "react";
+import react, { useState,useEffect } from "react";
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import Header from "../../../components/CustomHeader";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation ,useIsFocused} from "@react-navigation/native";
 import Plus from "../../../assets/Icon/Plus.svg";
 import Modal from "react-native-modal";
 import CircleCross from "../../../assets/Icon/CircleCross.svg";
+import axios from "axios";
+import Loader from "../../../components/Loader";
+import Storage from "../../../components/LocalStorage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-simple-toast";
 
 
 const Complaints = () => {
     const navigation = useNavigation()
     const [isVisible, setVisible] = useState(false)
+    const [loader,setLoader]=useState(false)
+    const [data,setData]=useState()
+    const isFocused = useIsFocused();
+    useEffect(()=>{
+        if(isFocused){ 
+       apiCall()
+        }
+    },[isFocused])
+
+    const apiCall=async()=>{
+        const user_token=await AsyncStorage.getItem(Storage.user_token)
+       
+        setLoader(true)
+        axios({
+            method: 'get',
+            url: 'http://45.79.123.102:49002/api/complaint/all',
+            headers: `Authorization: ${user_token}`
+          })
+          .then(function(response) {
+            if(response.data.code=='200'){
+                setData(response.data.data)
+                
+              setLoader(false)
+            }
+            else{
+              setLoader(false)
+              Toast.show(response.data.message )
+            }
+          })
+          .catch(function(error) {
+            setLoader(false)
+            Toast.show(error.response.data.message)
+          })
+    }
+
+    const renderDate=(date)=>{
+        const d = new Date(date);
+        let day = d.getDate();
+        let year=d.getFullYear()
+        if (day.length < 2)
+            day = '0' + day;
+        const month = d.toLocaleString('default', { month: 'short' });
+        return (
+            <Text numberOfLines={2} style={styles.date}>{`${day} ${month} , ${year}`}</Text>
+        )
+}
     return (
         <View style={styles.container}>
+            {loader?<Loader/>:null}
             <Header
                 title={'Complaints'}
                 onPress={() => navigation.goBack()}
@@ -28,20 +80,22 @@ const Complaints = () => {
                                 onPress={() => setVisible(true)}
                                 style={[styles.elevation, { borderLeftColor: item.status == 'Accepted' ? '#35CD56' : '#359FCD', }]}>
                                 <View style={styles.view}>
-                                    <Text style={styles.title}>{item.title}</Text>
-                                    <Text style={styles.date}>{item.date}</Text>
+                                    <Text style={styles.title}>{item.subject}</Text>
+                                    {renderDate(item.createdAt)}
+                                    {/* <Text style={styles.date}>{item.createdAt}</Text> */}
                                 </View>
                                 <View style={styles.view1}>
                                     <Text style={styles.complainNumber}>{'Complain Number : '}</Text>
-                                    <Text style={styles.text}>{item.complainNumber}</Text>
+                                    <Text style={styles.text}>{item.complaintId}</Text>
                                 </View>
-                                <Text style={styles.name}>{item.name}</Text>
+                                <Text style={styles.name}>{item.accused.name}</Text>
                                 <TouchableOpacity style={[styles.touch, { backgroundColor: item.status == 'Accepted' ? '#35CD56' : '#359FCD', }]}>
                                     <Text style={styles.status}>{item.status}</Text>
                                 </TouchableOpacity>
                             </TouchableOpacity>
                         )}
                     />
+                    <View style={{height:50}}/>
                 </View>
             </View>
             <Modal isVisible={isVisible}>
@@ -212,8 +266,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center' 
     }
 })
-const data = [
-    { title: 'Cheating', complainNumber: '75', name: 'Ashish Haval', status: 'Accepted', date: '16 Oct, 2023' },
-    { title: 'Theft', complainNumber: '77', name: 'Ashish Haval', status: 'In Progress (please visit office)', date: '16 Oct, 2023' },
+// const data = [
+//     { title: 'Cheating', complainNumber: '75', name: 'Ashish Haval', status: 'Accepted', date: '16 Oct, 2023' },
+//     { title: 'Theft', complainNumber: '77', name: 'Ashish Haval', status: 'In Progress (please visit office)', date: '16 Oct, 2023' },
 
-]
+// ]

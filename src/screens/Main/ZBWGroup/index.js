@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Text, TouchableOpacity, TextInput, Image,Modal,StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, Image,Modal,StyleSheet, Alert } from "react-native";
 import HeaderArrow from "../../../assets/Icon/HeaderArrow.svg";
 import ChatLogo from "../../../assets/Icon/ChatLogo.svg";
 import { useNavigation } from "@react-navigation/native";
@@ -16,6 +16,7 @@ import InChatViewFile from "../../../components/InChatViewFile";
 import Video from 'react-native-video';
 import VideoPlayerAndroid from "../../../components/VideoPlayerAndroid";
 import VideoPlayer from 'react-native-video-controls';
+import RNFetchBlob from 'rn-fetch-blob'
 // import VideoPlayer from "../../../components/VideoPlayer";
 
 const ZBWGroup = () => {
@@ -148,7 +149,9 @@ const ZBWGroup = () => {
       }, { merge: true })
     }
   }
-
+  // const file='file:///data/user/0/com.zbwa/files/9a6ee0cc-e41d-4002-ad85-f6a71cc975cd/VID-20231013-WA0016.mp4'
+  // console.log('this is file uri',file.size);
+  
   const _pickDocument = async () => {
     try {
       const result = await DocumentPicker.pick({
@@ -158,9 +161,7 @@ const ZBWGroup = () => {
         allowMultiSelection: true,
       });
       const fileUri = result[0].fileCopyUri;
-      console.log('trhis is file uri', fileUri.indexOf('.jpg'));
       if (!fileUri) {
-        console.log('File URI is undefined or null');
         return;
       }
       if (fileUri.indexOf('.pdf') !== -1 || fileUri.indexOf('.PDF') !== -1) {
@@ -172,8 +173,24 @@ const ZBWGroup = () => {
         setIsAttachImage(true);
       }
       else if (fileUri.indexOf('.mp4')) {
-        setVideoPath(fileUri)
-        setIsAttachVideo(true)
+        const MAX_SIZE_VIDEO = 8388608 //8*1024*1024
+        RNFetchBlob.fs.stat(fileUri.replace('file:///', '').replace('file://', '').replace('file:/', ''))
+        .then((stats) => {
+            console.log("file size", stats.size/(1024*1024))
+                if (stats.size > MAX_SIZE_VIDEO) {
+                  Alert.alert("",'This video is too large to be uploaded.you can upload only 8 MB video')
+                    return
+                }
+                else{
+                setVideoPath(fileUri)
+                setIsAttachVideo(true)
+                }
+        })
+        .catch((err) => {
+            console.log("getSize", err)
+            // error(err)
+        })
+       
       }
       else {
 
@@ -190,7 +207,6 @@ const ZBWGroup = () => {
 
   const renderBubble = (props) => {
     const { currentMessage } = props;
-    console.log('this is current message', currentMessage, videoPath);
     if (currentMessage.file && currentMessage.file.url) {
       return (
         <TouchableOpacity
@@ -336,7 +352,6 @@ const ZBWGroup = () => {
 
   const renderMessageVideo = (props) => {
     const { currentMessage } = props;
-    console.log('this is currentMessage', currentMessage.video);
     return (
       <TouchableOpacity
         onPress={()=>{
@@ -349,7 +364,6 @@ const ZBWGroup = () => {
       </TouchableOpacity>
     );
   };
-console.log('thisis vicdeo uurl',videoUrl);
   return (
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       {loading ? <Loading /> : null}
@@ -407,7 +421,6 @@ console.log('thisis vicdeo uurl',videoUrl);
         renderCustomView={(props) => {
           if (props.currentMessage.document) {
             // Your custom pdf message
-            console.log('props.currentMessage.document', props.currentMessage.document);
           }
         }}
       />
@@ -425,15 +438,15 @@ console.log('thisis vicdeo uurl',videoUrl);
                 pause={true}
                 controls={true}
                 source={{uri: videoUrl}}
-              
+                disableBack
                 /> 
                 
-                {/* <TouchableOpacity onPress={()=>{
+                <TouchableOpacity onPress={()=>{
                   setVideoVisible(false)
                   setVideoUrl('')
                   }} style={styles.buttonCancel}>
                     <Text style={styles.textBtn}>X</Text>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
             </View>
         </Modal>
     </View>
@@ -450,7 +463,7 @@ const styles = StyleSheet.create({
       position: 'absolute',
       borderColor: 'black',
       left: 13,
-      top: 20,
+      top: 15,
   },
   textBtn: {
       fontSize: 18,

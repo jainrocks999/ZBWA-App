@@ -1,84 +1,108 @@
-import { StyleSheet } from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
-  lottieView: { 
+  main:{ 
     alignItems: 'center', 
     justifyContent: 'center', 
-    marginTop: 70 
+    marginTop: 52 
   },
-  lottie: { 
-    height: 306, 
-    width: 306 
+  logo:{
+    height:315,
+    width:315
   },
-  view: { 
+  container:{ 
     alignItems: 'center', 
     justifyContent: 'center', 
-    // marginTop: 27, 
+    marginTop: 0,
   },
-  yellow: { 
-    height: 240, 
+  yellow:{ 
+    height: 250, 
     width: '90%', 
     backgroundColor: '#FCDA64', 
     borderRadius: 40 
   },
-  backView: {
+  view:{
     paddingHorizontal: 40,
     paddingVertical: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
   },
-  back: { 
+  signup:{ 
     fontFamily: 'Montserrat-Bold', 
     fontSize: 18, 
     color: '#000' 
   },
-  arrow: {
+  free:{ 
+    fontFamily: 'Montserrat-Bold', 
+    fontSize: 18, 
+    color: '#fff' 
+  },
+  arrowContainer:{
     width: 42,
     height: 38,
     backgroundColor: '#000000',
-    borderTopLeftRadius: 80,
-    borderTopRightRadius: 40,
-    borderBottomLeftRadius: 80,
-    borderBottomRightRadius: 40,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 80,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 80,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  black: {
+  black:{
     backgroundColor: '#000000',
     width: '94%',
-    height: 233,
+    height: 250,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 80,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 80,
   },
-  view1: { 
-    paddingHorizontal: 40, 
-    marginTop: 10 
-  },
-  you: { 
+  already:{ 
     color: '#FCDA64', 
     fontSize: 10, 
     fontFamily: 'Montserrat-Regular' 
   },
-  forgot: { 
+  login:{ 
     fontFamily: 'Montserrat-Bold', 
     color: '#fff', 
-    fontSize: 18,
-     marginTop: 2 
+    fontSize: 18, 
+    marginTop: 2 
   },
-  inputView: {
+  country:{
+    borderBottomWidth: 1,
+    borderColor: '#FFFFFF',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '90%',
+    marginTop: 20,
+    height: 30
+  },
+  ninety:{
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontFamily: 'Montserrat-Regular'
+  },
+  input:{
+    color: '#FFFFFF',
+    height: 35,
+    borderColor: '#fff',
+    marginTop: 4,
+    width: '90%',
+    marginLeft: 10,
+    fontSize: 12,
+    fontFamily: 'Montserrat-Regular'
+  },
+  inputContainer:{
     borderBottomWidth: 1,
     borderColor: '#FFFFFF',
     flexDirection: 'row',
     alignItems: 'center',
     width: '90%',
     marginTop: 15,
-    height: 30,
-    justifyContent: 'space-between'
+    height: 30
   },
-  input: {
+  pass:{
     color: '#FFFFFF',
     height: 35,
     borderColor: '#fff',
@@ -87,7 +111,18 @@ export default StyleSheet.create({
     fontSize: 12,
     fontFamily: 'Montserrat-Regular'
   },
-  button: {
+  forgot:{ 
+    color: '#FCDA64', 
+    fontSize: 10, 
+    fontFamily: 'Montserrat-Regular' 
+  },
+  mpin:{ 
+    color: '#FCDA64', 
+    fontSize: 10, 
+    fontFamily: 'Montserrat-Regular', 
+    marginTop: 10 
+  },
+  button:{
     height: 65,
     width: 130,
     borderRadius: 20,
@@ -96,35 +131,10 @@ export default StyleSheet.create({
     backgroundColor: '#FCDA64',
     flexDirection: 'row',
   },
-  verify: { 
+  text:{ 
     color: '#000000', 
     fontSize: 18, 
-    fontFamily: 'Montserrat-Bold', 
+    fontFamily: 'Montserrat-Bold',
     marginRight: 14 
-  },
-  inputView1:{
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    width: '70%',
-    marginTop: 8,
-  },
-  otp:{
-    fontSize: 12,
-    color: '#FFFFFF',
-    width: 26,
-    alignContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    borderColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    height: Platform.OS == 'ios' ? 34 : 34,
-  },
-  resend:{
-    color:'#FCDA64',
-    fontSize:10,
-    fontFamily:'Montserrat-Regular'
-  },
-
+  }
 });

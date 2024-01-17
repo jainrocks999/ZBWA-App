@@ -30,6 +30,10 @@ const Drawer = () => {
         navigation.dispatch(DrawerActions.closeDrawer())
         navigation.navigate('Terms')
     }
+    const manageQr=()=>{
+        navigation.dispatch(DrawerActions.closeDrawer())
+        navigation.navigate('MyQRCode')
+    }
     return (
         <View style={styles.container}>
             <View style={styles.view}>
@@ -74,7 +78,9 @@ const Drawer = () => {
                 <Text style={styles.same}>Sign out</Text>
                 </TouchableOpacity>
                 <Text style={styles.same}>Delete user</Text>
+                <TouchableOpacity onPress={()=>manageQr()}>
                 <Text style={styles.same}>My QR Code</Text>
+                </TouchableOpacity>
             </View>
             <View style={styles.bottom}>
                 <Text style={styles.about}>Version 1.1</Text>

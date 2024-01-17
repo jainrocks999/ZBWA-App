@@ -101,7 +101,7 @@ const ForgotPassword = () => {
                         placeholderTextColor={'#FFFFFF'}
                         value={mobile}
                         onChangeText={(val)=>setMobile(val)}
-                        keyboardType="phone-pad"
+                        keyboardType="number-pad"
                       />
                         <View>
                           <Text 

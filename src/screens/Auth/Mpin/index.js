@@ -105,7 +105,7 @@ const Login = () => {
                         placeholderTextColor={'#FFFFFF'}
                         onChangeText={(value)=>setMobile(value)}
                         value={mobile}
-                        keyboardType="phone-pad"
+                        keyboardType="number-pad"
                       />
                     </View>
                     <View style={styles.inputContainer}>

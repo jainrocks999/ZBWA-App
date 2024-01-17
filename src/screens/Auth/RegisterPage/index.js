@@ -121,6 +121,24 @@ const Register = () => {
                     <ForwardArrow />
                   </TouchableOpacity>
                 </View>
+                <View style={{flexDirection:'row',alignItems:'center',marginTop:-10,marginBottom:15,marginLeft:35}}>
+                    <CheckBox
+                       style={{height:25,width:30}}
+                      //  disabled={false}
+                       value={toggleCheckBox}
+                       onValueChange={(newValue) => setToggleCheckBox(newValue)}  
+                      //  tintColors={{true: '#FCDA64', false: '#FCDA64'}}
+                      //  onTintColor='#FCDA64'
+                      //  onCheckColor='#FCDA64'    
+                      tintColors={{true: '#000', false: '#000'}}
+                       onTintColor='#000'
+                       onCheckColor='#000'         
+                       />
+                       <View style={{flexDirection:'row'}}>
+                      <Text style={{fontSize:15,marginLeft:10,color:'#000'}}>{'I agree to the '}</Text>
+                      <Text style={{borderBottomWidth:1,borderBottomColor:'#000',fontSize:15,color:'#000'}}>Terms and Conditions</Text>
+                      </View>
+                    </View>
                 <View style={{ alignItems: 'center' }}>
                   <View style={styles.black}>
                     <View style={styles.padding}>
@@ -167,7 +185,7 @@ const Register = () => {
                         <TextInput style={styles.input}
                           placeholder="Phone Number"
                           placeholderTextColor={'#FFFFFF'}
-                          keyboardType="phone-pad"
+                          keyboardType="number-pad"
                           value={mobile}
                           onChangeText={(val) => setMobile(val)}
                         />
@@ -178,7 +196,7 @@ const Register = () => {
                           placeholderTextColor={'#FFFFFF'}
                           value={password}
                           onChangeText={(val) => setPassword(val)}
-                          keyboardType="number-pad"
+                          keyboardType="default"
                         />
                         <Eye />
                       </View>
@@ -188,7 +206,7 @@ const Register = () => {
                           placeholderTextColor={'#FFFFFF'}
                           value={confirm}
                           onChangeText={(val) => setConfirm(val)}
-                          keyboardType="number-pad"
+                          keyboardType="default"
                         />
                         <Eye />
                       </View>
@@ -202,7 +220,7 @@ const Register = () => {
                         <Arrow />
                       </TouchableOpacity>
                     </View>
-                    <View style={{flexDirection:'row',alignItems:'center',marginTop:10}}>
+                    {/* <View style={{flexDirection:'row',alignItems:'center',marginTop:10}}>
                     <CheckBox
                        style={{height:25,width:30}}
                       //  disabled={false}
@@ -216,7 +234,7 @@ const Register = () => {
                       <Text style={{fontSize:15,marginLeft:10,color:'#000'}}>{'I agree to the '}</Text>
                       <Text style={{borderBottomWidth:1,borderBottomColor:'#000',fontSize:15,color:'#000'}}>Terms and Conditions</Text>
                       </View>
-                    </View>
+                    </View> */}
                   </View>
                 </View>
               </View>

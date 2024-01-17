@@ -1,49 +1,156 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState,useRef } from "react";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import RNPickerSelect from 'react-native-picker-select';
 import { Dropdown } from 'react-native-element-dropdown';
-
+import Toast from "react-native-simple-toast";
+import Loader from "../../../components/Loader";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Storage from "../../../components/LocalStorage";
+import axios from "axios";
 
 const AddComplaints = () => {
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
+    const [loader,setLoader]=useState(false)
+    const [firstName,setFirstName]=useState('')
+    const [lastName,setLastName]=useState('')
+    const [phone,setPhone]=useState('')
+    const [firmName,setFirmName]=useState('')
+    const [email,setEmail]=useState('')
+    const [address,setAddress]=useState('')
+    const [description,setDescription]=useState('')
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
 
 
     const navigation = useNavigation()
+
+    const handlePress=async()=>{
+     const user_token =await AsyncStorage.getItem(Storage.user_token)
+        if(firstName==''){
+           Toast.show('Please enter first name')
+        }
+        else if(lastName==''){
+            Toast.show('Please enter last name')
+        }
+        else if(phone==''){
+            Toast.show('Please enter phone number')
+        }
+        else if(address==''){
+            Toast.show('Please enter your full address')
+        }
+        else if(value==null){
+            Toast.show('Please select issue type')
+        }
+        else{
+            setLoader(true)
+            let data = JSON.stringify({
+                "accusedName":`${firstName} ${lastName}` ,
+                "phone": phone,
+                "firmName": firmName,
+                "email": email,
+                "address": address,
+                "subject": value,
+                "detail": description
+              });
+              
+              let config = {
+                method: 'post',
+               
+                url: 'http://45.79.123.102:49002/api/complaint/create/complain',
+                headers: { 
+                  'Content-Type': 'application/json', 
+                  'Authorization': `${user_token}`
+                },
+                data : data
+              };
+              
+              axios.request(config)
+              .then((response) => {
+                console.log(JSON.stringify(response.data));
+                Toast.show(response.data.message)
+                navigation.goBack()
+                setLoader(false)
+              })
+              .catch((error) => {
+                console.log(error);
+                setLoader(false)
+              });
+        }
+        
+    }
+    const inputRef = useRef();
     return (
         <View style={styles.conatiner}>
+            {loader?<Loader/>:null}
             <Header
                 title={'Add Complaints'}
                 onPress={() => navigation.goBack()}
             />
-            <View style={styles.main}>
+            <ScrollView style={styles.main}>
                 <Text style={styles.view}>Opposite Party Details:</Text>
                 <View style={{ marginTop: 18 }}>
                     <Text style={styles.first}>First Name</Text>
                     <View style={styles.inputView}>
-                        <TextInput />
+                        <TextInput
+                        value={firstName}
+                        onChangeText={(val)=>setFirstName(val)}
+                        style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        />
                     </View>
                 </View>
                 <View style={{ marginTop: 15 }}>
                     <Text style={styles.first}>Last Name</Text>
                     <View style={styles.inputView}>
-                        <TextInput />
+                        <TextInput 
+                         value={lastName}
+                         onChangeText={(val)=>setLastName(val)}
+                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        />
                     </View>
                 </View>
                 <View style={{ marginTop: 15 }}>
                     <Text style={styles.first}>Phone Number</Text>
                     <View style={styles.inputView}>
-                        <TextInput />
+                        <TextInput 
+                         value={phone}
+                         onChangeText={(val)=>setPhone(val)}
+                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                         keyboardType="number-pad"
+                        />
+                    </View>
+                </View>
+                <View style={{ marginTop: 15 }}>
+                    <Text style={styles.first}>Firm Name</Text>
+                    <View style={styles.inputView}>
+                        <TextInput 
+                         value={firmName}
+                         onChangeText={(val)=>setFirmName(val)}
+                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        />
+                    </View>
+                </View>
+                <View style={{ marginTop: 15 }}>
+                    <Text style={styles.first}>Email</Text>
+                    <View style={styles.inputView}>
+                        <TextInput 
+                         value={email}
+                         onChangeText={(val)=>setEmail(val)}
+                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                         keyboardType="email-address"
+                        />
                     </View>
                 </View>
                 <View style={{ marginTop: 15 }}>
                     <Text style={styles.first}>Address</Text>
                     <View style={styles.inputView}>
-                        <TextInput />
+                        <TextInput 
+                         value={address}
+                         onChangeText={(val)=>setAddress(val)}
+                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        />
                     </View>
                 </View>
                 <View style={{ marginTop: 15 }}>
@@ -75,16 +182,26 @@ const AddComplaints = () => {
                     <View style={styles.space}>
                         <Text style={styles.issue}>Issue Description</Text>
                     </View>
-                    <View style={styles.inputView1}>
-                        <TextInput />
-                    </View>
+                    <TouchableOpacity
+                    onPress={()=>inputRef.current.focus()}
+                     style={styles.inputView1}>
+                        <TextInput 
+                         ref={inputRef}
+                         value={description}
+                         onChangeText={(val)=>setDescription(val)}
+                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        />
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.buttonView}>
-                    <TouchableOpacity style={styles.touch}>
+                    <TouchableOpacity 
+                    onPress={()=>handlePress()}
+                    style={styles.touch}>
                         <Text style={styles.submit}>Submit</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+                <View style={{height:40}}/>
+            </ScrollView>
         </View>
     )
 }
@@ -174,8 +291,8 @@ const styles = StyleSheet.create({
     }
 });
 const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
+    { label: 'Return Of Property', value: 'Return Of Property' },
+    { label: 'Cheating', value: 'Cheating' },
+    { label: 'Theft', value: 'Theft' },
 
 ];

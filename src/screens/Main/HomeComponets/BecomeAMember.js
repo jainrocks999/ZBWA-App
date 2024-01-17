@@ -5,27 +5,13 @@ import { useNavigation } from "@react-navigation/native";
 import BusinessDetail from "../../../components/BusinessDetail";
 import Documentation from "../../../components/Documentation";
 import PersonalDetail from "../../../components/PersonalDetail";
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
-
-const renderScene = SceneMap({
-    first: PersonalDetail,
-    second: BusinessDetail,
-    third: Documentation
-});
 
 const BecomeaMember = () => {
     const navigation = useNavigation()
-    const [index, setIndex] = useState(0);
     const [selectedId, setSelectedId] = useState(1)
-    const [routes] = React.useState([
-        { key: 'first', title: 'Personal Details ' },
-        { key: 'second', title: 'Business Details ' },
-        { key: 'third', title: 'Documentation ' },
-    ]);
 
     const onSwipeLeft = (gestureState) => {
-        // console.log('this is selected id',selectedId);
         if (selectedId == 3) {
             setSelectedId(3)
         }
@@ -39,7 +25,6 @@ const BecomeaMember = () => {
     }
 
     const onSwipeRight = (gestureState) => {
-        console.log('this is selected id', selectedId);
         if (selectedId == 1) {
             setSelectedId(1)
         }

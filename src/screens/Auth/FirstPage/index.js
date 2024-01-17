@@ -6,7 +6,7 @@ import Arrow from "../../../assets/Icon/Arrow.svg";
 import Eye from "../../../assets/Icon/eye.svg"
 import { useNavigation } from "@react-navigation/native";
 import LinearGradient from 'react-native-linear-gradient';
-import styles from "./styles";
+import styles from "./style";
 import axios from "axios";
 import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
@@ -81,21 +81,21 @@ const Login = () => {
             <View style={styles.yellow}>
               <View style={styles.view}>
                 <View style={{ flexDirection: 'row' }}>
-                  <Text style={styles.signup}>Sign up </Text>
-                  <Text style={styles.free}>for free</Text>
+                  {/* <Text style={styles.signup}>Sign up </Text>
+                  <Text style={styles.free}>for free</Text> */}
                 </View>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   activeOpacity={0.5}
                   onPress={() => navigation.navigate('RegisterPage')}
                   style={styles.arrowContainer}>
                   <ForwardArrow />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
-              <View style={{ alignItems: 'center' }}>
+              <View style={{ alignItems: 'center',marginTop:23 }}>
                 <View style={styles.black}>
                   <View style={{ paddingHorizontal: 40, marginTop: 10 }}>
-                    <Text style={styles.already}>Already Registered user?</Text>
-                    <Text style={styles.login}>Login</Text>
+                    <Text style={styles.already}>Please enter mobile number first</Text>
+                    <Text style={styles.login}>Verification</Text>
                     <View style={styles.country}>
                       <Text style={styles.ninety}>+91</Text>
                       <TextInput style={styles.input}
@@ -103,35 +103,18 @@ const Login = () => {
                         placeholderTextColor={'#FFFFFF'}
                         value={mobile}
                         onChangeText={(val)=>setMobile(val)}
-                        keyboardType="number-pad"
+                        keyboardType="phone-pad"
                       />
                     </View>
-                    <View style={styles.inputContainer}>
-
-                      <TextInput style={styles.pass}
-                        placeholder="Password"
-                        placeholderTextColor={'#FFFFFF'}
-                        keyboardType="default"
-                        value={password}
-                        onChangeText={(val)=>setPassword(val)}
-                      />
-                      <Eye />
-                    </View>
-                    <View style={{ marginTop: 10 }}>
-                      <Text
-                        onPress={() => navigation.navigate('Forgot')}
-                        style={styles.forgot}>Forgot Password?</Text>
-                      <Text
-                        onPress={() => navigation.navigate('Pin')}
-                        style={styles.mpin}>Login with mPIN</Text>
-                    </View>
+                   
+                  
                   </View>
-                  <View style={{ marginTop: 30, alignItems: 'flex-end' }}>
+                  <View style={{ marginTop: 118, alignItems: 'flex-end' }}>
                     <TouchableOpacity
-                      onPress={() => 
-                        // navigation.replace('Home')
-                        userLogin()
-                      }
+                    //   onPress={() => 
+                    //     // navigation.replace('Home')
+                    //     // userLogin()
+                    //   }
                       style={styles.button}>
                       <Text style={styles.text}>Login</Text>
                       <Arrow />

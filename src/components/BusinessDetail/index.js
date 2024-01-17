@@ -1,11 +1,74 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { View,Text,TextInput,TouchableOpacity,StyleSheet,ScrollView } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import BackArrow from "../../assets/Icon/BackArrow.svg";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Storage from "../../components/LocalStorage";
+import Toast from "react-native-simple-toast";
 
 
 const BusinessDetail=({onPress})=>{
     const [toggleCheckBox,setToggleCheckBox]=useState(false)
+    const [name,setName]=useState('')
+    const [gst,setGst]=useState('')
+    const [address,setAddress]=useState('')
+    const [location,setLocation]=useState('')
+    const [phone,setPhone]=useState('')
+    const [email,setEmail]=useState('')
+
+
+    useEffect(()=>{
+      handleLoad()
+    },[])
+
+    const handleLoad=async()=>{
+
+        const name=await AsyncStorage.getItem(Storage.businessName)
+        const gst=await AsyncStorage.getItem(Storage.businessGst)
+        const address=await AsyncStorage.getItem(Storage.businessAddress)
+        const location=await AsyncStorage.getItem(Storage.businessLocation)
+        const phone=await AsyncStorage.getItem(Storage.businessPhone)
+        const email=await AsyncStorage.getItem(Storage.businessEmail)
+ 
+        setName(name)
+        setGst(gst)
+        setAddress(address)
+        setLocation(location)
+        setPhone(phone)
+        setEmail(email)
+    }
+
+    const handleBusinessDetails=()=>{
+        if(name==''){
+          Toast.show('Please enter your name')
+        }
+        else if(gst==''){
+            Toast.show('Please enter your GST Number')
+        }
+        else if(address==''){
+            Toast.show('Please enter your business address')
+        }
+        else if(location==''){
+            Toast.show('Please enter your location')
+        }
+        else if(phone==''){
+            Toast.show('Please enter your phone number')
+        }
+        else if(email==''){
+            Toast.show('Please enter your email address')
+        }
+        else{
+            AsyncStorage.setItem(Storage.businessName,name)
+            AsyncStorage.setItem(Storage.businessGst,gst)
+            AsyncStorage.setItem(Storage.businessAddress,address)
+            AsyncStorage.setItem(Storage.businessLocation,location)
+            AsyncStorage.setItem(Storage.businessPhone,phone)
+            AsyncStorage.setItem(Storage.businessEmail,email)
+            Toast.show('Business Details Saved Successfully!')
+        }
+    }
+
+
     return(
         <View style={styles.container}>
             <ScrollView style={{flex:1}}>
@@ -13,33 +76,49 @@ const BusinessDetail=({onPress})=>{
             <View style={{}}>
                 <Text style={styles.heading}>Business Name</Text>
                 <View style={styles.inputView}>
-                    <TextInput/>
+                    <TextInput
+                    value={name}
+                    onChangeText={(val)=>setName(val)} 
+                    style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium'}}
+                    />
                 </View>
             </View>
             <View style={{marginTop:15}}>
                 <Text style={styles.heading}>GST Number</Text>
                 <View style={styles.inputView}>
-                    <TextInput/>
+                    <TextInput
+                    value={gst}
+                    onChangeText={(val)=>setGst(val)} 
+                    style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium'}}
+                    />
                 </View>
             </View>
             <View style={{marginTop:15}}>
                 <Text style={styles.heading}>Business Address</Text>
                 <View style={styles.inputView}>
-                    <TextInput/>
+                    <TextInput
+                    value={address}
+                    onChangeText={(val)=>setAddress(val)} 
+                    style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium'}} 
+                    />
                 </View>
             </View>
             <View style={{marginTop:15}}>
                 <Text style={styles.heading}>Location</Text>
                 <View style={styles.inputView}>
-                    <TextInput/>
+                    <TextInput
+                    value={location}
+                    onChangeText={(val)=>setLocation(val)} 
+                    style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium'}}
+                    />
                 </View>
             </View>
-            <View style={{marginTop:15}}>
+            {/* <View style={{marginTop:15}}>
                 <Text style={styles.heading}>Phone</Text>
                 <View style={styles.inputView}>
                     <TextInput/>
                 </View>
-            </View>
+            </View> */}
             <View style={{marginTop:15}}>
             <View style={styles.view}>
                    <Text style={styles.heading}>Phone</Text>
@@ -57,7 +136,12 @@ const BusinessDetail=({onPress})=>{
                     </View>
                 </View>
                 <View style={styles.inputView}>
-                    <TextInput/>
+                    <TextInput
+                    value={phone}
+                    onChangeText={(val)=>setPhone(val)} 
+                    style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium'}} 
+                    keyboardType="number-pad"
+                    />
                 </View>
             </View>
             <View style={{marginTop:15}}>
@@ -77,19 +161,27 @@ const BusinessDetail=({onPress})=>{
                     </View>
                 </View>
                 <View style={styles.inputView}>
-                    <TextInput/>
+                    <TextInput 
+                    value={email}
+                    onChangeText={(val)=>setEmail(val)} 
+                    style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium'}}
+                    keyboardType="email-address"
+                    />
                 </View>
             </View>
             
         </View>
-        <View style={{height:140}}/>
+        <View style={{height:214}}/>
+        {/* height:214 */}
         <View style={styles.bottom}>
                 <TouchableOpacity 
                    onPress={onPress}
                    style={styles.back}>
                     <BackArrow/>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity
+                 onPress={()=>handleBusinessDetails()}
+                 style={styles.button}>
                     <Text style={styles.submit}>Submit</Text>
                 </TouchableOpacity>
                 <View style={{width:40}}/>

@@ -30,6 +30,9 @@ import TermService from "../screens/Main/HomeComponets/TermService";
 import ChangePassword from "../screens/Auth/ChangePassword";
 import SetPin from "../screens/Auth/SetPin";
 import ViewPdf from "../screens/Main/HomeComponets/ViewPdf";
+import FirstPage from "../screens/Auth/FirstPage";
+import EventDetails from "../screens/Main/HomeComponets/EventDetails";
+import MyQRCode from "../screens/Main/HomeComponets/MyQRCode";
 
 
 const Stack = createNativeStackNavigator();
@@ -42,6 +45,7 @@ function Navigate() {
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="FirstPage" component={FirstPage}/>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="RegisterPage" component={Register} />
         <Stack.Screen name="Pin" component={Pin}/>
@@ -78,6 +82,8 @@ function Home(){
          <Stack1.Screen name='Contact' component={Contact}/>
          <Stack1.Screen name='Terms' component={TermService}/>
          <Stack1.Screen name="ViewPdf" component={ViewPdf}/>
+         <Stack1.Screen name="EventDetails" component={EventDetails}/>
+         <Stack1.Screen name="MyQRCode" component={MyQRCode}/>
       </Stack1.Navigator>
   )
 }

@@ -1,18 +1,141 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet,ScrollView } from "react-native";
 import Header from "../../../components/CustomHeader";
 import Upload from "../../../assets/Icon/Upload.svg";
 import { useNavigation } from "@react-navigation/native";
 import DatePicker from 'react-native-date-picker'
 import Claendar from "../../../assets/Icon/Calendar.svg";
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import DocumentPicker from "react-native-document-picker";
+import Toast from "react-native-simple-toast";
+import Loader from "../../../components/Loader";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Storage from "../../../components/LocalStorage";
+import axios from "axios";
 
 
-const AddSecondaryMember = () => {
+const AddSecondaryMember = ({route}) => {
     const navigation = useNavigation()
+    const [loader,setLoader]=useState(false)
+    const [firstName,setFirstName]=useState('')
+    const [lastName,setLastName]=useState('')
+    const [phone,setPhone]=useState('')
+    const [emergencyNumber,setEmergencyNumber]=useState('')
+    const [phone1,setPhone1]=useState('')
+    const [emergencyNumber1,setEmergencyNumber1]=useState('')
+
+    const [photo,setPhoto]=useState('')
+    const [photoName,setPhotoName]=useState('')
+    const [photoType,setPhotoType]=useState('')
+
+    const [aadhar,setAadhar]=useState('')
+    const [aadharName,setAadharName]=useState('')
+    const [aadharType,setAadharType]=useState('')
+
+    const [salary,setSalary]=useState('')
+    const [salaryName,setSalaryName]=useState('')
+    const [salaryType,setSalaryType]=useState('')
+
+    const [dob, setDob] = useState('')
     const [date, setDate] = useState(new Date())
     const [open, setOpen] = useState(false)
-    const [dob, setDob] = useState('')
+  console.log('this is route id',route.params);
+
+    const handleApi=async()=>{
+        const user_token=await AsyncStorage.getItem(Storage.user_token)
+       if(firstName==''){
+         Toast.show('Please enter your first name')
+       }
+       else if(lastName==''){
+        Toast.show('Please enter your last name')
+       }
+       else if(phone==''){
+        Toast.show('Please enter your phone number')
+       }
+       else if(emergencyNumber==''){
+        Toast.show('Please enter your emergency number')
+       }
+       else if(phone1==''){
+        Toast.show('Please enter your second phone number')
+       }
+       else if(emergencyNumber1==''){
+        Toast.show('Please enter your second emergency number')
+       }
+       else if(dob==''){
+        Toast.show('Please select date of birth')
+       }
+       else if(photo==''){
+        Toast.show('Please upload your Photograph')
+       }
+       else if(aadhar==''){
+        Toast.show('Please upload your Aadhar card')
+       }
+       else if(salary==''){
+        Toast.show('Please upload your Salary slip / Company authentication letter')
+       }
+       else{
+        setLoader(true)
+         const data=new FormData()
+            data.append('phone_number_1', phone);
+            data.append('emergency_number_1', emergencyNumber);
+            data.append('phone_number_2', phone1);
+            data.append('emergency_number_2', emergencyNumber1);
+            data.append('dob', '12/15/2023');
+            data.append('photo',{
+                uri:photo,
+                name:photoName.substring(photoName.lastIndexOf('/') + 1),
+                type:photoType
+            });
+            data.append('adhar_card',{
+                uri:aadhar,
+                name:aadharName.substring(aadharName.lastIndexOf('/') + 1),
+                type:aadharType
+            });
+            data.append('salary_slip',{
+                uri:salary,
+                name:salaryName.substring(salaryName.lastIndexOf('/') + 1),
+                type:salaryType
+            });
+            data.append('firstName', firstName);
+            data.append('lastName', lastName);
+            data.append('primaryMember',route.params.memberId );
+
+            let config = {
+                method: 'post',
+                url: 'http://45.79.123.102:49002/api/member/secondary/create',
+                headers: { 
+                  'Authorization': `${user_token}`,
+                  "Content-Type" : "multipart/form-data",
+                },
+                data:data
+              };
+            axios.request(config)
+            .then((response) => {
+                if(response.data.code=='200'){
+                    Toast.show(response.data.message)
+                    setLoader(false)
+                    navigation.goBack()
+                }
+                else{
+                    setLoader(false)
+                    Toast.show(response.data.message)
+                    navigation.goBack()
+                }
+             
+              setLoader(false)
+            })
+            .catch((error) => {
+                setLoader(false)
+              Toast.show(error.response.data.message)
+              navigation.goBack()
+              console.log(error.response.data);
+            });
+            
+
+       }
+    }
+   
+
 
     const checklistImage = {
         title: 'Select Image',
@@ -37,23 +160,114 @@ const AddSecondaryMember = () => {
         });
     }
 
+    const _pickDocument = async (type) => {
+        try {
+          const result = await DocumentPicker.pickSingle({
+            type: [DocumentPicker.types.images, DocumentPicker.types.pdf],
+          });
+          const res = result;
+          console.log('this is response data', result);
+          if (type == 'photograph') {
+            setPhoto(res.uri)
+            setPhotoName(res.name)
+            setPhotoType(res.type)
+          }
+          if (type == 'aadharCard') {
+            setAadhar(res.uri)
+            setAadharName(res.name)
+            setAadharType(res.type)
+          }
+          if (type == 'salarySlip') {
+            setSalary(res.uri)
+            setSalaryName(res.name)
+            setSalaryType(res.type)
+          }
+          else {
+    
+          }
+        } catch (err) {
+          if (DocumentPicker.isCancel(err)) {
+            console.log('User cancelled file picker');
+          } else {
+            console.log('DocumentPicker err => ', err);
+            throw err;
+          }
+        }
+      };
+    
+
     return (
         <View style={styles.container}>
+            {loader?<Loader/>:null}
             <Header
                 title={'Add Secondary Member'}
                 onPress={() => navigation.goBack()}
             />
-            <View style={styles.main}>
+            <ScrollView style={styles.main}>
                 <View style={{ marginTop: 0 }}>
+                    <Text style={styles.heading}>First Name</Text>
+                    <View style={styles.inputView}>
+                        <TextInput 
+                        value={firstName}
+                        onChangeText={(val)=>setFirstName(val)}
+                        keyboardType="default"
+                        style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        />
+                    </View>
+                </View>
+                <View style={{ marginTop: 15 }}>
+                    <Text style={styles.heading}>Last Name</Text>
+                    <View style={styles.inputView}>
+                        <TextInput 
+                        value={lastName}
+                        onChangeText={(val)=>setLastName(val)}
+                        keyboardType="default"
+                        style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        />
+                    </View>
+                </View>
+                <View style={{ marginTop: 15 }}>
                     <Text style={styles.heading}>Phone Number</Text>
                     <View style={styles.inputView}>
-                        <TextInput />
+                        <TextInput 
+                        value={phone}
+                        onChangeText={(val)=>setPhone(val)}
+                        keyboardType="number-pad"
+                        style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        />
                     </View>
                 </View>
                 <View style={{ marginTop: 15 }}>
                     <Text style={styles.heading}>Emergency Number</Text>
                     <View style={styles.inputView}>
-                        <TextInput />
+                        <TextInput 
+                        value={emergencyNumber}
+                        onChangeText={(val)=>setEmergencyNumber(val)}
+                        keyboardType="number-pad"
+                        style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        />
+                    </View>
+                </View>
+                <View style={{ marginTop: 15 }}>
+                    <Text style={styles.heading}>Phone Number</Text>
+                    <View style={styles.inputView}>
+                        <TextInput 
+                        value={phone1}
+                        onChangeText={(val)=>setPhone1(val)}
+                        keyboardType="number-pad"
+                        style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        />
+                    </View>
+                </View>
+                <View style={{ marginTop: 15 }}>
+                    <Text style={styles.heading}>Emergency Number</Text>
+                    <View style={styles.inputView}>
+                        <TextInput 
+                        value={emergencyNumber1}
+                        onChangeText={(val)=>setEmergencyNumber1(val)}
+                        keyboardType="number-pad"
+                        style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        />
                     </View>
                 </View>
                 <View style={{ marginTop: 15 }}>
@@ -65,41 +279,48 @@ const AddSecondaryMember = () => {
                         <Claendar />
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={() => launchCameraForPhoto()}
+                <TouchableOpacity onPress={() => _pickDocument('photograph')}
                     style={styles.view}>
                     <Upload />
+                    {photo?<Text numberOfLines={1} style={[styles.place,{marginRight:20}]}>{photoName}</Text>:
                     <View style={styles.row}>
                         <Text style={styles.place}>{'Your Photograph'}</Text>
                         <Text style={{ color: 'red' }}>*</Text>
-                    </View>
+                    </View>}
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => launchCameraForPhoto()}
+                <TouchableOpacity onPress={() => _pickDocument('aadharCard')}
                     style={styles.view}>
                     <Upload />
+                    {aadhar?<Text numberOfLines={1} style={[styles.place,{marginRight:20}]}>{aadharName}</Text>:
                     <View style={styles.row}>
                         <Text style={styles.place}>{'Aadhar Card'}</Text>
                         <Text style={{ color: 'red' }}>*</Text>
-                    </View>
+                    </View>}
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => launchCameraForPhoto()}
+                <TouchableOpacity onPress={() => _pickDocument('salarySlip')}
                     style={styles.view}>
                     <Upload />
+                    {salary?<Text numberOfLines={1} style={[styles.place,{marginRight:20}]}>{salaryName}</Text>:
                     <View style={styles.row}>
                         <Text style={styles.place}>{'Salary Slip / Company Auth Letter'}</Text>
                         <Text style={{ color: 'red' }}>*</Text>
-                    </View>
+                    </View>}
                 </TouchableOpacity>
                 <View style={styles.buttonView}>
-                    <TouchableOpacity style={styles.touch}>
+                    <TouchableOpacity
+                    onPress={()=>handleApi()}
+                    style={styles.touch}>
                         <Text style={styles.submit}>Submit</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+                <View style={{height:30}}/>
+            </ScrollView>
             <DatePicker
                 modal
                 open={open}
                 date={date}
                 mode={'date'}
+                
                 maximumDate={date}
                 onConfirm={(date) => {
                     setOpen(false)
@@ -114,7 +335,7 @@ const AddSecondaryMember = () => {
                     if (day.length < 2)
                         day = '0' + day;
 
-                    var finalDate = [day, month, year].join('/');
+                    var finalDate = [month ,day , year].join('/');
                     setDob(finalDate)
 
                 }}

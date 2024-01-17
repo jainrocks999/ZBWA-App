@@ -1,24 +1,86 @@
-import React from "react";
-import { View, Text, FlatList, Image, Dimensions, ImageBackground, StyleSheet } from "react-native";
+import React,{useState,useEffect} from "react";
+import { View, Text, FlatList, Dimensions, ImageBackground, StyleSheet, TouchableOpacity } from "react-native";
+import axios from "axios";
+import Loader from "../Loader";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Storage from "../LocalStorage";
+import Toast from "react-native-simple-toast";
+import Image from "react-native-scalable-image";
+import { useNavigation } from "@react-navigation/native";
 
 const Current = () => {
+    
+    const [loader,setLoader]=useState(false)
+    const [currentData,setCurrentData]=useState()
+    const navigation=useNavigation()
+
+    useEffect(()=>{
+       handleApi()
+    },[])
+
+    const handleApi=async()=>{
+        const user_token=await AsyncStorage.getItem(Storage.user_token)
+        console.log('this is user token',user_token);
+        setLoader(true)
+        axios({
+            method: 'get',
+            url: 'http://45.79.123.102:49002/api/event/all/current/1',
+            headers: `Authorization: ${user_token}`
+          })
+          .then(function(response) {
+            if(response.data.code=='200'){
+                console.log('this is response',response.data.data);
+                setCurrentData(response.data.data)
+                setLoader(false)
+            }
+            else{
+              setLoader(false)
+              Toast.show(response.data.message )
+            }
+          })
+          .catch(function(error) {
+            setLoader(false)
+            console.log("error", error.response.data)
+            Toast.show(error.response.data.message)
+          })
+    }
+
+    
+
 
     return (
         <View style={styles.container}>
+            {loader?<Loader/>:null}
             <FlatList
-                data={data}
+                data={currentData}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
-                    <View style={styles.main}>
-                        <ImageBackground style={styles.background} source={item.img}>
-                            <View style={styles.view}>
-                                <Text style={styles.live}>Live</Text>
+                    <TouchableOpacity 
+                    onPress={()=>navigation.navigate('EventDetails',{
+                        id:item._id
+                    })}
+                    style={styles.main}>
+                       
+                         {item.images[0].image?<Image
+                            width={Dimensions.get('window').width - 50}
+                            source={{ uri: item.images[0].image }}>
+                        </Image>:
+                         <View style={{
+                            width:Dimensions.get('window').width - 50,
+                            height:105,
+                            alignItems:'center',
+                            justifyContent:'center'
+                            }}>
+                            <Text>Image not Found</Text>
                             </View>
-                        </ImageBackground>
-                        <View style={styles.view2}>
-                            <Text style={styles.title}>{item.title}</Text>
+                        }
+                        <View style={[styles.view, { alignSelf: 'flex-end', marginTop: -27, marginBottom: 10, marginRight: 10 }]}>
+                        <Text style={styles.live}>{item.status}</Text>
                         </View>
-                    </View>
+                        <View style={styles.view2}>
+                            <Text style={styles.title}>{item.name}</Text>
+                        </View>
+                    </TouchableOpacity>
 
                 )}
             />

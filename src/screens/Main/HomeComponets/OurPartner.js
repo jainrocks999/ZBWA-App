@@ -68,9 +68,9 @@ const OurPartner = () => {
                                 <View>
                                     {/* {item.complainNumber} */}
                                     <Image 
-                                    // resizeMode="stretch" 
-                                    style={{width:120,height:40}}
-                                     source={{uri:item.logo}}/>
+                                    resizeMode="center" 
+                                    style={{width:120,height:80}}
+                                     source={{uri:item.logo.location}}/>
                                 </View>
                                 <View style={{ marginLeft: 15 }}>
                                     <Text style={styles.title}>{item.name}</Text>
