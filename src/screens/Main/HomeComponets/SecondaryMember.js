@@ -26,6 +26,7 @@ const SecondaryMember = () => {
 
   const handleApiCall=async()=>{
     const user_token=await AsyncStorage.getItem(Storage.user_token)
+    console.log(user_token);
     setLoader(true)
     axios({
         method: 'get',
@@ -46,6 +47,7 @@ const SecondaryMember = () => {
       })
       .catch(function(error) {
         setLoader(false)
+        console.log('this is reponse fata',error.response.data);
         Toast.show(error.response.data.message)
       })
   }

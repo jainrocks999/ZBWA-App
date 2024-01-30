@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ForwardArrow from "../../../assets/Icon/ForwardArrow.svg";
 import Arrow from "../../../assets/Icon/Arrow.svg";
 import Eye from "../../../assets/Icon/eye.svg";
+import Eye1 from "../../../assets/Icon/eye1.svg";
 import { useNavigation } from "@react-navigation/native";
 import LinearGradient from 'react-native-linear-gradient';
 import styles from "./styles";
@@ -11,19 +12,60 @@ import axios from "axios";
 import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
 import CheckBox from "@react-native-community/checkbox";
-
+import Modal from "react-native-modal";
+import CircleCross from "../../../assets/Icon/CircleCross.svg";
+import HTMLView from "react-native-htmlview";
 
 const Register = () => {
   const navigation = useNavigation()
   const [first, setFirst] = useState('')
   const [last, setLast] = useState('')
   const [business, setBusiness] = useState('')
+  const [eye,setEye]=useState(true)
+  const [eye1,setEye1]=useState(true)
   const [gst, setGst] = useState('')
   const [mobile, setMobile] = useState('')
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [loader, setLoader] = useState(false)
   const [toggleCheckBox,setToggleCheckBox]=useState(false)
+  const [data,setData]=useState()
+  const [isVisible,setVisible]=useState(false)
+
+  useEffect(()=>{
+    apiCall()
+  },[])
+
+  const apiCall = async () => {
+
+   
+
+    let config = {
+        method: 'get',
+        url: 'http://45.79.123.102:49002/api/homepage/term/condition',
+        // headers: {
+        //     'Authorization': `${user_token}`
+        // }
+    };
+    setLoader(true)
+    axios.request(config)
+        .then((response) => {
+            if (response.data.code == '200') {
+                // Toast.show(response.data.message)
+                setData(response.data.data)
+                setLoader(false)
+            }
+            else {
+                setLoader(false)
+                // Toast.show(response.data.message)
+            }
+            console.log(JSON.stringify(response.data));
+        })
+        .catch((error) => {
+            setLoader(false)
+            console.log(error);
+        });
+}
 
 
   const handleRegister = () => {
@@ -42,6 +84,9 @@ const Register = () => {
     else if (mobile == '') {
       Toast.show('Please enter your phone number')
     }
+    else if (mobile.length<10) {
+      Toast.show('Please enter 10 digit phone number')
+    }
     else if (password == '') {
       Toast.show('Please enter your password')
     }
@@ -50,6 +95,9 @@ const Register = () => {
     }
     else if (password != confirm) {
       Toast.show('password and confirm password must be same')
+    }
+    else if (toggleCheckBox == false) {
+      Toast.show('Please agree with Terms and Conditions')
     }
     else {
       setLoader(true)
@@ -136,7 +184,7 @@ const Register = () => {
                        />
                        <View style={{flexDirection:'row'}}>
                       <Text style={{fontSize:15,marginLeft:10,color:'#000'}}>{'I agree to the '}</Text>
-                      <Text style={{borderBottomWidth:1,borderBottomColor:'#000',fontSize:15,color:'#000'}}>Terms and Conditions</Text>
+                      <Text onPress={()=>setVisible(true)} style={{borderBottomWidth:1,borderBottomColor:'#000',fontSize:15,color:'#000'}}>Terms and Conditions</Text>
                       </View>
                     </View>
                 <View style={{ alignItems: 'center' }}>
@@ -188,6 +236,7 @@ const Register = () => {
                           keyboardType="number-pad"
                           value={mobile}
                           onChangeText={(val) => setMobile(val)}
+                          maxLength={10}
                         />
                       </View>
                       <View style={[styles.border, { marginTop: 15 }]}>
@@ -197,8 +246,18 @@ const Register = () => {
                           value={password}
                           onChangeText={(val) => setPassword(val)}
                           keyboardType="default"
+                          secureTextEntry={eye}
                         />
-                        <Eye />
+                        {/* <Eye /> */}
+                        {eye?
+                      <TouchableOpacity style={{padding:6}} onPress={()=>setEye(!eye)}>
+                      <Eye/>
+                      </TouchableOpacity>
+                      :
+                      <TouchableOpacity style={{padding:6}} onPress={()=>setEye(!eye)}>
+                      <Eye1/>
+                      </TouchableOpacity>
+                      }
                       </View>
                       <View style={[styles.border, { marginTop: 15 }]}>
                         <TextInput style={styles.input}
@@ -207,8 +266,18 @@ const Register = () => {
                           value={confirm}
                           onChangeText={(val) => setConfirm(val)}
                           keyboardType="default"
+                          secureTextEntry={eye1}
                         />
-                        <Eye />
+                        {/* <Eye /> */}
+                        {eye1?
+                      <TouchableOpacity style={{padding:6}} onPress={()=>setEye1(!eye1)}>
+                      <Eye/>
+                      </TouchableOpacity>
+                      :
+                      <TouchableOpacity style={{padding:6}} onPress={()=>setEye1(!eye1)}>
+                      <Eye1/>
+                      </TouchableOpacity>
+                      }
                       </View>
 
                     </View>
@@ -220,21 +289,7 @@ const Register = () => {
                         <Arrow />
                       </TouchableOpacity>
                     </View>
-                    {/* <View style={{flexDirection:'row',alignItems:'center',marginTop:10}}>
-                    <CheckBox
-                       style={{height:25,width:30}}
-                      //  disabled={false}
-                       value={toggleCheckBox}
-                       onValueChange={(newValue) => setToggleCheckBox(newValue)}  
-                       tintColors={{true: '#FCDA64', false: '#FCDA64'}}
-                       onTintColor='#FCDA64'
-                       onCheckColor='#FCDA64'            
-                       />
-                       <View style={{flexDirection:'row'}}>
-                      <Text style={{fontSize:15,marginLeft:10,color:'#000'}}>{'I agree to the '}</Text>
-                      <Text style={{borderBottomWidth:1,borderBottomColor:'#000',fontSize:15,color:'#000'}}>Terms and Conditions</Text>
-                      </View>
-                    </View> */}
+                   
                   </View>
                 </View>
               </View>
@@ -246,6 +301,28 @@ const Register = () => {
           <View style={{height:160}}/>
         </KeyboardAwareScrollView>
       </ScrollView>
+      <Modal isVisible={isVisible}>
+        <View style={{ backgroundColor: '#FDEDB1', 
+        borderRadius: 16, 
+        paddingBottom: 20 }}>
+        <TouchableOpacity
+                        onPress={() => setVisible(false)}
+                        style={{ alignSelf: 'flex-end', margin: 5 }}>
+                        <CircleCross />
+                    </TouchableOpacity>
+                    <ScrollView style={{padding:20}}>
+           {data? <HTMLView
+                value={data
+                  .trim()
+                    .replace(new RegExp('<p>', 'g'), '<span>')
+                  }
+                addLineBreaks={false}
+            />:null}
+            <View style={{height:30}}/>
+            </ScrollView>
+
+        </View>
+      </Modal>
     </LinearGradient>
     // </View>
   )

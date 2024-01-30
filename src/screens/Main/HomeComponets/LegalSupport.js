@@ -1,12 +1,58 @@
-import React from "react";
-import { View, Text, TextInput, FlatList, Image, StyleSheet } from "react-native";
+import React,{useEffect,useState} from "react";
+import { View, Text, TextInput, FlatList, Image, StyleSheet,Dimensions } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Storage from "../../../components/LocalStorage";
+import Toast from "react-native-simple-toast";
+import Loader from "../../../components/Loader";
 
 const LegalSupport = () => {
     const navigation = useNavigation()
+    const [loader,setLoader]=useState(false)
+    const [data,setData]=useState()
+
+
+    useEffect(()=>{
+          apiCall()
+    },[])
+
+    const apiCall=async()=>{
+    
+        const user_token=await AsyncStorage.getItem(Storage.user_token)
+
+        let config = {
+            method: 'get',
+            url: 'http://45.79.123.102:49002/api/legalsupport/all/1',
+            headers: { 
+              'Authorization': `${user_token}`
+            }
+          };
+          setLoader(true)
+          axios.request(config)
+          .then((response) => {
+            if(response.data.code=='200'){
+                Toast.show(response.data.message)
+                setData(response.data.data)
+                setLoader(false)
+            }
+            else{
+                setLoader(false)
+                Toast.show(response.data.message)
+            }
+            console.log(JSON.stringify(response.data));
+          })
+          .catch((error) => {
+            setLoader(false)
+            console.log(error);
+          });
+          
+    }
+
     return (
         <View style={styles.container}>
+            {loader?<Loader/>:null}
             <Header
                 title={'Legal Support'}
                 onPress={() => navigation.goBack()}
@@ -20,10 +66,12 @@ const LegalSupport = () => {
                             <View style={styles.view}>
                                 <View style={styles.view1}>
                                     <View style={{ marginTop: -36 }}>
-                                        <Image source={item.img} />
+                                        <Image
+                                        style={{height:82,width:82,borderRadius:82}}
+                                         source={{uri:item.upload_image}} />
                                     </View>
                                 </View>
-                                <Text style={styles.title}>{item.title}</Text>
+                                <Text style={styles.title}>{item.name}</Text>
                             </View>
 
                         </View>
@@ -44,10 +92,15 @@ const styles = StyleSheet.create({
         marginTop: 25 
     },
     item: { 
-        width: '40%', 
-        height: 135, 
-        marginHorizontal: 20, 
-        marginVertical: 15 
+        // width: '40%', 
+        // height: 135, 
+        // marginHorizontal: 20, 
+        // marginVertical: 15 
+        width: Dimensions.get('window').width/3+28, 
+    // width:'40%',
+    height: 155, 
+    marginHorizontal: 20, 
+    marginVertical: 15 
     },
     view: {
         alignItems: 'center',

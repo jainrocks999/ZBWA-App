@@ -52,14 +52,26 @@ const AddSecondaryMember = ({route}) => {
        else if(phone==''){
         Toast.show('Please enter your phone number')
        }
+       else if(phone.length<10){
+        Toast.show('Please enter 10 digit phone number')
+       }
        else if(emergencyNumber==''){
         Toast.show('Please enter your emergency number')
+       }
+       else if(emergencyNumber.length<10){
+        Toast.show('Please enter 10 digit emergency number')
        }
        else if(phone1==''){
         Toast.show('Please enter your second phone number')
        }
+       else if(phone1.length<10){
+        Toast.show('Please enter 10 digit second phone number')
+       }
        else if(emergencyNumber1==''){
         Toast.show('Please enter your second emergency number')
+       }
+       else if(emergencyNumber1.length<10){
+        Toast.show('Please enter 10 digit second emergency number')
        }
        else if(dob==''){
         Toast.show('Please select date of birth')
@@ -234,6 +246,7 @@ const AddSecondaryMember = ({route}) => {
                         onChangeText={(val)=>setPhone(val)}
                         keyboardType="number-pad"
                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        maxLength={10}
                         />
                     </View>
                 </View>
@@ -245,6 +258,7 @@ const AddSecondaryMember = ({route}) => {
                         onChangeText={(val)=>setEmergencyNumber(val)}
                         keyboardType="number-pad"
                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        maxLength={10}
                         />
                     </View>
                 </View>
@@ -256,6 +270,7 @@ const AddSecondaryMember = ({route}) => {
                         onChangeText={(val)=>setPhone1(val)}
                         keyboardType="number-pad"
                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        maxLength={10}
                         />
                     </View>
                 </View>
@@ -267,6 +282,7 @@ const AddSecondaryMember = ({route}) => {
                         onChangeText={(val)=>setEmergencyNumber1(val)}
                         keyboardType="number-pad"
                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        maxLength={10}
                         />
                     </View>
                 </View>

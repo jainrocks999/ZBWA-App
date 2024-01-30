@@ -43,6 +43,7 @@ const PersonalDetail = () => {
 
 
     const handlePersonalDetails=()=>{
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
         if(address==''){
             Toast.show('Please enter your address')
         }
@@ -55,11 +56,20 @@ const PersonalDetail = () => {
         else if(phone==''){
             Toast.show('Please enter your phone number')
         }
+        else if(phone.length<10){
+            Toast.show('Please enter 10 digit phone number ')
+        }
         else if(email==''){
             Toast.show('Please enter your email address')
         }
+        else if(reg.test(email)===false){
+            Toast.show('Please enter valid email address')
+        }
         else if(emergencyNumber==''){
             Toast.show('Please enter your emergency number')
+        }
+        else if(emergencyNumber.length<10){
+            Toast.show('Please enter 10 digit emergency number')
         }
         else if(dob==''){
             Toast.show('Please enter DOB')
@@ -143,6 +153,7 @@ const PersonalDetail = () => {
                              onChangeText={(val)=>setPhone(val)}
                              style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium'}}
                              keyboardType="number-pad"
+                             maxLength={10}
                            />
                         </View>
                     </View>
@@ -165,6 +176,7 @@ const PersonalDetail = () => {
                              onChangeText={(val)=>setEmergencyNumber(val)}
                              style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium'}}
                              keyboardType="number-pad"
+                             maxLength={10}
                             />
                         </View>
                     </View>

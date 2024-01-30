@@ -68,6 +68,9 @@ console.log('this is route',route.params);
     if(mobile==''){
       Toast.show('Please enter your phone number')
     }
+    else if(JSON.stringify(mobile).length<10){
+      Toast.show('Please enter 10 digit phone number')
+    }
     else if(code==''){
       Toast.show(`Please enter otp sent on ${mobile}`)
     }
@@ -153,6 +156,7 @@ console.log('this is route',route.params);
                         value={mobile}
                         onChangeText={(val)=>setMobile(val)}
                         keyboardType="number-pad"
+                        maxLength={10}
                       />
                         <Edit/>
                       </View>
@@ -166,7 +170,7 @@ console.log('this is route',route.params);
                           // autofillFromClipboard={true}
                           keyboardType={'numeric'}
                           style={styles.inputView1}
-                          inputContainerStyles={{width:35,borderWidth:0,borderColor:'red',alignItems:'center'}}
+                          inputContainerStyles={{width:35,alignItems:'center'}}
                           // inputContainerStyles={[styles.otp]}
                           inputStyles={styles.otp}
                         />

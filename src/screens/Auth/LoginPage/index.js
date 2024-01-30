@@ -4,6 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import ForwardArrow from "../../../assets/Icon/ForwardArrow.svg";
 import Arrow from "../../../assets/Icon/Arrow.svg";
 import Eye from "../../../assets/Icon/eye.svg"
+import Eye1 from "../../../assets/Icon/eye1.svg"
 import { useNavigation } from "@react-navigation/native";
 import LinearGradient from 'react-native-linear-gradient';
 import styles from "./styles";
@@ -19,10 +20,14 @@ const Login = () => {
   const [mobile,setMobile]=useState('')
   const [password,setPassword]=useState('')
   const [loader,setLoader]=useState(false)
+  const [visible,setVisible]=useState(true)
 
   const userLogin =()=>{
     if(mobile==''){
       Toast.show('Please enter your phone number')
+    }
+    else if(mobile.length<10){
+      Toast.show('Please enter 10 digit phone number')
     }
     else if(password==''){
       Toast.show('Please enter your password')
@@ -104,6 +109,7 @@ const Login = () => {
                         value={mobile}
                         onChangeText={(val)=>setMobile(val)}
                         keyboardType="number-pad"
+                        maxLength={10}
                       />
                     </View>
                     <View style={styles.inputContainer}>
@@ -114,8 +120,21 @@ const Login = () => {
                         keyboardType="default"
                         value={password}
                         onChangeText={(val)=>setPassword(val)}
+                        secureTextEntry={visible}
                       />
-                      <Eye />
+                      {visible?
+                      <TouchableOpacity
+                       style={{padding:6}}
+                       onPress={()=>setVisible(!visible)}>
+                      <Eye/>
+                      </TouchableOpacity>
+                      :
+                      <TouchableOpacity
+                      style={{padding:6}}
+                       onPress={()=>setVisible(!visible)}>
+                      <Eye1/>
+                      </TouchableOpacity>
+                      }
                     </View>
                     <View style={{ marginTop: 10 }}>
                       <Text

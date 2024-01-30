@@ -1,13 +1,59 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import BlackEye from "../../../assets/Icon/BlackEye.svg";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Storage from "../../../components/LocalStorage";
+import Toast from "react-native-simple-toast";
+import Loader from "../../../components/Loader";
 
 const OrderCopies = () => {
     const navigation = useNavigation()
+    const [loader,setLoader]=useState(false)
+    const [data,setData]=useState()
+
+    useEffect(()=>{
+        apiCall()
+  },[])
+
+  const apiCall=async()=>{
+  
+      const user_token=await AsyncStorage.getItem(Storage.user_token)
+
+      let config = {
+          method: 'get',
+          url: 'http://45.79.123.102:49002/api/ordercopie/all/1',
+          headers: { 
+            'Authorization': `${user_token}`
+          }
+        };
+        setLoader(true)
+        axios.request(config)
+        .then((response) => {
+          if(response.data.code=='200'){
+              Toast.show(response.data.message)
+              setData(response.data.data)
+              setLoader(false)
+          }
+          else{
+              setLoader(false)
+              Toast.show(response.data.message)
+          }
+          console.log(JSON.stringify(response.data));
+        })
+        .catch((error) => {
+          setLoader(false)
+          console.log(error);
+        });
+        
+  }
+
+
     return (
         <View style={styles.container}>
+            {loader?<Loader/>:null}
             <Header
                 title={'Order Copies'}
                 onPress={() => navigation.goBack()}
@@ -17,7 +63,7 @@ const OrderCopies = () => {
                     data={data}
                     renderItem={({ item }) => (
                         <View style={styles.view}>
-                            <Text>{item.title}</Text>
+                            <Text>{item.name}</Text>
                             <TouchableOpacity activeOpacity={0.5}>
                                 <BlackEye />
                             </TouchableOpacity>

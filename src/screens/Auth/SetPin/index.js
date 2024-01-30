@@ -13,6 +13,8 @@ import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
+import Eye from "../../../assets/Icon/eye.svg";
+import Eye1 from "../../../assets/Icon/eye1.svg";
 
 const CreatePassword = ({route}) => {
 
@@ -20,14 +22,22 @@ const CreatePassword = ({route}) => {
   const [pin,setPin]=useState('')
   const [confirm,setConfirm]=useState('')
   const [loader,setLoader]=useState(false)
+  const [eye,setEye]=useState(true)
+  const [eye1,setEye1]=useState(true)
 
   const createPin =async()=>{
     const user_id=await AsyncStorage.getItem(Storage.user_id)
     if(pin==''){
       Toast.show('Please enter new mPIN')
     }
+    else if(pin.length<4){
+      Toast.show('Please enter 4 digit mPIN')
+    }
     else if(confirm==''){
       Toast.show('Please enter confirm mPIN')
+    }
+    else if(confirm.length<4){
+      Toast.show('Please enter 4 digit confirm mPIN')
     }
     else if(pin!=confirm){
       Toast.show('mPIN and confirm mPIN need to be same')
@@ -113,7 +123,17 @@ const CreatePassword = ({route}) => {
                           value={pin}
                           onChangeText={(val)=>setPin(val)}
                           maxLength={4}
+                          secureTextEntry={eye}
                         />
+                        {eye?
+                      <TouchableOpacity onPress={()=>setEye(!eye)}>
+                      <Eye1/>
+                      </TouchableOpacity>
+                      :
+                      <TouchableOpacity onPress={()=>setEye(!eye)}>
+                      <Eye/>
+                      </TouchableOpacity>
+                      }
                       </View>
                       <View style={styles.inputView}>
                         <TextInput style={styles.input}
@@ -123,7 +143,17 @@ const CreatePassword = ({route}) => {
                           value={confirm}
                           onChangeText={(val)=>setConfirm(val)}
                           maxLength={4}
+                          secureTextEntry={eye1}
                         />
+                         {eye1?
+                      <TouchableOpacity onPress={()=>setEye1(!eye1)}>
+                      <Eye1/>
+                      </TouchableOpacity>
+                      :
+                      <TouchableOpacity onPress={()=>setEye1(!eye1)}>
+                      <Eye/>
+                      </TouchableOpacity>
+                      }
                       </View>
                     </View>
                   </View>

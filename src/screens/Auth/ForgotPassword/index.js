@@ -21,9 +21,11 @@ const ForgotPassword = () => {
   const [loader,setLoader]=useState(false)
 
   const manageSend =()=> {
-    console.log('this is working');
     if(mobile==''){
       Toast.show('Please enter your phone number')
+    }
+    else if(mobile.length<10){
+      Toast.show('Please enter 10 digit phone number')
     }
     else{
       setLoader(true)
@@ -102,6 +104,7 @@ const ForgotPassword = () => {
                         value={mobile}
                         onChangeText={(val)=>setMobile(val)}
                         keyboardType="number-pad"
+                        maxLength={10}
                       />
                         <View>
                           <Text 

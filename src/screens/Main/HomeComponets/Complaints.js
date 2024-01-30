@@ -18,6 +18,7 @@ const Complaints = () => {
     const [loader,setLoader]=useState(false)
     const [data,setData]=useState()
     const isFocused = useIsFocused();
+    const [item,setItem]=useState()
     useEffect(()=>{
         if(isFocused){ 
        apiCall()
@@ -61,6 +62,18 @@ const Complaints = () => {
             <Text numberOfLines={2} style={styles.date}>{`${day} ${month} , ${year}`}</Text>
         )
 }
+const renderDate1=(date)=>{
+    const d = new Date(date);
+    let day = d.getDate();
+    let year=d.getFullYear()
+    if (day.length < 2)
+        day = '0' + day;
+    const month = d.toLocaleString('default', { month: 'short' });
+    return (
+        <Text numberOfLines={2} style={styles.date1}>{`${day} ${month} , ${year}`}</Text>
+    )
+}
+console.log('thisis item',item);
     return (
         <View style={styles.container}>
             {loader?<Loader/>:null}
@@ -77,7 +90,10 @@ const Complaints = () => {
                         data={data}
                         renderItem={({ item }) => (
                             <TouchableOpacity
-                                onPress={() => setVisible(true)}
+                                onPress={() => {
+                                    setVisible(true)
+                                    setItem(item)
+                                }}
                                 style={[styles.elevation, { borderLeftColor: item.status == 'Accepted' ? '#35CD56' : '#359FCD', }]}>
                                 <View style={styles.view}>
                                     <Text style={styles.title}>{item.subject}</Text>
@@ -105,25 +121,26 @@ const Complaints = () => {
                         style={{ alignSelf: 'flex-end', margin: 5 }}>
                         <CircleCross />
                     </TouchableOpacity>
-                    <View style={{ padding: 15 }}>
-                        <Text style={styles.cheat}>Cheating</Text>
-                        <Text style={styles.date1}>16 Oct, 2023</Text>
+                   {item? <View style={{ padding: 15 }}>
+                        <Text style={styles.cheat}>{item?.subject}</Text>
+                        {renderDate1(item?.createdAt)}
+                        {/* <Text style={styles.date1}>16 Oct, 2023</Text> */}
                         <View style={styles.row}>
                             <Text style={styles.same}>{'Opposite Party Name : '}</Text>
-                            <Text style={styles.name1}>Ashish Haval</Text>
+                            <Text style={styles.name1}>{item?.accused.name}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.same}>{'Opposite Party Firm Name : '}</Text>
-                            <Text style={styles.name1}>Narayan Manohar Haval</Text>
+                            <Text style={styles.name1}>{item?.accused.firmName}</Text>
                         </View>
                         <View style={{ marginTop: 6 }}>
                             <Text style={styles.same}>{'Details : '}</Text>
-                            <Text style={styles.name1}>{'To,\nZBW Association \nMumbai \n27th March 2023'}</Text>
+                            <Text style={styles.name1}>{item.detail}</Text>
                         </View>
                         <Text style={styles.same}></Text>
-                        <Text style={[styles.name1, { marginTop: 6 }]}>I need legal assistance in filling complaint agains Mr. Ashish Haval Proprietor in Narayal Manohar Haval, Kolhapur, for non payment.</Text>
+                        {/* <Text style={[styles.name1, { marginTop: 6 }]}>I need legal assistance in filling complaint agains Mr. Ashish Haval Proprietor in Narayal Manohar Haval, Kolhapur, for non payment.</Text> */}
 
-                    </View>
+                    </View>:null}
                 </View>
             </Modal>
 

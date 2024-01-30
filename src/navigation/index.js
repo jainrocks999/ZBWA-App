@@ -33,6 +33,7 @@ import ViewPdf from "../screens/Main/HomeComponets/ViewPdf";
 import FirstPage from "../screens/Auth/FirstPage";
 import EventDetails from "../screens/Main/HomeComponets/EventDetails";
 import MyQRCode from "../screens/Main/HomeComponets/MyQRCode";
+import CreatemPinForOldUser from "../screens/Auth/CreatemPinForOldUser";
 
 
 const Stack = createNativeStackNavigator();
@@ -54,6 +55,7 @@ function Navigate() {
         <Stack.Screen name='Otp' component={Otp}/>
         <Stack.Screen name='ChangePassword' component={ChangePassword}/>
         <Stack.Screen name="SetPin" component={SetPin}/>
+        <Stack.Screen name='CreatemPinForOldUser' component={CreatemPinForOldUser}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,5 +1,5 @@
-import React,{useState,useEffect} from "react";
-import { View, Text,Dimensions, FlatList,Image, ScrollView, TouchableOpacity,StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Dimensions, FlatList, Image, ScrollView, TouchableOpacity, StyleSheet, Linking } from "react-native";
 import Menu from "../../../assets/Icon/Menu.svg";
 import Bell from "../../../assets/Icon/Bell.svg";
 import { ImageSlider } from "react-native-image-slider-banner";
@@ -28,247 +28,351 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const HomeScreen = () => {
-    const navigation=useNavigation()
-    const [isVisible,setVisible]=useState(false)
-    const [loader,setLoader]=useState(false)
-    const [banner,setBanner]=useState([])
+    const navigation = useNavigation()
+    const [isVisible, setVisible] = useState(false)
+    const [isPremium,setPremium]=useState(false)
+    const [loader, setLoader] = useState(false)
+    const [banner, setBanner] = useState([])
+    const [contact,setContact]=useState()
+    console.log(banner.length);
 
-    useEffect(()=>{
+    useEffect(() => {
         handleBannerData()
-        // testingCase()
-    },[])
+    }, [])
 
-    const testingCase=()=>{
-        function bblSort(arr) {
- 
-            for (var i = 0; i < arr.length; i++) {
-         
-                // Last i elements are already in place  
-                for (var j = 0; j < (arr.length - i - 1); j++) {
-         
-                    // Checking if the item at present iteration 
-                    // is greater than the next iteration
-                    if (arr[j] > arr[j + 1]) {
-         
-                        // If the condition is true
-                        // then swap them
-                        var temp = arr[j]
-                        arr[j] = arr[j + 1]
-                        arr[j + 1] = temp
-                    }
-                }
+    useEffect(() => {
+        apiCall()
+    }, [])
+
+    const apiCall = async () => {
+        const user_token = await AsyncStorage.getItem(Storage.user_token)
+        let config = {
+            method: 'get',
+            url: 'http://45.79.123.102:49002/api/homepage/contact/us',
+            headers: {
+                'Authorization': `${user_token}`
             }
-         
-            // Print the sorted array
-            console.log(arr);
-        }
-         
-        // This is our unsorted array
-        var arr = [234, 43, 55, 63, 5, 6, 235, 547];
-         
-        // Now pass this array to the bblSort() function
-        bblSort(arr);
-        
+        };
+        setLoader(true)
+        axios.request(config)
+            .then((response) => {
+                if (response.data.code == '200') {
+                    // Toast.show(response.data.message)
+                    setContact(response.data.data)
+                    setLoader(false)
+                }
+                else {
+                    setLoader(false)
+                    Toast.show(response.data.message)
+                }
+                console.log(JSON.stringify(response.data));
+            })
+            .catch((error) => {
+                setLoader(false)
+                console.log(error);
+            });
+
     }
 
-    const handleBannerData=async()=>{
-        const user_token=await AsyncStorage.getItem(Storage.user_token)
-        console.log('this is user token',user_token);
-        let arr=[]
+    const handleBannerData = async () => {
+        const user_token = await AsyncStorage.getItem(Storage.user_token)
+        let arr = []
         setLoader(true)
         axios({
             method: 'get',
             url: 'http://45.79.123.102:49002/api/slider/all/1',
             headers: `Authorization: ${user_token}`
-          })
-          .then(function(response) {
-            if(response.data.code=='200'){
-                response.data.data.map((item)=>
-                arr.push({img:item.banner})
-                )
-                setBanner(arr)
-                console.log('this is response',response.data.data);
-              setLoader(false)
-            }
-            else{
-              setLoader(false)
-              Toast.show(response.data.message )
-            }
-          })
-          .catch(function(error) {
-            setLoader(false)
-            console.log("error", error.response.data)
-            Toast.show(error.response.data.message)
-          })
+        })
+            .then(function (response) {
+                if (response.data.code == '200') {
+                    response.data.data.map((item) =>
+                        arr.push({ img: item.banner })
+                    )
+                    setBanner(arr)
+                    console.log('this is response', response.data.data);
+                    setLoader(false)
+                }
+                else {
+                    setLoader(false)
+                    Toast.show(response.data.message)
+                }
+            })
+            .catch(function (error) {
+                setLoader(false)
+                console.log("error", error.response.data)
+                Toast.show(error.response.data.message)
+            })
     }
 
-    const onItemPress=(title)=>{
-        if(title=='ZBW News'){
+    const onItemPress = (title) => {
+        if (title == 'ZBW News') {
             navigation.navigate('ZBWNews')
         }
-        else if(title=='Events'){
+        else if (title == 'Events') {
             navigation.navigate('Events')
         }
-        else if(title=='Become a Member'){
+        else if (title == 'Become a Member') {
             navigation.navigate('BecomeAMember')
         }
-        else if(title=='Secondary Member'){
+        else if (title == 'Secondary Member') {
             navigation.navigate('SecondaryMember')
         }
-        else if(title=='Legal Support'){
+        else if (title == 'Legal Support') {
             navigation.navigate('LegalSupport')
         }
-        else if(title=='Order Copies'){
+        else if (title == 'Order Copies') {
             navigation.navigate('OrderCopies')
         }
-        else if(title=='Complaints'){
+        else if (title == 'Complaints') {
             navigation.navigate('Complaints')
         }
-        else if(title=='Price Chart'){
+        else if (title == 'Price Chart') {
             navigation.navigate('Market')
         }
-        else if(title=='Our Partners'){
+        else if (title == 'Our Partners') {
             navigation.navigate('OurPartner')
         }
     }
-console.log('this is aray forr banner',banner);
+    console.log('this is aray forr banner', banner);
     return (
         <View style={styles.container}>
-            {loader?<Loader/>:null}
-                <View style={styles.header}>
-                    <TouchableOpacity
-                    onPress={()=>navigation.openDrawer()}
-                    >
+            {loader ? <Loader /> : null}
+            <View style={styles.header}>
+                <TouchableOpacity
+                    onPress={() => navigation.openDrawer()}
+                >
                     <Menu />
-                    </TouchableOpacity>
-                    <Bell />
+                </TouchableOpacity>
+                <TouchableOpacity
+                //  onPress={()=>setPremium(true)}
+                 >
+                <Bell />
+                </TouchableOpacity>
+            </View>
+            <ScrollView style={{}}>
+                <View style={{ alignItems: 'flex-end' }}>
+                    <Image
+                        style={styles.img}
+                        source={require('../../../assets/HomeImage/image7.png')} />
                 </View>
-                <ScrollView style={{ }}>
-                <View style={{alignItems:'flex-end'}}>
-                    <Image 
-                    style={styles.img}
-                     source={require('../../../assets/HomeImage/image7.png')}/>
-                  </View>
                 <View style={styles.slider}>
-                    <ImageSlider
+                    {banner.length > 1 ? <ImageSlider
                         data={banner}
                         // localImg
-                        autoPlay={true}
-                        preview
+                        // autoPlay={true}
+                        preview={false}
                         caroselImageContainerStyle={{
-                            width: Dimensions.get('window').width
+                            width: Dimensions.get('window').width-40,
+                            // paddingLeft:20
                         }}
                         caroselImageStyle={{
-                            width: Dimensions.get('window').width-40,                            
-                            height:180,
-                            justifyContent:'space-between',
-                            borderWidth:1,
-                            borderRadius:20
+                            width: Dimensions.get('window').width - 40,
+                            height: 180,
+                            justifyContent: 'space-between',
+                            borderWidth: 1,
+                            borderRadius: 20
                         }}
                         indicatorContainerStyle={{
-                            bottom:-25
+                            bottom: -25
                         }}
                         inActiveIndicatorStyle={{
-                           backgroundColor:'#000000',
-                           height:8,
-                           width:8
+                            backgroundColor: '#000000',
+                            height: 8,
+                            width: 8
                         }}
                         activeIndicatorStyle={{
-                           backgroundColor:'#FCDA64',
-                           height:8,
-                           width:8
+                            backgroundColor: '#FCDA64',
+                            height: 8,
+                            width: 8
                         }}
-                    />
+                    /> :
+                        <View style={{ marginTop: -20 }}>
+                            <Image
+                                resizeMode="center"
+                                style={{
+                                    width: Dimensions.get('window').width - 40,
+                                    height: 180, borderWidth: 1,
+                                    borderRadius: 20
+                                }}
+                                source={{ uri: banner[0]?.img }} />
+                        </View>
+                    }
                 </View>
-                <View style={{marginTop:-24}}>
-                    <Image style={styles.img1} source={require('../../../assets/HomeImage/image8.png')}/>
+                <View style={{ marginTop: -24 }}>
+                    <Image style={styles.img1} source={require('../../../assets/HomeImage/image8.png')} />
                 </View>
                 <View style={styles.view}>
                     <FlatList
-                    data={data}
-                    numColumns={2}
-                    renderItem={({item,index})=>(
-                        <TouchableOpacity
-                        activeOpacity={0.5}
-                        onPress={()=>onItemPress(item.name)}
-                         style={styles.item}>
+                        data={data}
+                        numColumns={2}
+                        renderItem={({ item, index }) => (
+                            <TouchableOpacity
+                                activeOpacity={0.5}
+                                onPress={() => onItemPress(item.name)}
+                                style={styles.item}>
                                 {item.img}
                                 <Text style={styles.name}>{item.name}</Text>
-                        </TouchableOpacity>
+                            </TouchableOpacity>
                         )}
                     />
                 </View>
             </ScrollView>
             <Modal isVisible={isVisible}>
-                <View style={styles.modal}>
+                <View style={{ backgroundColor: '#FDEDB1', 
+        height: 125, 
+        borderRadius: 16, 
+        paddingLeft: 20, 
+        width: '84%', 
+        alignSelf: 'center' }}>
                     <View style={styles.row}>
-                      <Text style={styles.contact}>Contact Us</Text>
-                    <TouchableOpacity 
-                    onPress={()=>setVisible(false)}
-                     style={styles.touch}>
-                        <CircleCross/>
-                    </TouchableOpacity>
+                        <Text style={styles.contact}>Contact Us</Text>
+                        <TouchableOpacity
+                            onPress={() => setVisible(false)}
+                            style={styles.touch}>
+                            <CircleCross />
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.view1}>
-                        <TouchableOpacity style={styles.touch1}>
-                            <Call/>
+                        <TouchableOpacity
+                        onPress={()=>{
+                            setVisible(false)
+                            Linking.openURL(`tel:${contact.phone}`)
+                           
+                        }}
+                         style={styles.touch1}>
+                            <Call />
                             <Text style={styles.text}>Call</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.emailContainer}>
-                            <Gmail/>
+                        <TouchableOpacity
+                         onPress={()=>{
+                            setVisible(false)
+                            Linking.openURL(`mailto:${contact.email}`)
+                            // Linking.openURL(`tel:${contact.phone}`)
+                           
+                        }}
+                         style={styles.emailContainer}>
+                            <Gmail />
                             <Text style={styles.email}>Gmail</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.touch2}>
-                            <Whatsapp/>
+                        <TouchableOpacity
+                         onPress={()=>{
+                            Linking.openURL(`whatsapp://send?text= &phone=  ${contact.whatsapp};`)
+                            setVisible(false)
+                        }}
+                         style={styles.touch2}>
+                            <Whatsapp />
                             <Text style={styles.text}>Whatsapp</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
+            <Modal isVisible={isPremium}>
+                <View style={styles.modal}>
+                    <View style={{alignItems:'center',marginTop:10}}>
+                        <Text style={{color:'#000',fontFamily:'Montserrat-Bold',fontSize:18}}>Go Pro!</Text>
+                    </View>
+                    <View style={{alignItems:'center',marginTop:10}}>
+                        <Text style={{color:'#000',fontFamily:'Montserrat-SemiBold',fontSize:14,textAlign:'center'}}>{'Become a member and join access to all the premium features'}</Text>
+                    </View>
+                    <View style={styles.view1}>
+                    <FlatList
+                        data={data1}
+                        numColumns={2}
+                        renderItem={({ item, index }) => (
+                            <TouchableOpacity
+                                activeOpacity={0.5}
+                                // onPress={() => onItemPress(item.name)}
+                                style={styles.item}>
+                                {item.img}
+                                <Text style={styles.name}>{item.name}</Text>
+                            </TouchableOpacity>
+                        )}
+                    />
+                    </View>
+                    <View style={{alignItems:'center',marginTop:20,marginBottom:20}}>
+                        <TouchableOpacity
+                        onPress={()=>{
+                            onItemPress('Become a Member')
+                            setPremium(false)
+                        }}
+                        style={{
+                            backgroundColor:'#fff',
+                            paddingHorizontal:20,
+                            paddingVertical:10,
+                            borderRadius:10
+                        }}>
+                            <Text style={{fontSize:16,color:'#000',fontFamily:'Montserrat-Bold'}}>Become a member</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{alignItems:'center',marginBottom:20}}>
+                        <Text onPress={()=>setPremium(false)} style={{fontSize:18,fontFamily:'Montserrat-Bold',color:'#000'}}>NO THANKS</Text>
+                    </View>
+                </View>
+            </Modal>
 
-            <BottomTab 
-            onPress={()=>setVisible(true)}
+            <BottomTab
+                onPress={() => setVisible(true)}
             />
         </View>
     )
 }
 export default HomeScreen;
 
-const data=[
+const data1=[
     {
-        img:<Image15/>,
-        name:'ZBW News'
+        img: <Image18 />,
+        name: 'Complaints'
     },
     {
-        img:<Image16/>,
-        name:'Become a Member'
+        img: <Image17 />,
+        name: 'Secondary Member'
     },
     {
-        img:<Image17/>,
-        name:'Secondary Member'
+        img: <Image22 />,
+        name: 'Order Copies'
     },
     {
-        img:<Image18/>,
-        name:'Complaints'
+        img: <Image23 />,
+        name: 'Legal Support'
+    },
+    
+]
+
+const data = [
+    {
+        img: <Image15 />,
+        name: 'ZBW News'
     },
     {
-        img:<Image19/>,
-        name:'Events'
+        img: <Image16 />,
+        name: 'Become a Member'
     },
     {
-        img:<Image20/>,
-        name:'Our Partners'
+        img: <Image17 />,
+        name: 'Secondary Member'
     },
     {
-        img:<Image22/>,
-        name:'Order Copies'
+        img: <Image18 />,
+        name: 'Complaints'
     },
     {
-        img:<Image21/>,
-        name:'Price Chart'
+        img: <Image19 />,
+        name: 'Events'
     },
     {
-        img:<Image23/>,
-        name:'Legal Support'
+        img: <Image20 />,
+        name: 'Our Partners'
+    },
+    {
+        img: <Image22 />,
+        name: 'Order Copies'
+    },
+    {
+        img: <Image21 />,
+        name: 'Price Chart'
+    },
+    {
+        img: <Image23 />,
+        name: 'Legal Support'
     },
 ]

@@ -11,7 +11,7 @@ export default StyleSheet.create({
   otp: {
     fontSize: 12,
     color: '#FFFFFF',
-    width: 16,
+    width: 26,
     alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'center',

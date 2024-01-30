@@ -55,10 +55,10 @@ export default StyleSheet.create({
     },
     modal: { 
         backgroundColor: '#FDEDB1', 
-        height: 125, 
+        // height: 125, 
         borderRadius: 16, 
-        paddingLeft: 20, 
-        width: '84%', 
+        paddingLeft: 10, 
+        width: '94%', 
         alignSelf: 'center' 
     },
     row: { 

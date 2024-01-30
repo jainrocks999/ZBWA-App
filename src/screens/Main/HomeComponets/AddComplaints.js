@@ -29,6 +29,7 @@ const AddComplaints = () => {
 
     const handlePress=async()=>{
      const user_token =await AsyncStorage.getItem(Storage.user_token)
+     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
         if(firstName==''){
            Toast.show('Please enter first name')
         }
@@ -38,11 +39,26 @@ const AddComplaints = () => {
         else if(phone==''){
             Toast.show('Please enter phone number')
         }
+        else if(phone.length<10){
+            Toast.show('Please enter 10 digit phone number ')
+        }
+        else if(firmName==''){
+            Toast.show('Please enter firm name')
+        }
+        else if(email==''){
+            Toast.show('Please enter email address')
+        }
+        else if(reg.test(email) === false){
+            Toast.show('Please enter valid email address')
+        }
         else if(address==''){
             Toast.show('Please enter your full address')
         }
         else if(value==null){
             Toast.show('Please select issue type')
+        }
+        else if(description==''){
+            Toast.show('Please enter description')
         }
         else{
             setLoader(true)
@@ -117,6 +133,7 @@ const AddComplaints = () => {
                         <TextInput 
                          value={phone}
                          onChangeText={(val)=>setPhone(val)}
+                         maxLength={10}
                          style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
                          keyboardType="number-pad"
                         />
@@ -188,6 +205,7 @@ const AddComplaints = () => {
                         <TextInput 
                          ref={inputRef}
                          value={description}
+                         multiline
                          onChangeText={(val)=>setDescription(val)}
                          style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
                         />
@@ -291,8 +309,11 @@ const styles = StyleSheet.create({
     }
 });
 const data = [
-    { label: 'Return Of Property', value: 'Return Of Property' },
-    { label: 'Cheating', value: 'Cheating' },
     { label: 'Theft', value: 'Theft' },
-
+    { label: 'Robbery', value: 'Robbery' },
+    { label: 'Cheating', value: 'Cheating' },
+    { label: 'Extortion', value: 'Extortion' },
+    { label: 'Labour issue', value: 'Labour issue' },
+    { label: 'Return Of Property', value: 'Return Of Property' },
+    { label: 'Other', value: 'Other' },
 ];

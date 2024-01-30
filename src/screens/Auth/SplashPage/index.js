@@ -15,7 +15,10 @@ const Splash = () => {
   const initial = async () => {
     let Token = await AsyncStorage.getItem('user_token');
     if (!Token) {
-      setTimeout(() => navigation.replace('Login'), 2000);
+      // setTimeout(() => navigation.replace('Login'), 2000);
+      setTimeout(() => {
+        navigation.replace('FirstPage')
+      }, 2000);
     } else {
       setTimeout(() => navigation.replace('Home'), 2000);
     }

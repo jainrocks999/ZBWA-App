@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState,useEffect } from "react";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet,ScrollView } from "react-native";
 import Upload from "../../assets/Icon/Upload.svg";
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import BackArrow from "../../assets/Icon/BackArrow.svg";
@@ -10,11 +10,16 @@ import Storage from "../LocalStorage";
 import Toast from "react-native-simple-toast";
 import Loader from "../Loader";
 import axios from "axios";
+import Modal from "react-native-modal";
 import FormData, { getHeaders } from 'form-data';
+import CircleCross from "../../assets/Icon/CircleCross.svg";
+import HTMLView from "react-native-htmlview";
 
 const Documentation = ({ onPress }) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false)
   const [loader, setLoader] = useState(false)
+  const [data,setData]=useState()
+  const [isVisible,setVisible]=useState(false)
 
   const [photo, setPhoto] = useState('')
   const [photoName, setPhotoName] = useState('')
@@ -40,8 +45,41 @@ const Documentation = ({ onPress }) => {
   const [bisName, setBisName] = useState('')
   const [bisType, setBisType] = useState('')
 
- const arr = ['a', 'b', 'c'];
-console.log('this is arr',arr.join(','));
+
+  useEffect(()=>{
+    apiCall()
+  },[])
+
+  const apiCall = async () => {
+
+    const user_token = await AsyncStorage.getItem(Storage.user_token)
+
+    let config = {
+        method: 'get',
+        url: 'http://45.79.123.102:49002/api/homepage/term/condition',
+        headers: {
+            'Authorization': `${user_token}`
+        }
+    };
+    setLoader(true)
+    axios.request(config)
+        .then((response) => {
+            if (response.data.code == '200') {
+                // Toast.show(response.data.message)
+                setData(response.data.data)
+                setLoader(false)
+            }
+            else {
+                setLoader(false)
+                // Toast.show(response.data.message)
+            }
+            console.log(JSON.stringify(response.data));
+        })
+        .catch((error) => {
+            setLoader(false)
+            console.log(error);
+        });
+}
 
   const becomeAmember = async () => {
 
@@ -53,7 +91,6 @@ console.log('this is arr',arr.join(','));
     const personalEmergencyNumber = await AsyncStorage.getItem(Storage.personalEmergencyNumber)
     const personalDob = await AsyncStorage.getItem(Storage.personalDob)
     const addMoreArray=await AsyncStorage.getItem(Storage.addMoreArray)
-
     const businessName = await AsyncStorage.getItem(Storage.businessName)
     const gstNumber = await AsyncStorage.getItem(Storage.businessGst)
     const bussinessAddress = await AsyncStorage.getItem(Storage.businessAddress)
@@ -63,43 +100,43 @@ console.log('this is arr',arr.join(','));
    
     const user_token = await AsyncStorage.getItem(Storage.user_token)
 
-    if(personalAddress==''){
+    if(personalAddress=='' || personalAddress==null){
        Toast.show('Please fill Personal Details')
     }
-    else if(personalLocation==''){
+    else if(personalLocation=='' || personalLocation==null){
       Toast.show('Please fill Personal Details')
     }
-    else if(personalPincode==''){
+    else if(personalPincode=='' || personalPincode==null){
       Toast.show('Please fill Personal Details')
     }
-    else if(personalPhoneNumber==''){
+    else if(personalPhoneNumber=='' || personalPhoneNumber==null){
       Toast.show('Please fill Personal Details')
     }
-    else if(personalEmail==''){
+    else if(personalEmail=='' || personalEmail==null){
       Toast.show('Please fill Personal Details')
     }
-    else if(personalEmergencyNumber==''){
+    else if(personalEmergencyNumber=='' || personalEmergencyNumber==null){
       Toast.show('Please fill Personal Details')
     }
-    else if(personalDob==''){
+    else if(personalDob=='' || personalDob==null){
       Toast.show('Please fill Personal Details')
     }
-    else if(businessName==''){
+    else if(businessName=='' || businessName==null){
       Toast.show('Please fill Business Details')
     }
-    else if(gstNumber==''){
+    else if(gstNumber=='' || gstNumber==null){
       Toast.show('Please fill Business Details')
     }
-    else if(bussinessAddress==''){
+    else if(bussinessAddress=='' || bussinessAddress==null){
       Toast.show('Please fill Business Details')
     }
-    else if(businessLocation==''){
+    else if(businessLocation=='' || businessLocation==null){
       Toast.show('Please fill Business Details')
     }
-    else if(businessPhone==''){
+    else if(businessPhone=='' || businessPhone ==null){
       Toast.show('Please fill Business Details')
     }
-    else if(businessEmail==''){
+    else if(businessEmail=='' || businessEmail ==null){
       Toast.show('Please fill Business Details')
     }
     else if (photoName == '') {
@@ -390,7 +427,9 @@ console.log('this is arr',arr.join(','));
         />
         <View style={{ flexDirection: 'row' }}>
           <Text style={{ fontSize: 15, marginLeft: 10, color: '#000', fontFamily: 'Montserrat-Regular' }}>{'I agree to the '}</Text>
-          <Text style={{ borderBottomWidth: 1, borderBottomColor: '#000', fontSize: 15, color: '#000' }}>Terms and Conditions</Text>
+          
+          <Text onPress={()=>setVisible(true)}
+           style={{ borderBottomWidth: 1, borderBottomColor: '#000', fontSize: 15, color: '#000' }}>Terms and Conditions</Text>
         </View>
       </View>
       <View style={styles.bottom}>
@@ -406,6 +445,28 @@ console.log('this is arr',arr.join(','));
         </TouchableOpacity>
         <View style={{ width: 40 }} />
       </View>
+      <Modal isVisible={isVisible}>
+        <View style={{ backgroundColor: '#FDEDB1', 
+        borderRadius: 16, 
+        paddingBottom: 20 }}>
+        <TouchableOpacity
+                        onPress={() => setVisible(false)}
+                        style={{ alignSelf: 'flex-end', margin: 5 }}>
+                        <CircleCross />
+                    </TouchableOpacity>
+                    <ScrollView style={{padding:20}}>
+           {data? <HTMLView
+                value={data
+                  .trim()
+                    .replace(new RegExp('<p>', 'g'), '<span>')
+                  }
+                addLineBreaks={false}
+            />:null}
+            <View style={{height:30}}/>
+            </ScrollView>
+
+        </View>
+      </Modal>
     </View>
   )
 }

@@ -4,6 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import ForwardArrow from "../../../assets/Icon/ForwardArrow.svg";
 import Arrow from "../../../assets/Icon/Arrow.svg";
 import Eye from "../../../assets/Icon/eye.svg"
+import Eye1 from "../../../assets/Icon/eye1.svg"
 import { useNavigation } from "@react-navigation/native";
 import LinearGradient from 'react-native-linear-gradient';
 import styles from "./style";
@@ -19,13 +20,20 @@ const Login = () => {
   const [mobile,setMobile]=useState('')
   const [pin,setPin]=useState('')
   const [loader,setLoader]=useState(false)
+  const [visible,setVisible]=useState(true)
 
   const userLogin =()=>{
     if(mobile==''){
       Toast.show('Please enter your phone number')
     }
+    else if(mobile.length<10){
+      Toast.show('Please enter 10 digit phone number')
+    }
     else if(pin==''){
-      Toast.show('Please enter your pin')
+      Toast.show('Please enter your mPin')
+    }
+    else if(pin.length<4){
+      Toast.show('Please enter 4 digit mMin')
     }
     else{
       setLoader(true)
@@ -45,7 +53,11 @@ const Login = () => {
         AsyncStorage.setItem(Storage.user_id,response.data.data._id)
         AsyncStorage.setItem(Storage.username,response.data.data.name)
         AsyncStorage.setItem(Storage.user_token,response.data.data.token)
-        navigation.replace('Home')
+        // navigation.replace('Home')
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+      })
       }
       else{
         setLoader(false)
@@ -106,6 +118,7 @@ const Login = () => {
                         onChangeText={(value)=>setMobile(value)}
                         value={mobile}
                         keyboardType="number-pad"
+                        maxLength={10}
                       />
                     </View>
                     <View style={styles.inputContainer}>
@@ -116,8 +129,19 @@ const Login = () => {
                         keyboardType="number-pad"
                         value={pin}
                         onChangeText={(value)=>setPin(value)}
+                        secureTextEntry={visible}
+                        maxLength={4}
                       />
-                      <Eye />
+                      {/* <Eye /> */}
+                      {visible?
+                      <TouchableOpacity onPress={()=>setVisible(!visible)}>
+                      <Eye/>
+                      </TouchableOpacity>
+                      :
+                      <TouchableOpacity onPress={()=>setVisible(!visible)}>
+                      <Eye1/>
+                      </TouchableOpacity>
+                      }
                     </View>
                     <View style={{ marginTop: 0 }}>
                       <Text

@@ -8,6 +8,7 @@ import {
   Platform,
   SafeAreaView,
   FlatList,
+  StatusBar
 } from 'react-native';
 import 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
@@ -62,7 +63,7 @@ const App = () => {
         <Provider store={Store}>
           <RootApp />
         </Provider>
-        {/* <StatusBar /> */}
+        <StatusBar backgroundColor={'#000'}/>
       </SafeAreaView>
     </Fragment>
   );

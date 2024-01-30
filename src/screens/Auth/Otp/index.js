@@ -150,8 +150,8 @@ const OtpPage = ({route}) => {
                         keyboardType={'numeric'}
                         style={styles.inputView}
                         defaultValue={code}
-                        value={code}
-                        // inputContainerStyles={[styles.otp]}
+                        // value={code}
+                        inputContainerStyles={{width:35,alignItems:'center'}}
                         inputStyles={styles.otp}
                       />
                     </View>

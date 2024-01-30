@@ -4,65 +4,71 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import BackArrow from "../../../assets/Icon/BackArrow.svg";
 import Arrow from "../../../assets/Icon/Arrow.svg";
 import { useNavigation } from "@react-navigation/native";
-import Eye from "../../../assets/Icon/eye.svg";
-import Eye1 from "../../../assets/Icon/eye1.svg";
-import styles from "./styles";
+import OtpInputs from "react-native-otp-inputs";
+import styles from "./style";
 import LinearGradient from "react-native-linear-gradient";
 import LottieView from 'lottie-react-native';
 import axios from "axios";
 import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Storage from "../../../components/LocalStorage";
 
 const CreatePassword = ({route}) => {
 
   const navigation = useNavigation()
-  const [newPass, setNewPass] = useState('')
-  const [confirmPass,setConfirmPass]=useState('')
+  const [pin,setPin]=useState('')
+  const [confirm,setConfirm]=useState('')
   const [loader,setLoader]=useState(false)
-  const [eye,setEye]=useState(true)
-  const [eye1,setEye1]=useState(true)
-  const changePassword=()=>{
-    // 
-    if(newPass==''){
-      Toast.show('Please enter your new password')
+
+  const createPin =async()=>{
+    const user_id=await AsyncStorage.getItem(Storage.user_id)
+    if(pin==''){
+      Toast.show('Please enter new mPIN')
     }
-    else if(confirmPass==''){
-      Toast.show(`Please enter confirm password`)
+    else if(confirm==''){
+      Toast.show('Please enter confirm mPIN')
     }
-    else if(newPass != confirmPass){
-      Toast.show('New password and confirm password must be same')
+    else if(pin!=confirm){
+      Toast.show('mPIN and confirm mPIN need to be same')
     }
     else{
       setLoader(true)
-      axios({
-        method: 'post',
-        url: 'http://45.79.123.102:49002/api/user/change/pass',
-        data: {
-          "password": newPass,
-          "mobile": route.params.mobile
+    axios({
+      method: 'post',
+      url: 'http://45.79.123.102:49002/api/user/set/mpin',
+      data: {
+        "mpin": pin,
+        "userId":route.params.data
       }
-      })
+    })
     .then(function(response) {
       if(response.data.code=='200'){
         setLoader(false)
+        console.log('this is resposs',response.data.data.token);
         Toast.show(response.data.message )
-        navigation.navigate('Login')
-        console.log('this is response',response.data);
+        // AsyncStorage.setItem(Storage.user_id,response.data.data._id)
+        // AsyncStorage.setItem(Storage.user_token,response.data.data.token)
+        // // navigation.replace('Home')
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Login' }],
+        })
       }
       else{
         setLoader(false)
         Toast.show(response.data.message )
       }
-      setLoader(false)
     })
     .catch(function(error) {
       setLoader(false)
-      console.log("error", error.response.data)
-      Toast.show(error?.response?.data?.message)
+      Toast.show(error.response.data.message)
       console.log("error", error)
     })
-    }
+   }
   }
+
+
 
   return (
     <LinearGradient colors={['#FFFBD3', '#FFFFFF', '#FFF8BA']} style={{ flex: 1 }}>
@@ -74,12 +80,7 @@ const CreatePassword = ({route}) => {
        keyboardShouldPersistTaps="handled"
        behavior={Platform.OS === "ios" ? "padding" : "height"}
        contentContainerStyle={{ flexGrow: 1 }}>    
-
-         
-          <View style={{
-            // position:'absolute',bottom:135,left:0,right:0
-
-            }}>
+          <View>
             <View style={styles.lottieView}>
             <View style={{ height: 310 }}>
               <LottieView style={styles.lottie} source={require('../../../assets/Json/Mpin-forgotpass animation.json')} autoPlay loop />
@@ -101,52 +102,34 @@ const CreatePassword = ({route}) => {
               <View style={{ alignItems: 'center' }}>
                 <View style={styles.black}>
                   <View style={styles.view1}>
-                    <Text style={styles.you}>You want to change your password?</Text>
-                    <Text style={styles.forgot}>Create Password</Text>
+                    <Text style={styles.you}>Setup your mPIN?</Text>
+                    <Text style={styles.forgot}>mPIN</Text>
                     <View style={{ marginTop: 0 }}>
                       <View style={styles.inputView}>
                         <TextInput style={styles.input}
-                          placeholder="New Password"
-                          keyboardType="default"
+                          placeholder="New mPIN"
+                          keyboardType="number-pad"
                           placeholderTextColor={'#FFFFFF'}
-                          value={newPass}
-                          onChangeText={(val)=>setNewPass(val)}
-                          secureTextEntry={eye}
+                          value={pin}
+                          onChangeText={(val)=>setPin(val)}
+                          maxLength={4}
                         />
-                         {eye?
-                      <TouchableOpacity onPress={()=>setEye(!eye)}>
-                      <Eye/>
-                      </TouchableOpacity>
-                      :
-                      <TouchableOpacity onPress={()=>setEye(!eye)}>
-                      <Eye1/>
-                      </TouchableOpacity>
-                      }
                       </View>
                       <View style={styles.inputView}>
                         <TextInput style={styles.input}
-                          placeholder="Confirm Password"
-                          keyboardType="default"
+                          placeholder="Confirm mPIN"
+                          keyboardType="number-pad"
                           placeholderTextColor={'#FFFFFF'}
-                          value={confirmPass}
-                          onChangeText={(val)=>setConfirmPass(val)}
-                          secureTextEntry={eye1}
+                          value={confirm}
+                          onChangeText={(val)=>setConfirm(val)}
+                          maxLength={4}
                         />
-                       {eye1?
-                      <TouchableOpacity style={{padding:6}} onPress={()=>setEye1(!eye1)}>
-                      <Eye/>
-                      </TouchableOpacity>
-                      :
-                      <TouchableOpacity style={{padding:6}} onPress={()=>setEye1(!eye1)}>
-                      <Eye1/>
-                      </TouchableOpacity>
-                      }
                       </View>
                     </View>
                   </View>
                   <View style={{ marginTop: 57, alignItems: 'flex-end' }}>
                     <TouchableOpacity
-                    onPress={()=>changePassword()}
+                     onPress={()=>createPin()}
                      style={styles.button}>
                       <Text style={styles.verify}>Verify</Text>
                       <Arrow />

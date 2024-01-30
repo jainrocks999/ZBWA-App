@@ -12,6 +12,7 @@ import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
+import { EntryExitTransition, SharedTransitionType } from "react-native-reanimated";
 
 const Login = () => {
 
@@ -24,29 +25,38 @@ const Login = () => {
     if(mobile==''){
       Toast.show('Please enter your phone number')
     }
-    else if(password==''){
-      Toast.show('Please enter your password')
+   else if(mobile.length<10){
+      Toast.show('Please enter 10 digit phone number')
     }
     else{
       setLoader(true)
     axios({
       method: 'post',
-      url: 'http://45.79.123.102:49002/api/user/login',
+      url: 'http://45.79.123.102:49002/api/user/check/first/login',
       data: {
         "mobile": mobile,
-        "action": "password",
-        "password": password
       }
     })
     .then(function(response) {
       if(response.data.code=='200'){
         setLoader(false)
-        console.log('this is resposs',response.data);
         Toast.show(response.data.message )
-        AsyncStorage.setItem(Storage.user_id,response.data.data._id)
-        AsyncStorage.setItem(Storage.username,response.data.data.name)
-        AsyncStorage.setItem(Storage.user_token,response.data.data.token)
-        navigation.replace('Home')
+        console.log('this detal',response.data);
+        if(response.data.data==null){
+          navigation.replace('Login')
+        }
+        if(response.data.data.firstLogin==false){
+          navigation.replace('Login')
+        }
+        else if(response.data.data.firstLogin==true){
+          // setMobile('')
+          navigation.replace('Login')
+          // navigation.navigate('CreatemPinForOldUser',{
+          //   data:response.data.data._id
+          // })
+        }
+        // data:response.data.data._id
+        // navigation.replace('Home')
       }
       else{
         setLoader(false)
@@ -103,7 +113,8 @@ const Login = () => {
                         placeholderTextColor={'#FFFFFF'}
                         value={mobile}
                         onChangeText={(val)=>setMobile(val)}
-                        keyboardType="phone-pad"
+                        keyboardType="number-pad"
+                        maxLength={10}
                       />
                     </View>
                    
@@ -111,10 +122,10 @@ const Login = () => {
                   </View>
                   <View style={{ marginTop: 118, alignItems: 'flex-end' }}>
                     <TouchableOpacity
-                    //   onPress={() => 
-                    //     // navigation.replace('Home')
-                    //     // userLogin()
-                    //   }
+                      onPress={() => 
+                        // navigation.replace('Home')
+                        userLogin()
+                      }
                       style={styles.button}>
                       <Text style={styles.text}>Login</Text>
                       <Arrow />
