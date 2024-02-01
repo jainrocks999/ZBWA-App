@@ -49,20 +49,29 @@ const EventDetails = ({ route }) => {
 
 
     const renderDate = (date) => {
-        var d = new Date(date)
-        month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear();
-
-        if (month.length < 2)
-            month = '0' + month;
+        const d = new Date(date);
+        let day = d.getDate();
+        let year=d.getFullYear()
         if (day.length < 2)
             day = '0' + day;
-
-        var finalDate = [month, day, year].join('/');
+        const month = d.toLocaleString('default', { month: 'short' });
         return (
-            <Text style={{ color: '#000', fontFamily: 'Montserrat-Medium', fontSize: 13 }}>{finalDate}</Text>
+            <Text numberOfLines={2} style={{color: '#000', fontFamily: 'Montserrat-Medium', fontSize: 13}}>{`${day} ${month}, ${year}`}</Text>
         )
+        // var d = new Date(date)
+        // month = '' + (d.getMonth() + 1),
+        //     day = '' + d.getDate(),
+        //     year = d.getFullYear();
+
+        // if (month.length < 2)
+        //     month = '0' + month;
+        // if (day.length < 2)
+        //     day = '0' + day;
+
+        // var finalDate = [month, day, year].join('/');
+        // return (
+        //     <Text style={{ color: '#000', fontFamily: 'Montserrat-Medium', fontSize: 13 }}>{finalDate}</Text>
+        // )
     }
 
 

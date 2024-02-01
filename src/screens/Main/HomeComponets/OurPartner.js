@@ -1,5 +1,5 @@
 import react, { useState ,useEffect} from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet,Image } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet,Image,Linking } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import Plus from "../../../assets/Icon/Plus.svg";
@@ -74,8 +74,12 @@ const OurPartner = () => {
                                 </View>
                                 <View style={{ marginLeft: 15 }}>
                                     <Text style={styles.title}>{item.name}</Text>
+                                    <TouchableOpacity onPress={()=>Linking.openURL(`tel:${item.number}`)}>
                                     <Text style={styles.number}>{item.number}</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={()=>Linking.openURL(`mailto:${item.email}`)}>
                                     <Text style={styles.email}>{item.email}</Text>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                         </TouchableOpacity>

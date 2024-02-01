@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from "react";
-import { View,Text,FlatList,StyleSheet } from "react-native";
+import { View,Text,FlatList,StyleSheet,Dimensions } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -8,6 +8,7 @@ import Loader from "../../../components/Loader";
 import Toast from "react-native-simple-toast";
 import axios from "axios";
 import HTMLView from "react-native-htmlview";
+import Image from "react-native-scalable-image";
 const ZBWNews=()=>{
     const navigation=useNavigation()
     const [loader,setLoader]=useState(false)
@@ -57,17 +58,21 @@ const ZBWNews=()=>{
                 <View>
                     <FlatList
                      data={news}
+                     style={{marginBottom:130}}
                      renderItem={({item})=>(
-                        <View style={styles.view}>
+                        <View style={styles.view}>                           
                            <Text style={styles.title}>{item.title}</Text>
                            <Text style={styles.date}>{'22 Sept, 2023'}</Text>
-                           {/* <Text style={styles.date}>{item.description}</Text> */}
                            <HTMLView
                             addLineBreaks={false}
-                            value={item.description.replace(/(<\/.+>)(\s+)(<)/g, '$1$1')}
-                        //   value={`<div>${selector.trim().replace(regex, '')}</div>`}
-
+                            value={item.description.trim()
+                                .replace(new RegExp('<p>', 'g'), '<span>')}
                         />
+                        {item.multi_image[0].image?<View style={{marginTop:20,marginBottom:20}}>
+                         <Image
+                            width={Dimensions.get('window').width - 68}
+                            source={{ uri: item.multi_image[0].image }}></Image>
+                        </View>:null}
                         </View>
                      )}
                     />

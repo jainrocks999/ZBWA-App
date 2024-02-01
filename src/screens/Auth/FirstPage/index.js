@@ -50,10 +50,11 @@ const Login = () => {
         }
         else if(response.data.data.firstLogin==true){
           // setMobile('')
-          navigation.replace('Login')
-          // navigation.navigate('CreatemPinForOldUser',{
-          //   data:response.data.data._id
-          // })
+          // navigation.replace('Login')
+          navigation.navigate('CreatemPinForOldUser',{
+            data:response.data.data._id,
+            mobile:mobile
+          })
         }
         // data:response.data.data._id
         // navigation.replace('Home')

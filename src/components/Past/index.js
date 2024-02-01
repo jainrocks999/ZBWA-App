@@ -12,6 +12,7 @@ const Past = () => {
     const [loader, setLoader] = useState(false)
     const [pastData, setPastData] = useState()
     const navigation =useNavigation()
+    const [page,setPage]=useState(1)
 
     useEffect(() => {
         handleApi()
@@ -23,12 +24,12 @@ const Past = () => {
         setLoader(true)
         axios({
             method: 'get',
-            url: 'http://45.79.123.102:49002/api/event/all/past/1',
+            url: `http://45.79.123.102:49002/api/event/all/past/${page}`,
             headers: `Authorization: ${user_token}`
         })
             .then(function (response) {
                 if (response.data.code == '200') {
-                    console.log('this is response', response.data.data);
+                    console.log('this is response', JSON.stringify(response.data.data));
                     setPastData(response.data.data)
                     setLoader(false)
                 }
@@ -60,6 +61,8 @@ const Past = () => {
             <FlatList
                 data={pastData}
                 showsVerticalScrollIndicator={false}
+                onEndReachedThreshold={0.5}
+                
                 renderItem={({ item }) => (
                     <TouchableOpacity onPress={()=>navigation.navigate('EventDetails',{
                         id:item._id

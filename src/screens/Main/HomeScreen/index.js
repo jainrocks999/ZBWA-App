@@ -104,7 +104,8 @@ const HomeScreen = () => {
             })
     }
 
-    const onItemPress = (title) => {
+    const onItemPress = async(title) => {
+        const user_token=await AsyncStorage.getItem(Storage.user_token)
         if (title == 'ZBW News') {
             navigation.navigate('ZBWNews')
         }
@@ -115,16 +116,110 @@ const HomeScreen = () => {
             navigation.navigate('BecomeAMember')
         }
         else if (title == 'Secondary Member') {
-            navigation.navigate('SecondaryMember')
+
+            let config = {
+                method: 'get',
+                url: 'http://45.79.123.102:49002/api/member/secondary/member/list',
+                headers: { 
+                  'Authorization': `${user_token}`
+                }
+              };
+              setLoader(true)
+              axios.request(config)
+              .then((response) => {
+                if(response.data.code=='200'){
+                    setLoader(false)
+                    navigation.navigate('SecondaryMember')
+                }
+                else{
+                    setLoader(false)
+                    setPremium(true)
+                }
+              })
+              .catch((error) => {
+                setLoader(false)
+                console.log(error);
+              });
+
+            // navigation.navigate('SecondaryMember')
         }
         else if (title == 'Legal Support') {
-            navigation.navigate('LegalSupport')
+        let config = {
+            method: 'get',
+            url: 'http://45.79.123.102:49002/api/legalsupport/all/1',
+            headers: { 
+              'Authorization': `${user_token}`
+            }
+          };
+          setLoader(true)
+          axios.request(config)
+          .then((response) => {
+            if(response.data.code=='200'){
+                setLoader(false)
+                navigation.navigate('LegalSupport')
+            }
+            else{
+                setLoader(false)
+                setPremium(true)
+            }
+          })
+          .catch((error) => {
+            setLoader(false)
+            console.log(error);
+          });
         }
         else if (title == 'Order Copies') {
-            navigation.navigate('OrderCopies')
+            // navigation.navigate('OrderCopies')
+            let config = {
+                method: 'get',
+                url: 'http://45.79.123.102:49002/api/ordercopie/all/1',
+                headers: { 
+                  'Authorization': `${user_token}`
+                }
+              };
+              setLoader(true)
+              axios.request(config)
+              .then((response) => {
+                if(response.data.code=='200'){
+                    setLoader(false)
+                    navigation.navigate('OrderCopies')
+                }
+                else{
+                    setLoader(false)
+                    setPremium(true)
+                }
+              })
+              .catch((error) => {
+                setLoader(false)
+                console.log(error);
+              });
+
         }
         else if (title == 'Complaints') {
-            navigation.navigate('Complaints')
+            // navigation.navigate('Complaints')
+            let config = {
+                method: 'get',
+                url: 'http://45.79.123.102:49002/api/complaint/all',
+                headers: { 
+                  'Authorization': `${user_token}`
+                }
+              };
+              setLoader(true)
+              axios.request(config)
+              .then((response) => {
+                if(response.data.code=='200'){
+                    setLoader(false)
+                    navigation.navigate('Complaints')
+                }
+                else{
+                    setLoader(false)
+                    setPremium(true)
+                }
+              })
+              .catch((error) => {
+                setLoader(false)
+                console.log(error);
+              });
         }
         else if (title == 'Price Chart') {
             navigation.navigate('Market')
@@ -163,7 +258,8 @@ const HomeScreen = () => {
                         preview={false}
                         caroselImageContainerStyle={{
                             width: Dimensions.get('window').width-40,
-                            // paddingLeft:20
+                            // paddingRight:10,
+                            marginRight:0
                         }}
                         caroselImageStyle={{
                             width: Dimensions.get('window').width - 40,

@@ -13,6 +13,8 @@ import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
+import Eye from "../../../assets/Icon/eye.svg";
+import Eye1 from "../../../assets/Icon/eye1.svg";
 
 const CreatePassword = ({route}) => {
 
@@ -20,6 +22,8 @@ const CreatePassword = ({route}) => {
   const [pin,setPin]=useState('')
   const [confirm,setConfirm]=useState('')
   const [loader,setLoader]=useState(false)
+  const [eye,setEye]=useState(true)
+  const [eye1,setEye1]=useState(true)
 
   const createPin =async()=>{
     const user_id=await AsyncStorage.getItem(Storage.user_id)
@@ -47,13 +51,13 @@ const CreatePassword = ({route}) => {
         setLoader(false)
         console.log('this is resposs',response.data.data.token);
         Toast.show(response.data.message )
-        // AsyncStorage.setItem(Storage.user_id,response.data.data._id)
-        // AsyncStorage.setItem(Storage.user_token,response.data.data.token)
-        // // navigation.replace('Home')
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Login' }],
+        navigation.navigate('CreatePasswordForOldUser',{
+          mobile:route.params.mobile
         })
+        // navigation.reset({
+        //   index: 0,
+        //   routes: [{ name: 'Login' }],
+        // })
       }
       else{
         setLoader(false)
@@ -113,7 +117,17 @@ const CreatePassword = ({route}) => {
                           value={pin}
                           onChangeText={(val)=>setPin(val)}
                           maxLength={4}
+                          secureTextEntry={eye}
                         />
+                         {eye?
+                      <TouchableOpacity style={{padding:6}} onPress={()=>setEye(!eye)}>
+                      <Eye/>
+                      </TouchableOpacity>
+                      :
+                      <TouchableOpacity style={{padding:6}} onPress={()=>setEye(!eye)}>
+                      <Eye1/>
+                      </TouchableOpacity>
+                      }
                       </View>
                       <View style={styles.inputView}>
                         <TextInput style={styles.input}
@@ -123,7 +137,17 @@ const CreatePassword = ({route}) => {
                           value={confirm}
                           onChangeText={(val)=>setConfirm(val)}
                           maxLength={4}
+                          secureTextEntry={eye1}
                         />
+                        {eye1?
+                      <TouchableOpacity style={{padding:6}} onPress={()=>setEye1(!eye1)}>
+                      <Eye/>
+                      </TouchableOpacity>
+                      :
+                      <TouchableOpacity style={{padding:6}} onPress={()=>setEye1(!eye1)}>
+                      <Eye1/>
+                      </TouchableOpacity>
+                      }
                       </View>
                     </View>
                   </View>
