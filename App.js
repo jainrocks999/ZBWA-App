@@ -16,6 +16,8 @@ import Store from './src/Redux/Store';
 import RootApp from './src/navigation';
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "react-native-push-notification";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Storage from "./src/components/LocalStorage";
 
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
@@ -31,6 +33,7 @@ const App = () => {
   PushNotification.configure({
     onRegister: function (token) {
       console.log("TOKEN:", token);
+      AsyncStorage.setItem(Storage.fcm_token,token.token)
     },
       onNotification: function (notification) {
       console.log("NOTIFICATION:", notification);  

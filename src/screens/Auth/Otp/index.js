@@ -23,13 +23,16 @@ const OtpPage = ({route}) => {
   const [loader,setLoader]=useState(false)
 
 
-  const verifyOtp =()=>{
+  const verifyOtp =async()=>{
+    const fcm_token=await AsyncStorage.getItem(Storage.fcm_token)
+    console.log(fcm_token);
     if(mobile==''){
       Toast.show('Please enter your phone number')
     }
     else if(code==''){
       Toast.show('Please enter otp code')
     }
+    
     else{
       setLoader(true)
       axios({
@@ -43,7 +46,8 @@ const OtpPage = ({route}) => {
           "business_name": data.business,
           "gst": data.gst,
           "email": "",
-          "otp": code
+          "otp": code,
+          "fcm_token":fcm_token
         }
       })
       .then(function(response) {

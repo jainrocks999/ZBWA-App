@@ -22,7 +22,9 @@ const Login = () => {
   const [loader,setLoader]=useState(false)
   const [visible,setVisible]=useState(true)
 
-  const userLogin =()=>{
+  const userLogin =async()=>{
+    const fcm_token=await AsyncStorage.getItem(Storage.fcm_token)
+    console.log('this is fcm token',fcm_token);
     if(mobile==''){
       Toast.show('Please enter your phone number')
     }
@@ -45,13 +47,39 @@ const Login = () => {
     })
     .then(function(response) {
       if(response.data.code=='200'){
-        setLoader(false)
-        console.log('this is resposs',response.data);
-        Toast.show(response.data.message )
-        AsyncStorage.setItem(Storage.user_id,response.data.data._id)
-        AsyncStorage.setItem(Storage.username,response.data.data.name)
-        AsyncStorage.setItem(Storage.user_token,response.data.data.token)
-        navigation.replace('Home')
+        let data = JSON.stringify({
+          "fcm_token": fcm_token
+        });
+        
+        let config = {
+          method: 'post',
+          maxBodyLength: Infinity,
+          url: 'http://45.79.123.102:49002/api/user/update/fcm/token',
+          headers: { 
+            'Content-Type': 'application/json', 
+            'Authorization': response.data.data.token, 
+          },
+          data : data
+        };
+        
+        axios.request(config)
+        .then((response1) => {
+          if (response1.data.code==200) {
+            setLoader(false)
+            Toast.show(response.data.message )
+            AsyncStorage.setItem(Storage.user_id,response.data.data._id)
+            AsyncStorage.setItem(Storage.username,response.data.data.name)
+            AsyncStorage.setItem(Storage.user_token,response.data.data.token)
+            AsyncStorage.setItem(Storage.isPremium,JSON.stringify(response.data.data.isPrimary))
+            navigation.replace('Home')
+          } else {
+            setLoader(false)
+          }
+        })
+        .catch((error) => {
+          setLoader(false)
+          console.log(error);
+        });
       }
       else{
         setLoader(false)

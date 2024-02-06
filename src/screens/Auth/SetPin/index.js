@@ -59,6 +59,7 @@ const CreatePassword = ({route}) => {
         Toast.show(response.data.message )
         AsyncStorage.setItem(Storage.user_id,response.data.data._id)
         AsyncStorage.setItem(Storage.user_token,response.data.data.token)
+        AsyncStorage.setItem(Storage.isPremium,JSON.stringify(response.data.data.isPrimary))
         // navigation.replace('Home')
         navigation.reset({
           index: 0,

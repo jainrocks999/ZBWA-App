@@ -22,12 +22,10 @@ console.log('this is route',route.params);
   const [mobile,setMobile]=useState(route.params.mobile)
   const [loader,setLoader]=useState(false)
 
-
   useEffect(()=>{
       setCode(route.params.data)
   },[])
-
-
+  
   const resendOtp =()=> {
     if(mobile==''){
       Toast.show('Please enter your phone number')

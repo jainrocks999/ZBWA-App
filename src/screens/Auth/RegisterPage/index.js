@@ -16,6 +16,7 @@ import Modal from "react-native-modal";
 import CircleCross from "../../../assets/Icon/CircleCross.svg";
 import HTMLView from "react-native-htmlview";
 
+
 const Register = () => {
   const navigation = useNavigation()
   const [first, setFirst] = useState('')
@@ -68,7 +69,8 @@ const Register = () => {
 }
 
 
-  const handleRegister = () => {
+  const handleRegister = async() => {
+
     if (first == '') {
       Toast.show('Please enter your first name')
     }

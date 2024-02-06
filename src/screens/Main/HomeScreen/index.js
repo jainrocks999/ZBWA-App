@@ -80,7 +80,7 @@ const HomeScreen = () => {
         setLoader(true)
         axios({
             method: 'get',
-            url: 'http://45.79.123.102:49002/api/slider/all/1',
+            url: 'http://45.79.123.102:49002/api/slider/all',
             headers: `Authorization: ${user_token}`
         })
             .then(function (response) {
@@ -252,21 +252,23 @@ const HomeScreen = () => {
                 </View>
                 <View style={styles.slider}>
                     {banner.length > 1 ? <ImageSlider
+                    
                         data={banner}
                         // localImg
-                        // autoPlay={true}
+                        autoPlay={true}
                         preview={false}
                         caroselImageContainerStyle={{
-                            width: Dimensions.get('window').width-40,
+                            width: Dimensions.get('window').width,
                             // paddingRight:10,
                             marginRight:0
                         }}
                         caroselImageStyle={{
-                            width: Dimensions.get('window').width - 40,
+                            width: Dimensions.get('window').width-40,
                             height: 180,
                             justifyContent: 'space-between',
                             borderWidth: 1,
-                            borderRadius: 20
+                            borderRadius: 20,
+                            marginLeft:20
                         }}
                         indicatorContainerStyle={{
                             bottom: -25

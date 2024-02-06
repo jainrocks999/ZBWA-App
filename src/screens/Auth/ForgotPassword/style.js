@@ -121,7 +121,6 @@ export default StyleSheet.create({
     borderRadius:20,
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor:'#C7BFA2',
     flexDirection:'row',
   },
   verify:{
@@ -129,5 +128,29 @@ export default StyleSheet.create({
     fontSize:18,
     fontFamily:'Montserrat-Bold',
     marginRight:14
-  }
+  },
+  inputView1:{
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '70%',
+    marginTop: 8,
+  },
+  otp1:{
+    fontSize: 12,
+    color: '#FFFFFF',
+    width: 26,
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    borderColor: '#FFFFFF',
+    borderBottomWidth: 1,
+    height: Platform.OS == 'ios' ? 34 : 34,
+  },
+  resend:{
+    color:'#FCDA64',
+    fontSize:10,
+    fontFamily:'Montserrat-Regular'
+  },
 });

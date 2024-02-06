@@ -19,12 +19,16 @@ const EventDetails = ({ route }) => {
     const [loader, setLoader] = useState(false)
     const [data, setData] = useState()
     const [qrCode,setQrCode]=useState('')
+    const [isPremium,setIsPremium]=useState('')
     useEffect(() => {
         apiCall()
     }, [])
 
     const apiCall = async () => {
+
         const user_token = await AsyncStorage.getItem(Storage.user_token)
+        const premium=await AsyncStorage.getItem(Storage.isPremium)
+        setIsPremium(premium)
         setLoader(true)
         axios({
             method: 'get',
@@ -33,6 +37,7 @@ const EventDetails = ({ route }) => {
         })
             .then(function (response) {
                 if (response.data.code == '200') {
+                    console.log(response.data.data);
                     setData(response.data.data)
                     setLoader(false)
                 }
@@ -58,20 +63,6 @@ const EventDetails = ({ route }) => {
         return (
             <Text numberOfLines={2} style={{color: '#000', fontFamily: 'Montserrat-Medium', fontSize: 13}}>{`${day} ${month}, ${year}`}</Text>
         )
-        // var d = new Date(date)
-        // month = '' + (d.getMonth() + 1),
-        //     day = '' + d.getDate(),
-        //     year = d.getFullYear();
-
-        // if (month.length < 2)
-        //     month = '0' + month;
-        // if (day.length < 2)
-        //     day = '0' + day;
-
-        // var finalDate = [month, day, year].join('/');
-        // return (
-        //     <Text style={{ color: '#000', fontFamily: 'Montserrat-Medium', fontSize: 13 }}>{finalDate}</Text>
-        // )
     }
 
 
@@ -119,17 +110,24 @@ const EventDetails = ({ route }) => {
     }
 
     const saveToGallery=()=>{
+        const d = new Date(data.date);
+        console.log(d);
+        let day = d.getDate();
+        let year=d.getFullYear()
+        if (day.length < 2)
+            day = '0' + day;
+        let month = d.getDate()+1
+
         const base64Image=qrCode
         var Base64Code = base64Image.split("data:image/png;base64,"); //base64Image is my image base64 string
         const dirs = RNFetchBlob.fs.dirs;
-        var path = dirs.DCIMDir + "/image.png";
+        var path = dirs.DCIMDir + `/${day}-${month}-${year}-${data.name}.png`;
         RNFetchBlob.fs.writeFile(path, Base64Code[1], 'base64')
             .then((res) => { console.log("File : ", res)
             Toast.show('QR Code saved successfully')
             setVisible(false)
          });
     }
-
     return (
         <View style={{ backgroundColor: '#fff', flex: 1 }}>
             {loader ? <Loader /> : null}
@@ -144,10 +142,11 @@ const EventDetails = ({ route }) => {
                     source={{ uri: data.images[0].image }}>
                 </Image>:
                 <View style={{
-                    width:Dimensions.get('window').width - 50,
+                    width:Dimensions.get('window').width,
                     height:105,
                     alignItems:'center',
-                    justifyContent:'center'
+                    justifyContent:'center',
+                    
                     }}>
                     <Text>Image not Found</Text>
                     </View>
@@ -195,7 +194,7 @@ const EventDetails = ({ route }) => {
                 </View>
             </Modal>
            
-            <View style={{
+            {data?<View style={{
                 position: 'absolute',
                 bottom: 20,
                 left: 0,
@@ -204,12 +203,13 @@ const EventDetails = ({ route }) => {
                 justifyContent: 'center'
             }}>
                 <TouchableOpacity
+                    disabled={isPremium==1?false:true}
                     onPress={() =>
                         handleApplyEvents(data._id)
                         // setVisible(true)
                     }
                     style={{
-                        backgroundColor: '#FCDA64',
+                        backgroundColor:isPremium==1? "#FCDA64" : '#C7BFA2',
                         width: '90%',
                         marginHorizontal: 20,
                         alignItems: 'center',
@@ -219,7 +219,7 @@ const EventDetails = ({ route }) => {
                     }}>
                     <Text style={{ color: '#fff', fontSize: 16, fontFamily: 'Montserrat-Bold', marginTop: -3 }}>Apply Event</Text>
                 </TouchableOpacity>
-            </View>
+            </View>:null}
 
         </View>
     )

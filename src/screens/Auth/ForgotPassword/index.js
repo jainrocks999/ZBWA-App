@@ -9,22 +9,67 @@ import styles from "./style";
 import LinearGradient from "react-native-linear-gradient";
 import LottieView from 'lottie-react-native';
 import axios from "axios";
+import Edit from "../../../assets/Icon/edit.svg";
 import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 
+
 const ForgotPassword = () => {
 
   const navigation = useNavigation()
-  const [mobile,setMobile]=useState('')
-  const [loader,setLoader]=useState(false)
+  const [mobile, setMobile] = useState('')
+  const [loader, setLoader] = useState(false)
+  const [code, setCode] = useState('')
 
-  const manageSend =()=> {
+  const manageSend = () => {
+    if (mobile == '') {
+      Toast.show('Please enter your phone number')
+    }
+    else if (mobile.length < 10) {
+      Toast.show('Please enter 10 digit phone number')
+    }
+    else {
+      setLoader(true)
+      axios({
+        method: 'post',
+        url: 'http://45.79.123.102:49002/api/user/send/otp',
+        data: {
+          "mobile": mobile,
+          "action": "reset_password"
+        }
+      })
+        .then(function (response) {
+          if (response.data.code == '200') {
+            setLoader(false)
+            Toast.show(response.data.message)
+            setCode(response.data.data)
+            console.log('this is response', response.data);
+            // navigation.replace('CreatePassword',{
+            //   data:response.data.data,
+            //   mobile:mobile
+            // })
+          }
+          else {
+            setLoader(false)
+            Toast.show(response.data.message)
+          }
+          setLoader(false)
+        })
+        .catch(function (error) {
+          setLoader(false)
+          console.log("error", error)
+          Toast.show(error?.response?.data?.message)
+        })
+    }
+  }
+
+  const resendOtp =()=> {
     if(mobile==''){
       Toast.show('Please enter your phone number')
     }
-    else if(mobile.length<10){
+    else if (mobile.length < 10) {
       Toast.show('Please enter 10 digit phone number')
     }
     else{
@@ -39,13 +84,10 @@ const ForgotPassword = () => {
       })
     .then(function(response) {
       if(response.data.code=='200'){
+        setCode(response.data.data)
         setLoader(false)
         Toast.show(response.data.message )
         console.log('this is response',response.data);
-        navigation.replace('CreatePassword',{
-          data:response.data.data,
-          mobile:mobile
-        })
       }
       else{
         setLoader(false)
@@ -55,81 +97,155 @@ const ForgotPassword = () => {
     })
     .catch(function(error) {
       setLoader(false)
-      console.log("error", error)
+      console.log("error", error.response.data)
       Toast.show(error?.response?.data?.message)
     })
    }
   }
 
+  const verifyOtp=()=>{
+    if(mobile==''){
+      Toast.show('Please enter your phone number')
+    }
+    else if(mobile.length<10){
+      Toast.show('Please enter 10 digit phone number')
+    }
+    else if(code==''){
+      Toast.show(`Please enter otp sent on ${mobile}`)
+    }
+    else if(code.length<6){
+      Toast.show(`Please enter 6 digit otp `)
+    }
+    else{
+      setLoader(true)
+      axios({
+        method: 'post',
+        url: 'http://45.79.123.102:49002/api/user/verify/otp',
+        data: {
+          "otp": code,
+          "mobile": mobile,
+          "action": "reset_password"
+      }
+      })
+    .then(function(response) {
+      if(response.data.code=='200'){
+        setLoader(false)
+        Toast.show(response.data.message )
+        navigation.navigate('ChangePassword',{
+          mobile:mobile
+        })
+        console.log('this is response',response.data);
+      }
+      else{
+        setLoader(false)
+        Toast.show(response.data.message )
+      }
+      setLoader(false)
+    })
+    .catch(function(error) {
+      setLoader(false)
+      console.log("error", error.response.data)
+      Toast.show(error?.response?.data?.message)
+      console.log("error", error)
+    })
+    }
+  }
+
 
   return (
     <LinearGradient colors={['#FFFBD3', '#FFFFFF', '#FFF8BA']} style={{ flex: 1 }}>
-      {loader?<Loader/>:null}
-      <ScrollView contentContainerStyle={{flexGrow:1,}}>
-      <KeyboardAwareScrollView
-       extraScrollHeight={-200}
-       enableOnAndroid={true}
-       keyboardShouldPersistTaps="handled"
-       behavior={Platform.OS === "ios" ? "padding" : "height"}
-       contentContainerStyle={{ flexGrow: 1 }}>          
+      {loader ? <Loader /> : null}
+      <ScrollView contentContainerStyle={{ flexGrow: 1, }}>
+        <KeyboardAwareScrollView
+          extraScrollHeight={-200}
+          enableOnAndroid={true}
+          keyboardShouldPersistTaps="handled"
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          contentContainerStyle={{ flexGrow: 1 }}>
           <View>
-              <View style={[styles.view]}>
-            <View style={{ height: 310 }}>
-              <LottieView style={styles.lottie} source={require('../../../assets/Json/OTP Animation.json')} autoPlay loop />
-            </View>
-          </View>
-          <View style={[styles.main,{marginTop:30}]}>
-            <View style={styles.yellow}>
-              <View style={styles.high}>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={styles.back}>Back </Text>
-                </View>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  onPress={() => navigation.goBack()}
-                  style={styles.arrowContainer}>
-                  <BackArrow />
-                </TouchableOpacity>
+            <View style={[styles.view]}>
+              <View style={{ height: 310 }}>
+                <LottieView style={styles.lottie} source={require('../../../assets/Json/OTP Animation.json')} autoPlay loop />
               </View>
-              <View style={{ alignItems: 'center' }}>
-                <View style={styles.container}>
-                  <View style={styles.padding}>
-                    <Text style={styles.you}>You want to change your password?</Text>
-                    <Text style={styles.forgot}>Forgot Password</Text>
-                    <View style={{ marginTop: 0 }}>
-                      <View style={styles.inputViews}>
-                      <TextInput style={styles.input}
-                        placeholder="Phone Number"
-                        placeholderTextColor={'#FFFFFF'}
-                        value={mobile}
-                        onChangeText={(val)=>setMobile(val)}
-                        keyboardType="number-pad"
-                        maxLength={10}
-                      />
-                        <View>
-                          <Text 
-                          // onPress={() => validate()} 
-                          style={styles.otpText}>OTP</Text>
+            </View>
+            <View style={[styles.main, { marginTop: 30 }]}>
+              <View style={styles.yellow}>
+                <View style={styles.high}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.back}>Back </Text>
+                  </View>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => navigation.goBack()}
+                    style={styles.arrowContainer}>
+                    <BackArrow />
+                  </TouchableOpacity>
+                </View>
+                <View style={{ alignItems: 'center' }}>
+                  <View style={styles.container}>
+                    <View style={styles.padding}>
+                      <Text style={styles.you}>You want to change your password?</Text>
+                      <Text style={styles.forgot}>Forgot Password</Text>
+                      <View style={{ marginTop: 0 }}>
+                        <View style={styles.inputViews}>
+                          <TextInput style={styles.input}
+                            placeholder="Phone Number"
+                            placeholderTextColor={'#FFFFFF'}
+                            value={mobile}
+                            onChangeText={(val) => setMobile(val)}
+                            keyboardType="number-pad"
+                            maxLength={10}
+                          />
+                          {code ?
+                            <Edit />
+                            : <View>
+                              <Text
+                                onPress={() => manageSend()}
+                                style={styles.otpText}>OTP</Text>
+                            </View>}
                         </View>
                       </View>
+                     {code? <View style={{ marginTop: 10 }}>
+                        <OtpInputs
+                          handleChange={code => setCode(code)}
+                          numberOfInputs={6}
+                          // secureTextEntry
+                          // value={code}
+                          defaultValue={code}
+                          // autofillFromClipboard={true}
+                          keyboardType={'numeric'}
+                          style={styles.inputView1}
+                          inputContainerStyles={{ width: 35, alignItems: 'center' }}
+                          // inputContainerStyles={[styles.otp]}
+                          inputStyles={styles.otp1}
+                        />
+                      </View>:null}
+                     {code? <View style={{ marginTop: 15 }}>
+                        <TouchableOpacity
+                          activeOpacity={0.5}
+                          onPress={() => resendOtp()}
+                        >
+                          <Text style={styles.resend}>Resend OTP</Text>
+                        </TouchableOpacity>
+                      </View>:null}
                     </View>
-                  </View>
-                  <View style={{ marginTop: 105, alignItems: 'flex-end',}}>
-                    <TouchableOpacity
-                      onPress={()=>manageSend()}
-                      activeOpacity={0.5}
-                      style={styles.touch}>
-                      <Text style={styles.verify}>Verify</Text>
-                      <Arrow />
-                    </TouchableOpacity>
+                    <View style={{ marginTop:code? 27:105, alignItems: 'flex-end', }}>
+                      <TouchableOpacity
+                        onPress={()=>verifyOtp()}
+                        disabled={code ? false : true}
+                        activeOpacity={0.5}
+                        style={[styles.touch, { backgroundColor: code ? "#FCDA64" : '#C7BFA2', }]}>
+                        <Text style={styles.verify}>Verify</Text>
+                        <Arrow />
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
               </View>
             </View>
           </View>
-          </View>
-          <View style={{height:140}}/>
-      </KeyboardAwareScrollView>
+          <View style={{ height: 140 }} />
+        </KeyboardAwareScrollView>
       </ScrollView>
     </LinearGradient>
   )

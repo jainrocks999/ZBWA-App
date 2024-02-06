@@ -13,11 +13,12 @@ const Current = () => {
     const [loader,setLoader]=useState(false)
     const [currentData,setCurrentData]=useState()
     const navigation=useNavigation()
+    const [page,setPage]=useState(1)
 
     useEffect(()=>{
        handleApi()
     },[])
-
+    
     const handleApi=async()=>{
         const user_token=await AsyncStorage.getItem(Storage.user_token)
         console.log('this is user token',user_token);
@@ -31,6 +32,39 @@ const Current = () => {
             if(response.data.code=='200'){
                 console.log('this is response',response.data.data);
                 setCurrentData(response.data.data)
+                setPage(page+1)
+                setLoader(false)
+            }
+            else{
+              setLoader(false)
+              Toast.show(response.data.message )
+            }
+          })
+          .catch(function(error) {
+            setLoader(false)
+            console.log("error", error.response.data)
+            Toast.show(error.response.data.message)
+          })
+    }
+
+
+    const handleApiOnReachEnd=async()=>{
+        const user_token=await AsyncStorage.getItem(Storage.user_token)
+        console.log('this is user token',user_token);
+        setLoader(true)
+        axios({
+            method: 'get',
+            url: `http://45.79.123.102:49002/api/event/all/current/${page}`,
+            headers: `Authorization: ${user_token}`
+          })
+          .then(function(response) {
+            if(response.data.code=='200'){
+                console.log('this is response',response.data.data);
+                // setCurrentData(response.data.data)
+                var newData=response.data.data
+                var stateAssetArr = [...currentData, ...newData]
+                setCurrentData(stateAssetArr)
+                setPage(page+1)
                 setLoader(false)
             }
             else{
@@ -54,6 +88,8 @@ const Current = () => {
             <FlatList
                 data={currentData}
                 showsVerticalScrollIndicator={false}
+                onEndReachedThreshold={0.5}
+                onEndReached={()=>handleApiOnReachEnd()}
                 renderItem={({ item }) => (
                     <TouchableOpacity 
                     onPress={()=>navigation.navigate('EventDetails',{

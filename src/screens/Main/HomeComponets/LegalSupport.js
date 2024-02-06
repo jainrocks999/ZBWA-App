@@ -72,6 +72,7 @@ const LegalSupport = () => {
                                     </View>
                                 </View>
                                 <Text style={styles.title}>{item.name}</Text>
+                                <Text style={styles.post}>{item.post}</Text>
                             </View>
 
                         </View>
@@ -117,10 +118,17 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     title: { 
-        fontFamily: 'Montserrat-Medium', 
+        fontFamily: 'Montserrat-SemiBold', 
         fontSize: 14, 
         color: '#000000', 
         marginTop: 8, 
+        textAlign: 'center' 
+    },
+    post: { 
+        fontFamily: 'Montserrat-Medium', 
+        fontSize: 12, 
+        color: '#000000', 
+        marginTop: 2, 
         textAlign: 'center' 
     }
 })

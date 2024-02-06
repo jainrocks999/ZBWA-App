@@ -35,6 +35,7 @@ import EventDetails from "../screens/Main/HomeComponets/EventDetails";
 import MyQRCode from "../screens/Main/HomeComponets/MyQRCode";
 import CreatemPinForOldUser from "../screens/Auth/CreatemPinForOldUser";
 import CreatePasswordForOldUser from "../screens/Auth/CreatePasswordForOldUser";
+import QREventDetails from "../components/EventDetailsForQRCode";
 
 
 const Stack = createNativeStackNavigator();
@@ -88,6 +89,7 @@ function Home(){
          <Stack1.Screen name="ViewPdf" component={ViewPdf}/>
          <Stack1.Screen name="EventDetails" component={EventDetails}/>
          <Stack1.Screen name="MyQRCode" component={MyQRCode}/>
+         <Stack1.Screen name="QREventDetails" component={QREventDetails}/>
       </Stack1.Navigator>
   )
 }

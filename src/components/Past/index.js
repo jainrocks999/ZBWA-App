@@ -20,7 +20,6 @@ const Past = () => {
 
     const handleApi = async () => {
         const user_token = await AsyncStorage.getItem(Storage.user_token)
-        console.log('this is user token', user_token);
         setLoader(true)
         axios({
             method: 'get',
@@ -31,6 +30,7 @@ const Past = () => {
                 if (response.data.code == '200') {
                     console.log('this is response', JSON.stringify(response.data.data));
                     setPastData(response.data.data)
+                    setPage(page+1)
                     setLoader(false)
                 }
                 else {
@@ -44,6 +44,37 @@ const Past = () => {
                 Toast.show(error.response.data.message)
             })
     }
+
+    const handleApiOnReachEnd = async () => {
+        const user_token = await AsyncStorage.getItem(Storage.user_token)
+        setLoader(true)
+        axios({
+            method: 'get',
+            url: `http://45.79.123.102:49002/api/event/all/past/${page}`,
+            headers: `Authorization: ${user_token}`
+        })
+            .then(function (response) {
+                if (response.data.code == '200') {
+                    console.log('this is response', JSON.stringify(response.data.data));
+                    // setPastData(response.data.data)
+                    var newData=response.data.data
+                    var stateAssetArr = [...pastData, ...newData]
+                    setPastData(stateAssetArr)
+                    setPage(page+1)
+                    setLoader(false)
+                }
+                else {
+                    setLoader(false)
+                    Toast.show(response.data.message)
+                }
+            })
+            .catch(function (error) {
+                setLoader(false)
+                console.log("error", error.response.data)
+                Toast.show(error.response.data.message)
+            })
+    }
+
 
     const date = (date) => {
         const d = new Date(date);
@@ -62,7 +93,7 @@ const Past = () => {
                 data={pastData}
                 showsVerticalScrollIndicator={false}
                 onEndReachedThreshold={0.5}
-                
+                onEndReached={()=>handleApiOnReachEnd()}
                 renderItem={({ item }) => (
                     <TouchableOpacity onPress={()=>navigation.navigate('EventDetails',{
                         id:item._id

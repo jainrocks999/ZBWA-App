@@ -13,6 +13,7 @@ const ZBWNews=()=>{
     const navigation=useNavigation()
     const [loader,setLoader]=useState(false)
     const [news,setNews]=useState()
+    const [page,setPage]=useState(1)
 
     useEffect(()=>{
         handleApi()
@@ -29,8 +30,8 @@ const ZBWNews=()=>{
           })
           .then(function(response) {
             if(response.data.code=='200'){
-                console.log('this is response',response.data.data);
                 setNews(response.data.data)
+                setPage(page+1)
                 setLoader(false)
             }
             else{
@@ -44,6 +45,35 @@ const ZBWNews=()=>{
             Toast.show(error.response.data.message)
           })
     }
+
+    const handleApiOnReachEnd=async()=>{
+        const user_token=await AsyncStorage.getItem(Storage.user_token)
+        setLoader(true)
+        axios({
+            method: 'get',
+            url: `http://45.79.123.102:49002/api/news/all/${page}`,
+            headers: `Authorization: ${user_token}`
+          })
+          .then(function(response) {
+            if(response.data.code=='200'){
+                var newData=response.data.data
+                var stateAssetArr = [...news, ...newData]
+                setNews(stateAssetArr)
+                setPage(page+1)
+                setLoader(false)
+            }
+            else{
+              setLoader(false)
+              Toast.show(response.data.message )
+            }
+          })
+          .catch(function(error) {
+            setLoader(false)
+            console.log("error", error.response.data)
+            Toast.show(error.response.data.message)
+          })
+    }
+
     return(
         <View style={styles.container}>
             {loader?<Loader/>:null}
@@ -58,6 +88,8 @@ const ZBWNews=()=>{
                 <View>
                     <FlatList
                      data={news}
+                     onEndReachedThreshold={0.5}
+                     onEndReached={()=>handleApiOnReachEnd()}
                      style={{marginBottom:130}}
                      renderItem={({item})=>(
                         <View style={styles.view}>                           

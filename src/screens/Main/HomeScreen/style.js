@@ -23,7 +23,8 @@ export default StyleSheet.create({
         justifyContent: 'center', 
         height: 200, 
         marginTop: -90, 
-        paddingHorizontal: 20 
+        // marginLeft:20
+        // paddingHorizontal: 20 
     },
     img1: { 
         height: 57, 
