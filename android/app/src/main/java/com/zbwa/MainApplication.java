@@ -1,4 +1,4 @@
-package com.zbwa;
+package com.zbw;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

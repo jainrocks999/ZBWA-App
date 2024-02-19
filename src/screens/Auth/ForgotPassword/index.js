@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import BackArrow from "../../../assets/Icon/BackArrow.svg";
@@ -14,6 +14,7 @@ import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
+import auth from '@react-native-firebase/auth';
 
 
 const ForgotPassword = () => {
@@ -22,6 +23,34 @@ const ForgotPassword = () => {
   const [mobile, setMobile] = useState('')
   const [loader, setLoader] = useState(false)
   const [code, setCode] = useState('')
+  const [confirm, setConfirm] = useState(null);
+
+  const onAuthStateChanged=(user)=> {
+    if (user) {
+      // Some Android devices can automatically process the verification code (OTP) message, and the user would NOT need to enter the code.
+      // Actually, if he/she tries to enter it, he/she will get an error message because the code was already used in the background.
+      // In this function, make sure you hide the component(s) for entering the code and/or navigate away from this screen.
+      // It is also recommended to display a message to the user informing him/her that he/she has successfully logged in.
+    }
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  const  signInWithPhoneNumber =async(phoneNumber)=> {
+    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+    console.log(JSON.parse(confirmation));
+    setConfirm(confirmation);
+  }
+ const confirmCode=async()=> {
+    try {
+      await confirm.confirm(code);
+    } catch (error) {
+      console.log('Invalid code.');
+    }
+  }
 
   const manageSend = () => {
     if (mobile == '') {
@@ -74,32 +103,33 @@ const ForgotPassword = () => {
     }
     else{
       setLoader(true)
-      axios({
-        method: 'post',
-        url: 'http://45.79.123.102:49002/api/user/send/otp',
-        data: {
-          "mobile": mobile,
-          "action": "reset_password"
-        }
-      })
-    .then(function(response) {
-      if(response.data.code=='200'){
-        setCode(response.data.data)
-        setLoader(false)
-        Toast.show(response.data.message )
-        console.log('this is response',response.data);
-      }
-      else{
-        setLoader(false)
-        Toast.show(response.data.message )
-      }
-      setLoader(false)
-    })
-    .catch(function(error) {
-      setLoader(false)
-      console.log("error", error.response.data)
-      Toast.show(error?.response?.data?.message)
-    })
+      
+    //   axios({
+    //     method: 'post',
+    //     url: 'http://45.79.123.102:49002/api/user/send/otp',
+    //     data: {
+    //       "mobile": mobile,
+    //       "action": "reset_password"
+    //     }
+    //   })
+    // .then(function(response) {
+    //   if(response.data.code=='200'){
+    //     setCode(response.data.data)
+    //     setLoader(false)
+    //     Toast.show(response.data.message )
+    //     console.log('this is response',response.data);
+    //   }
+    //   else{
+    //     setLoader(false)
+    //     Toast.show(response.data.message )
+    //   }
+    //   setLoader(false)
+    // })
+    // .catch(function(error) {
+    //   setLoader(false)
+    //   console.log("error", error.response.data)
+    //   Toast.show(error?.response?.data?.message)
+    // })
    }
   }
 
@@ -200,7 +230,8 @@ const ForgotPassword = () => {
                             <Edit />
                             : <View>
                               <Text
-                                onPress={() => manageSend()}
+                                // onPress={() => manageSend()}
+                                onPress={()=>signInWithPhoneNumber('+91 999-382-0521')}
                                 style={styles.otpText}>OTP</Text>
                             </View>}
                         </View>

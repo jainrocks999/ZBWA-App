@@ -36,6 +36,10 @@ const App = () => {
       AsyncStorage.setItem(Storage.fcm_token,token.token)
     },
       onNotification: function (notification) {
+        PushNotification.localNotification({
+          title: notification.message,
+          message: notification.title,
+        });
       console.log("NOTIFICATION:", notification);  
       notification.finish(PushNotificationIOS.FetchResult.NoData);
     },
