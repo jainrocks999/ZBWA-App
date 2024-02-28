@@ -144,7 +144,9 @@ const CreatePassword = ({route}) => {
                       </View>
                     </View>
                   </View>
-                  <View style={{ marginTop: 57, alignItems: 'flex-end' }}>
+                  <View style={{ 
+                    marginTop: 0,
+                     alignItems: 'flex-end' }}>
                     <TouchableOpacity
                     onPress={()=>changePassword()}
                      style={styles.button}>

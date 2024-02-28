@@ -13,7 +13,7 @@ const Splash = () => {
   }, []);
 
   useEffect(() => {
-    requestPermissions();
+    // requestPermissions();
   }, []);
 
   const requestPermissions = async () => {

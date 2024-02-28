@@ -122,7 +122,7 @@ const Login = () => {
                    
                   
                   </View>
-                  <View style={{ marginTop: 118, alignItems: 'flex-end' }}>
+                  <View style={{ marginTop: 0, alignItems: 'flex-end' }}>
                     <TouchableOpacity
                       onPress={() => 
                         // navigation.replace('Home')

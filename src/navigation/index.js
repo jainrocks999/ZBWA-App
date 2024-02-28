@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image} from 'react-native';
 import {NavigationContainer, StackActions} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import SplashScreen from "../screens/Auth/SplashPage";
 import Login from "../screens/Auth/LoginPage";
@@ -28,7 +28,7 @@ import About from "../screens/Main/HomeComponets/About";
 import Contact from "../screens/Main/HomeComponets/Contact";
 import TermService from "../screens/Main/HomeComponets/TermService";
 import ChangePassword from "../screens/Auth/ChangePassword";
-import SetPin from "../screens/Auth/SetPin";
+import SetPinScreen from "../screens/Auth/SetPinScreen";
 import ViewPdf from "../screens/Main/HomeComponets/ViewPdf";
 import FirstPage from "../screens/Auth/FirstPage";
 import EventDetails from "../screens/Main/HomeComponets/EventDetails";
@@ -36,9 +36,10 @@ import MyQRCode from "../screens/Main/HomeComponets/MyQRCode";
 import CreatemPinForOldUser from "../screens/Auth/CreatemPinForOldUser";
 import CreatePasswordForOldUser from "../screens/Auth/CreatePasswordForOldUser";
 import QREventDetails from "../components/EventDetailsForQRCode";
+import { createStackNavigator } from '@react-navigation/stack';
 
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 function Navigate() {
   
   return (
@@ -56,14 +57,13 @@ function Navigate() {
         <Stack.Screen name='CreatePassword' component={CreatePassword}/>
         <Stack.Screen name='Otp' component={Otp}/>
         <Stack.Screen name='ChangePassword' component={ChangePassword}/>
-        <Stack.Screen name="SetPin" component={SetPin}/>
         <Stack.Screen name='CreatemPinForOldUser' component={CreatemPinForOldUser}/>
         <Stack.Screen name="CreatePasswordForOldUser" component={CreatePasswordForOldUser}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-const Stack1 = createNativeStackNavigator();
+const Stack1 = createStackNavigator();
 
 function Home(){
   return(

@@ -111,6 +111,15 @@ const Login = () => {
             <Image style={[styles.logo,{resizeMode:'contain'}]} source={require('../../../assets/Logo/Zbwa1.png')} />
           </View>
           <View style={[styles.container,{marginTop:30}]}>
+          <TouchableOpacity
+                      onPress={() => 
+                        // navigation.replace('Home')
+                        userLogin()
+                      }
+                      style={styles.button}>
+                      <Text style={styles.text}>Login</Text>
+                      <Arrow />
+                    </TouchableOpacity>
             <View style={styles.yellow}>
               <View style={styles.view}>
                 <View style={{ flexDirection: 'row' }}>
@@ -173,7 +182,7 @@ const Login = () => {
                         style={styles.mpin}>Login with mPIN</Text>
                     </View>
                   </View>
-                  <View style={{ marginTop: 30, alignItems: 'flex-end' }}>
+                  {/* <View style={{ marginTop: 0, alignItems: 'flex-end' }}> */}
                     <TouchableOpacity
                       onPress={() => 
                         // navigation.replace('Home')
@@ -183,7 +192,7 @@ const Login = () => {
                       <Text style={styles.text}>Login</Text>
                       <Arrow />
                     </TouchableOpacity>
-                  </View>
+                  {/* </View> */}
 
                 </View>
               </View>

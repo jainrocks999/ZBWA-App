@@ -66,12 +66,16 @@ const App = () => {
       <SafeAreaView
         style={{
           flex: 1,
-          backgroundColor: Platform.OS == 'ios' ? '#052a47' : '#fff',
+          backgroundColor: Platform.OS == 'ios' ? '#000' : '#fff',
         }}>
         <Provider store={Store}>
           <RootApp />
         </Provider>
-        <StatusBar backgroundColor={'#000'}/>
+        {/* <StatusBar backgroundColor={'#000'}/> */}
+        <StatusBar
+        backgroundColor={ "#000" }
+        barStyle={"light-content" }
+      />
       </SafeAreaView>
     </Fragment>
   );

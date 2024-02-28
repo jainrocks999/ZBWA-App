@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from "react";
-import { View, Text, TextInput, FlatList, Image, StyleSheet,Dimensions } from "react-native";
+import { View, Text, TextInput, FlatList, Image,Platform, StyleSheet,Dimensions } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
         height: 60,
         width: 100,
         backgroundColor: '#FCDA64',
-        borderBottomLeftRadius: 50,
-        borderBottomRightRadius: 50,
+        borderBottomLeftRadius: Platform.OS=='android'?50:65,
+        borderBottomRightRadius:Platform.OS=='android'?50:65,
         alignItems: 'center'
     },
     title: { 

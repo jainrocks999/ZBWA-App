@@ -180,7 +180,7 @@ const Login = () => {
                         style={styles.mpin}>Login with Password</Text>
                     </View>
                   </View>
-                  <View style={{ marginTop: 50, alignItems: 'flex-end' }}>
+                  <View style={{ marginTop: 0, alignItems: 'flex-end' }}>
                     <TouchableOpacity
                       onPress={() => 
                         // navigation.replace('Home')

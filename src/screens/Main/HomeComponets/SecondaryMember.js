@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from "react";
-import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, Dimensions,Platform } from "react-native";
 import Header from "../../../components/CustomHeader";
 import Dash from "../../../assets/Icon/Dash.svg";
 import Plus from "../../../assets/Icon/Plus.svg";
@@ -149,9 +149,10 @@ const styles = StyleSheet.create({
     height: 60,
     width: 100,
     backgroundColor: '#FCDA64',
-    borderBottomLeftRadius: 50,
-    borderBottomRightRadius: 50,
-    alignItems: 'center'
+    borderBottomLeftRadius: Platform.OS=='android'?50:65,
+    borderBottomRightRadius:Platform.OS=='android'?50:65,
+    alignItems: 'center',
+    // borderWidth:1
   },
   title: { 
     fontFamily: 'Montserrat-Medium', 

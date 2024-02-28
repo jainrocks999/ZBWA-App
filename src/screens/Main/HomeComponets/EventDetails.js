@@ -11,7 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import HTMLView from "react-native-htmlview";
 import Modal from "react-native-modal";
-import RNFetchBlob from "rn-fetch-blob";
+// import RNFetchBlob from "rn-fetch-blob";
 
 const EventDetails = ({ route }) => {
     const [isVisible, setVisible] = useState(false)
@@ -110,23 +110,23 @@ const EventDetails = ({ route }) => {
     }
 
     const saveToGallery=()=>{
-        const d = new Date(data.date);
-        console.log(d);
-        let day = d.getDate();
-        let year=d.getFullYear()
-        if (day.length < 2)
-            day = '0' + day;
-        let month = d.getDate()+1
+        // const d = new Date(data.date);
+        // console.log(d);
+        // let day = d.getDate();
+        // let year=d.getFullYear()
+        // if (day.length < 2)
+        //     day = '0' + day;
+        // let month = d.getDate()+1
 
-        const base64Image=qrCode
-        var Base64Code = base64Image.split("data:image/png;base64,"); //base64Image is my image base64 string
-        const dirs = RNFetchBlob.fs.dirs;
-        var path = dirs.DCIMDir + `/${day}-${month}-${year}-${data.name}.png`;
-        RNFetchBlob.fs.writeFile(path, Base64Code[1], 'base64')
-            .then((res) => { console.log("File : ", res)
-            Toast.show('QR Code saved successfully')
-            setVisible(false)
-         });
+        // const base64Image=qrCode
+        // var Base64Code = base64Image.split("data:image/png;base64,"); //base64Image is my image base64 string
+        // const dirs = RNFetchBlob.fs.dirs;
+        // var path = dirs.DCIMDir + `/${day}-${month}-${year}-${data.name}.png`;
+        // RNFetchBlob.fs.writeFile(path, Base64Code[1], 'base64')
+        //     .then((res) => { console.log("File : ", res)
+        //     Toast.show('QR Code saved successfully')
+        //     setVisible(false)
+        //  });
     }
     return (
         <View style={{ backgroundColor: '#fff', flex: 1 }}>

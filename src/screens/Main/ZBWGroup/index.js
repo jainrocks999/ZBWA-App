@@ -16,7 +16,7 @@ import InChatViewFile from "../../../components/InChatViewFile";
 import Video from 'react-native-video';
 import VideoPlayerAndroid from "../../../components/VideoPlayerAndroid";
 import VideoPlayer from 'react-native-video-controls';
-import RNFetchBlob from 'rn-fetch-blob'
+// import RNFetchBlob from 'rn-fetch-blob'
 // import VideoPlayer from "../../../components/VideoPlayer";
 
 const ZBWGroup = () => {
@@ -153,56 +153,56 @@ const ZBWGroup = () => {
   // console.log('this is file uri',file.size);
   
   const _pickDocument = async () => {
-    try {
-      const result = await DocumentPicker.pick({
-        type: [DocumentPicker.types.allFiles],
-        copyTo: 'documentDirectory',
-        mode: 'import',
-        allowMultiSelection: true,
-      });
-      const fileUri = result[0].fileCopyUri;
-      if (!fileUri) {
-        return;
-      }
-      if (fileUri.indexOf('.pdf') !== -1 || fileUri.indexOf('.PDF') !== -1) {
-        setFilePath(fileUri);
-        setIsAttachFile(true);
-      }
-      else if (fileUri.indexOf('.png') !== -1 || fileUri.indexOf('.jpg') !== -1) {
-        setImagePath(fileUri);
-        setIsAttachImage(true);
-      }
-      else if (fileUri.indexOf('.mp4')) {
-        const MAX_SIZE_VIDEO = 8388608 //8*1024*1024
-        RNFetchBlob.fs.stat(fileUri.replace('file:///', '').replace('file://', '').replace('file:/', ''))
-        .then((stats) => {
-            console.log("file size", stats.size/(1024*1024))
-                if (stats.size > MAX_SIZE_VIDEO) {
-                  Alert.alert("",'This video is too large to be uploaded.you can upload only 8 MB video')
-                    return
-                }
-                else{
-                setVideoPath(fileUri)
-                setIsAttachVideo(true)
-                }
-        })
-        .catch((err) => {
-            console.log("getSize", err)
-            // error(err)
-        })
+    // try {
+    //   const result = await DocumentPicker.pick({
+    //     type: [DocumentPicker.types.allFiles],
+    //     copyTo: 'documentDirectory',
+    //     mode: 'import',
+    //     allowMultiSelection: true,
+    //   });
+    //   const fileUri = result[0].fileCopyUri;
+    //   if (!fileUri) {
+    //     return;
+    //   }
+    //   if (fileUri.indexOf('.pdf') !== -1 || fileUri.indexOf('.PDF') !== -1) {
+    //     setFilePath(fileUri);
+    //     setIsAttachFile(true);
+    //   }
+    //   else if (fileUri.indexOf('.png') !== -1 || fileUri.indexOf('.jpg') !== -1) {
+    //     setImagePath(fileUri);
+    //     setIsAttachImage(true);
+    //   }
+    //   else if (fileUri.indexOf('.mp4')) {
+    //     const MAX_SIZE_VIDEO = 8388608 //8*1024*1024
+    //     RNFetchBlob.fs.stat(fileUri.replace('file:///', '').replace('file://', '').replace('file:/', ''))
+    //     .then((stats) => {
+    //         console.log("file size", stats.size/(1024*1024))
+    //             if (stats.size > MAX_SIZE_VIDEO) {
+    //               Alert.alert("",'This video is too large to be uploaded.you can upload only 8 MB video')
+    //                 return
+    //             }
+    //             else{
+    //             setVideoPath(fileUri)
+    //             setIsAttachVideo(true)
+    //             }
+    //     })
+    //     .catch((err) => {
+    //         console.log("getSize", err)
+    //         // error(err)
+    //     })
        
-      }
-      else {
+    //   }
+    //   else {
 
-      }
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        console.log('User cancelled file picker');
-      } else {
-        console.log('DocumentPicker err => ', err);
-        throw err;
-      }
-    }
+    //   }
+    // } catch (err) {
+    //   if (DocumentPicker.isCancel(err)) {
+    //     console.log('User cancelled file picker');
+    //   } else {
+    //     console.log('DocumentPicker err => ', err);
+    //     throw err;
+    //   }
+    // }
   };
 
   const renderBubble = (props) => {
