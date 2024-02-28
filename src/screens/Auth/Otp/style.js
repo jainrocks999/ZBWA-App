@@ -31,7 +31,7 @@ export default StyleSheet.create({
   },
   main: {
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   yellow: {
     height: 240,

@@ -12,7 +12,7 @@ export default StyleSheet.create({
   },
   container:{ 
     alignItems: 'center', 
-    justifyContent: 'center', 
+    justifyContent: 'flex-start', 
     marginTop: 0,
   },
   yellow:{ 

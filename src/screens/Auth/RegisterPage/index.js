@@ -158,7 +158,7 @@ const Register = () => {
             <View style={styles.main}>
               <Image style={[styles.logo,{resizeMode:'contain'}]} source={require('../../../assets/Logo/Zbwa1.png')} />
             </View>
-            <View style={[styles.view, { marginTop: 30 }]}>
+            <View style={[styles.view, { marginTop: 30,height:530 }]}>
               <View style={styles.yellow}>
                 <View style={styles.login}>
                   <View style={{ flexDirection: 'row' }}>

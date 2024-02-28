@@ -128,7 +128,7 @@ console.log('this is route',route.params);
               <LottieView style={styles.lottie} source={require('../../../assets/Json/Mpin-forgotpass animation.json')} autoPlay loop />
             </View>
           </View>
-          <View style={[styles.view,{marginTop:34}]}>
+          <View style={[styles.view,{marginTop:34,height:340}]}>
             <View style={styles.yellow}>
               <View style={styles.backView}>
                 <View style={{ flexDirection: 'row' }}>
