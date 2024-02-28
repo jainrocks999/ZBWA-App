@@ -120,7 +120,7 @@ const Login = () => {
             // position:'absolute',bottom:150,left:0,right:0
             }}>
           <View style={styles.main}>
-            <Image style={styles.logo} source={require('../../../assets/Logo/Zbwa.png')} />
+            <Image style={[styles.logo,{resizeMode:'contain'}]} source={require('../../../assets/Logo/Zbwa1.png')} />
           </View>
           <View style={[styles.container,{marginTop:25}]}>
             <View style={styles.yellow}>

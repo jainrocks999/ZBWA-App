@@ -24,7 +24,7 @@ const Splash = () => {
           title: 'ZBWA Notification Permission',
           message:
             'ZBWA would like to send you push notifications ' +
-            'to keep you updated on the latest photo trends and app features.',
+            'to keep you updated on the latest app features.',
           buttonNeutral: 'Ask Me Later',
           buttonNegative: 'Don’t Allow',
           buttonPositive: 'Allow',

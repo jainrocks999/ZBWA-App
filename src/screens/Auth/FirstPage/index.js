@@ -86,7 +86,8 @@ const Login = () => {
        contentContainerStyle={{ flexGrow: 1 }}>
           <View style={{}}>
           <View style={styles.main}>
-            <Image style={styles.logo} source={require('../../../assets/Logo/Zbwa.png')} />
+            {/* <Image source={require('../../../assets/Logo/diamond.png')}/> */}
+            <Image style={styles.logo} source={require('../../../assets/Logo/Zbwa1.png')} />
           </View>
           <View style={[styles.container,{marginTop:30}]}>
             <View style={styles.yellow}>

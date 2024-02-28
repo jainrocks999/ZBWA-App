@@ -7,8 +7,11 @@ export default StyleSheet.create({
     marginTop: 52 
   },
   logo:{
+    // height:315,
+    // width:315
     height:315,
-    width:315
+    width:315,
+    resizeMode:'contain'
   },
   container:{ 
     alignItems: 'center', 

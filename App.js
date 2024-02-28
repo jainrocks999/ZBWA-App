@@ -21,6 +21,7 @@ import Storage from "./src/components/LocalStorage";
 
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
+
 PushNotification.createChannel(
   {
     channelId: "default-channel-id",

@@ -94,7 +94,7 @@ console.log('thisis item',item);
                                     setVisible(true)
                                     setItem(item)
                                 }}
-                                style={[styles.elevation, { borderLeftColor: item.status == 'Accepted' ? '#35CD56' : '#359FCD', }]}>
+                                style={[styles.elevation, { borderLeftColor: item.status == 'Solved' ? '#35CD56' : '#359FCD', }]}>
                                 <View style={styles.view}>
                                     <Text style={styles.title}>{item.subject}</Text>
                                     {renderDate(item.createdAt)}
@@ -105,7 +105,7 @@ console.log('thisis item',item);
                                     <Text style={styles.text}>{item.complaintId}</Text>
                                 </View>
                                 <Text style={styles.name}>{item.accused.name}</Text>
-                                <TouchableOpacity style={[styles.touch, { backgroundColor: item.status == 'Accepted' ? '#35CD56' : '#359FCD', }]}>
+                                <TouchableOpacity style={[styles.touch, { backgroundColor: item.status == 'Solved' ? '#35CD56' : '#359FCD', }]}>
                                     <Text style={styles.status}>{item.status}</Text>
                                 </TouchableOpacity>
                             </TouchableOpacity>

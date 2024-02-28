@@ -262,6 +262,7 @@ const HomeScreen = () => {
                             // paddingRight:10,
                             marginRight:0
                         }}
+                    
                         caroselImageStyle={{
                             width: Dimensions.get('window').width-40,
                             height: 180,
