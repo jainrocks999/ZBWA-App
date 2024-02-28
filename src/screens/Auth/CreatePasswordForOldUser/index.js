@@ -85,7 +85,7 @@ const CreatePassword = ({route}) => {
               <LottieView style={styles.lottie} source={require('../../../assets/Json/Mpin-forgotpass animation.json')} autoPlay loop />
             </View>
           </View>
-          <View style={[styles.view,{marginTop:38}]}>
+          <View style={[styles.view,{marginTop:38,height:340}]}>
             <View style={styles.yellow}>
               <View style={styles.backView}>
                 <View style={{ flexDirection: 'row' }}>
@@ -145,7 +145,7 @@ const CreatePassword = ({route}) => {
                     </View>
                   </View>
                   <View style={{ 
-                    marginTop: 0,
+                  marginTop: 57,
                      alignItems: 'flex-end' }}>
                     <TouchableOpacity
                     onPress={()=>changePassword()}

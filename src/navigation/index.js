@@ -27,8 +27,8 @@ import Otp from "../screens/Auth/Otp";
 import About from "../screens/Main/HomeComponets/About";
 import Contact from "../screens/Main/HomeComponets/Contact";
 import TermService from "../screens/Main/HomeComponets/TermService";
-import ChangePassword from "../screens/Auth/ChangePassword";
-import SetPinScreen from "../screens/Auth/SetPinScreen";
+import ChangePassword from "../screens/Auth/ChangePassword"
+import PinScreen from "../screens/Auth/SetPinScreen";
 import ViewPdf from "../screens/Main/HomeComponets/ViewPdf";
 import FirstPage from "../screens/Auth/FirstPage";
 import EventDetails from "../screens/Main/HomeComponets/EventDetails";
@@ -56,6 +56,7 @@ function Navigate() {
         <Stack.Screen name="Forgot" component={ForgotPassword}/>
         <Stack.Screen name='CreatePassword' component={CreatePassword}/>
         <Stack.Screen name='Otp' component={Otp}/>
+        <Stack.Screen name="PinScreen" component={PinScreen}/>
         <Stack.Screen name='ChangePassword' component={ChangePassword}/>
         <Stack.Screen name='CreatemPinForOldUser' component={CreatemPinForOldUser}/>
         <Stack.Screen name="CreatePasswordForOldUser" component={CreatePasswordForOldUser}/>

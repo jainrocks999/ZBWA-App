@@ -53,7 +53,7 @@ const OtpPage = ({route}) => {
       .then(function(response) {
         if(response.data.code=='200'){
           setLoader(false)
-          navigation.replace('SetPin',{
+          navigation.replace('PinScreen',{
             data:response.data.data._id
           })
         }
@@ -118,7 +118,7 @@ const OtpPage = ({route}) => {
               <LottieView style={styles.lottie} source={require('../../../assets/Json/OTP Animation.json')} autoPlay loop />
             </View>
           </View>
-          <View style={[styles.main,{marginTop:44}]}>
+          <View style={[styles.main,{marginTop:44,height:340}]}>
             <View style={styles.yellow}>
               <View style={styles.backView}>
                 <View style={{ flexDirection: 'row' }}>

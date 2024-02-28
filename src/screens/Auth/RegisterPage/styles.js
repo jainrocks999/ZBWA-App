@@ -11,7 +11,7 @@ export default StyleSheet.create({
   },
    view:{
     alignItems:'center',
-    justifyContent:'center',
+    justifyContent:'flex-start',
   },
    yellow:{
     height:430,
