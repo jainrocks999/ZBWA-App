@@ -88,6 +88,7 @@ console.log('thisis item',item);
                 <View style={{ marginTop: 40 }}>
                     <FlatList
                         data={data}
+                        // style={{backgroundColor:'white'}}
                         renderItem={({ item }) => (
                             <TouchableOpacity
                                 onPress={() => {
@@ -183,9 +184,10 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 20,
         elevation: 5,
-        backgroundColor: '#FFFFFF',
+        // backgroundColor: '#FFFFFF',
         paddingHorizontal: 10,
-        paddingVertical: 7
+        paddingVertical: 7,
+        // margin:1
     },
     view: { 
         flexDirection: 'row', 

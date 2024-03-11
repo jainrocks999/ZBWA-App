@@ -123,7 +123,7 @@ const Login = () => {
                     </View>
                     <View style={{ 
                       alignItems: 'flex-end', 
-                      marginTop:118
+                      marginTop:120
                       }}>
                       <TouchableOpacity
                         onPress={() =>

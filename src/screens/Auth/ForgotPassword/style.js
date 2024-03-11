@@ -30,8 +30,9 @@ export default StyleSheet.create({
     width:306
   },
   main:{
-    alignItems:'center',
-    justifyContent:'center',
+    alignItems: 'center', 
+    justifyContent: 'flex-start', 
+    marginTop: 0,
   },
   yellow:{
     height:240,

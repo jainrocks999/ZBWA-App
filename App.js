@@ -18,6 +18,7 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "react-native-push-notification";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Storage from "./src/components/LocalStorage";
+import messaging from "@react-native-firebase/messaging";
 
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
@@ -59,6 +60,19 @@ const App = () => {
     popInitialNotification: true,
     requestPermissions: true,
   });
+
+  const getFCMToken = async () => {
+    try {
+      const token = await messaging().getToken();
+      console.log(token);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getFCMToken();
+  }, []);
 
   return (
     <Fragment>

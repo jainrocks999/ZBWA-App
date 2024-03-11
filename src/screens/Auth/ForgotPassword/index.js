@@ -198,7 +198,7 @@ const ForgotPassword = () => {
                 <LottieView style={styles.lottie} source={require('../../../assets/Json/OTP Animation.json')} autoPlay loop />
               </View>
             </View>
-            <View style={[styles.main, { marginTop: 30 }]}>
+            <View style={[styles.main, { marginTop: 30,height:310 }]}>
               <View style={styles.yellow}>
                 <View style={styles.high}>
                   <View style={{ flexDirection: 'row' }}>
