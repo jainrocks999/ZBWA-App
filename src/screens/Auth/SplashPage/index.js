@@ -1,20 +1,60 @@
-import React, { useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity,PermissionsAndroid } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, TouchableOpacity, PermissionsAndroid, Platform, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
+import Modal from 'react-native-modal';
+import axios from "axios";
 
 const Splash = () => {
   const navigation = useNavigation();
+  const [isModalVisible, setModalVisible] = useState(false)
+  const [androidUrl, setAndroidUrl] = useState('');
+  const [iosUrl, setIosUrl] = useState('');
 
   useEffect(() => {
-    initial();
+    // initial();
+    appVersion()
   }, []);
 
   useEffect(() => {
-    // requestPermissions();
+    requestPermissions();
   }, []);
+
+  const appVersion = async url => {
+    try {
+
+      const response = await axios({
+        method: 'GET',
+        headers: {
+          'content-type': 'multipart/form-data',
+          Accept: 'multipart/form-data',
+        },
+        url: 'http://45.79.123.102:49002/api/account/version',
+      });
+      if (Platform.OS == 'android') {
+        if (response.data.data.android_version > '4.0.6') {
+          console.log(response.data.data.android_version);
+          setAndroidUrl(response.data.data.android_url);
+          setModalVisible(true);
+        } else {
+          initial();
+        }
+      } else {
+        if (response.data.data.ios_version > '4.0.6') {
+          setIosUrl(response.data.data.ios_url);
+          setModalVisible(true);
+        } else {
+          initial();
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      throw error;
+    }
+  };
+
 
   const requestPermissions = async () => {
     try {
@@ -42,7 +82,6 @@ const Splash = () => {
   const initial = async () => {
     let Token = await AsyncStorage.getItem('user_token');
     if (!Token) {
-      // setTimeout(() => navigation.replace('Login'), 2000);
       setTimeout(() => {
         navigation.replace('FirstPage')
       }, 2000);
@@ -50,6 +89,15 @@ const Splash = () => {
       setTimeout(() => navigation.replace('Home'), 2000);
     }
   };
+
+  const openUrl = () => {
+    if (Platform.OS == 'android') {
+      Linking.openURL(androidUrl);
+    } else {
+      Linking.openURL(iosUrl);
+    }
+  };
+
   return (
     <LinearGradient colors={['#FFFBD3', '#FFFFFF', '#FFF8BA']} style={{
       flex: 1,
@@ -57,6 +105,36 @@ const Splash = () => {
       justifyContent: 'center'
     }}>
       <Image style={{ width: '99%', height: 256 }} source={require('../../../assets/Logo/ZBW_black_logo-transformed.png')} />
+      <Modal isVisible={isModalVisible}>
+        <View style={styles.modal}>
+          <View style={{ width: '100%' }}>
+            <Text
+              style={{
+                color: '#000',
+                fontSize: 20,
+                fontWeight: 'bold',
+                textAlign: 'center',
+              }}>
+              {'New Update Available'}
+            </Text>
+          </View>
+          <Text style={{ fontSize: 14, color: '#000', fontFamily: 'Montserrat-SemiBold', textAlign: 'center', marginTop: 5 }}>
+            A newer version of this app is available for download. Please update it.
+          </Text>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              width: '100%',
+              marginTop: 10,
+            }}>
+            <TouchableOpacity style={styles.popup} onPress={() => openUrl()}>
+              <Text style={styles.ModelBtntext}>Download Now</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </LinearGradient>
   );
 };
