@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, PermissionsAndroid, Platform, Linking } from 'react-native';
+import { View, Text, Image, TouchableOpacity, PermissionsAndroid, Platform, Linking,Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import axios from "axios";
+import ScalableImage from "react-native-scalable-image";
 
 const Splash = () => {
   const navigation = useNavigation();
@@ -104,7 +105,10 @@ const Splash = () => {
       alignItems: 'center',
       justifyContent: 'center'
     }}>
-      <Image style={{ width: '99%', height: 256 }} source={require('../../../assets/Logo/ZBW_black_logo-transformed.png')} />
+      <ScalableImage                             
+      width={Dimensions.get('window').width - 50} 
+      source={require('../../../assets/Logo/ZBW_black_logo-transformed.png')}/>
+      {/* <Image style={{ width: '99%', height: 256 }} source={require('../../../assets/Logo/ZBW_black_logo-transformed.png')} /> */}
       <Modal isVisible={isModalVisible}>
         <View style={styles.modal}>
           <View style={{ width: '100%' }}>

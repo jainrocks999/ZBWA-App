@@ -127,6 +127,7 @@ const HomeScreen = () => {
               setLoader(true)
               axios.request(config)
               .then((response) => {
+                console.log('this is response data',response.data);
                 if(response.data.code=='200'){
                     setLoader(false)
                     navigation.navigate('SecondaryMember')
@@ -138,7 +139,7 @@ const HomeScreen = () => {
               })
               .catch((error) => {
                 setLoader(false)
-                console.log(error);
+                console.log(error.response.data);
               });
 
             // navigation.navigate('SecondaryMember')
@@ -239,7 +240,7 @@ const HomeScreen = () => {
                     <Menu />
                 </TouchableOpacity>
                 <TouchableOpacity
-                //  onPress={()=>setPremium(true)}
+                 onPress={()=>navigation.navigate('Notification')}
                  >
                 <Bell />
                 </TouchableOpacity>

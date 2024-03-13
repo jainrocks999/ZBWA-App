@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, ScrollView } from "react-native";
 import Image from "react-native-scalable-image";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -156,6 +156,7 @@ const managePress = (item) => {
                         )}
                     />
                 </View>
+                <ScrollView>
                 <GestureRecognizer
                     onSwipeLeft={(state) => onSwipeLeft(state)}
                     onSwipeRight={(state) => onSwipeRight(state)}
@@ -169,6 +170,7 @@ const managePress = (item) => {
                         {selectedId == 3 ? <UpcommingEventQRCode data={upcommingEvents==null?[]:upcommingEvents} onPress={() => setSelectedId(selectedId - 1)} /> : null}
                     </View>
                 </GestureRecognizer>
+                </ScrollView>
             </View>
         </View>
     )

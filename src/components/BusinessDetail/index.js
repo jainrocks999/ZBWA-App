@@ -41,25 +41,25 @@ const BusinessDetail = ({ onPress }) => {
 
     const handleBusinessDetails = () => {
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-        if (name == '') {
-            Toast.show('Please enter your name')
+        if (name == '' || name== null) {
+            Toast.show('Please enter your business name')
         }
-        else if (gst == '') {
+        else if (gst == '' || gst == null) {
             Toast.show('Please enter your GST Number')
         }
-        else if (address == '') {
+        else if (address == '' || address== null) {
             Toast.show('Please enter your business address')
         }
-        else if (location == '') {
+        else if (location == '' || location== null) {
             Toast.show('Please enter your location')
         }
-        else if (phone == '') {
+        else if (phone == '' || phone== null) {
             Toast.show('Please enter your phone number')
         }
-        else if (phone.length < 10) {
+        else if (phone&&phone.length < 10) {
             Toast.show('Please enter 10 digit phone number ')
         }
-        else if (email == '') {
+        else if (email == '' || email== null) {
             Toast.show('Please enter your email address')
         }
         else if (reg.test(email) === false) {
@@ -105,7 +105,7 @@ const BusinessDetail = ({ onPress }) => {
                             <TextInput
                                 value={name}
                                 onChangeText={(val) => setName(val)}
-                                style={{ color: '#000000', fontSize: 14, fontFamily: 'Montserrat-Medium' }}
+                                style={{ color: '#000000', fontSize: 14, fontFamily: 'Montserrat-Medium',width:'100%',height:40 }}
                             />
                         </View>
                     </View>
@@ -115,7 +115,7 @@ const BusinessDetail = ({ onPress }) => {
                             <TextInput
                                 value={gst}
                                 onChangeText={(val) => setGst(val)}
-                                style={{ color: '#000000', fontSize: 14, fontFamily: 'Montserrat-Medium' }}
+                                style={{ color: '#000000', fontSize: 14, fontFamily: 'Montserrat-Medium' ,width:'100%',height:40}}
                             />
                         </View>
                     </View>
@@ -125,7 +125,7 @@ const BusinessDetail = ({ onPress }) => {
                             <TextInput
                                 value={address}
                                 onChangeText={(val) => setAddress(val)}
-                                style={{ color: '#000000', fontSize: 14, fontFamily: 'Montserrat-Medium' }}
+                                style={{ color: '#000000', fontSize: 14, fontFamily: 'Montserrat-Medium',width:'100%',height:40 }}
                             />
                         </View>
                     </View>
@@ -135,7 +135,7 @@ const BusinessDetail = ({ onPress }) => {
                             <TextInput
                                 value={location}
                                 onChangeText={(val) => setLocation(val)}
-                                style={{ color: '#000000', fontSize: 14, fontFamily: 'Montserrat-Medium' }}
+                                style={{ color: '#000000', fontSize: 14, fontFamily: 'Montserrat-Medium',width:'100%',height:40 }}
                             />
                         </View>
                     </View>
@@ -165,7 +165,7 @@ const BusinessDetail = ({ onPress }) => {
                             <TextInput
                                 value={phone}
                                 onChangeText={(val) => setPhone(val)}
-                                style={{ color: '#000000', fontSize: 14, fontFamily: 'Montserrat-Medium' }}
+                                style={{ color: '#000000', fontSize: 14, fontFamily: 'Montserrat-Medium',width:'100%',height:40 }}
                                 keyboardType="number-pad"
                                 maxLength={10}
                             />
@@ -191,7 +191,7 @@ const BusinessDetail = ({ onPress }) => {
                             <TextInput
                                 value={email}
                                 onChangeText={(val) => setEmail(val)}
-                                style={{ color: '#000000', fontSize: 14, fontFamily: 'Montserrat-Medium' }}
+                                style={{ color: '#000000', fontSize: 14, fontFamily: 'Montserrat-Medium',width:'100%',height:40}}
                                 keyboardType="email-address"
                             />
                         </View>
@@ -237,7 +237,8 @@ const styles = StyleSheet.create({
         width: '100%',
         borderWidth: 1,
         borderColor: '#FCDA64',
-        marginTop: 5
+        marginTop: 5,
+        paddingHorizontal:8
     },
     view: {
         flexDirection: 'row',

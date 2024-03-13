@@ -70,7 +70,7 @@ const ZBWNews=()=>{
           .catch(function(error) {
             setLoader(false)
             console.log("error", error.response.data)
-            Toast.show(error.response.data.message)
+            // Toast.show(error.response.data.message)
           })
     }
 

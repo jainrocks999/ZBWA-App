@@ -37,6 +37,7 @@ import CreatemPinForOldUser from "../screens/Auth/CreatemPinForOldUser";
 import CreatePasswordForOldUser from "../screens/Auth/CreatePasswordForOldUser";
 import QREventDetails from "../components/EventDetailsForQRCode";
 import { createStackNavigator } from '@react-navigation/stack';
+import Notification from "../screens/Main/HomeComponets/Notification";
 
 
 const Stack = createStackNavigator();
@@ -91,6 +92,7 @@ function Home(){
          <Stack1.Screen name="EventDetails" component={EventDetails}/>
          <Stack1.Screen name="MyQRCode" component={MyQRCode}/>
          <Stack1.Screen name="QREventDetails" component={QREventDetails}/>
+         <Stack1.Screen name="Notification" component={Notification}/>
       </Stack1.Navigator>
   )
 }

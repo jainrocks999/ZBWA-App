@@ -189,7 +189,8 @@ export default StyleSheet.create({
   ninety:{
     color: '#FFFFFF',
     fontSize: 12,
-    fontFamily: 'Montserrat-Regular'
+    fontFamily: 'Montserrat-Regular',
+    marginTop:5
   },
   input:{
     color: '#FFFFFF',

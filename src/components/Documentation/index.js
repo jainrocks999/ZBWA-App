@@ -1,5 +1,5 @@
-import React, { useState,useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet,ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import Upload from "../../assets/Icon/Upload.svg";
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import BackArrow from "../../assets/Icon/BackArrow.svg";
@@ -18,8 +18,8 @@ import HTMLView from "react-native-htmlview";
 const Documentation = ({ onPress }) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false)
   const [loader, setLoader] = useState(false)
-  const [data,setData]=useState()
-  const [isVisible,setVisible]=useState(false)
+  const [data, setData] = useState()
+  const [isVisible, setVisible] = useState(false)
 
   const [photo, setPhoto] = useState('')
   const [photoName, setPhotoName] = useState('')
@@ -46,40 +46,40 @@ const Documentation = ({ onPress }) => {
   const [bisType, setBisType] = useState('')
 
 
-  useEffect(()=>{
+  useEffect(() => {
     apiCall()
-  },[])
+  }, [])
 
   const apiCall = async () => {
 
     const user_token = await AsyncStorage.getItem(Storage.user_token)
 
     let config = {
-        method: 'get',
-        url: 'http://45.79.123.102:49002/api/homepage/term/condition',
-        headers: {
-            'Authorization': `${user_token}`
-        }
+      method: 'get',
+      url: 'http://45.79.123.102:49002/api/homepage/term/condition',
+      headers: {
+        'Authorization': `${user_token}`
+      }
     };
     setLoader(true)
     axios.request(config)
-        .then((response) => {
-            if (response.data.code == '200') {
-                // Toast.show(response.data.message)
-                setData(response.data.data)
-                setLoader(false)
-            }
-            else {
-                setLoader(false)
-                // Toast.show(response.data.message)
-            }
-            console.log(JSON.stringify(response.data));
-        })
-        .catch((error) => {
-            setLoader(false)
-            console.log(error);
-        });
-}
+      .then((response) => {
+        if (response.data.code == '200') {
+          // Toast.show(response.data.message)
+          setData(response.data.data)
+          setLoader(false)
+        }
+        else {
+          setLoader(false)
+          // Toast.show(response.data.message)
+        }
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        setLoader(false)
+        console.log(error);
+      });
+  }
 
   const becomeAmember = async () => {
 
@@ -90,53 +90,53 @@ const Documentation = ({ onPress }) => {
     const personalEmail = await AsyncStorage.getItem(Storage.personalEmail)
     const personalEmergencyNumber = await AsyncStorage.getItem(Storage.personalEmergencyNumber)
     const personalDob = await AsyncStorage.getItem(Storage.personalDob)
-    const addMoreArray=await AsyncStorage.getItem(Storage.addMoreArray)
+    const addMoreArray = await AsyncStorage.getItem(Storage.addMoreArray)
     const businessName = await AsyncStorage.getItem(Storage.businessName)
     const gstNumber = await AsyncStorage.getItem(Storage.businessGst)
     const bussinessAddress = await AsyncStorage.getItem(Storage.businessAddress)
     const businessLocation = await AsyncStorage.getItem(Storage.businessLocation)
     const businessPhone = await AsyncStorage.getItem(Storage.businessPhone)
     const businessEmail = await AsyncStorage.getItem(Storage.businessEmail)
-   
+
     const user_token = await AsyncStorage.getItem(Storage.user_token)
 
-    if(personalAddress=='' || personalAddress==null){
-       Toast.show('Please fill Personal Details')
-    }
-    else if(personalLocation=='' || personalLocation==null){
+    if (personalAddress == '' || personalAddress == null) {
       Toast.show('Please fill Personal Details')
     }
-    else if(personalPincode=='' || personalPincode==null){
+    else if (personalLocation == '' || personalLocation == null) {
       Toast.show('Please fill Personal Details')
     }
-    else if(personalPhoneNumber=='' || personalPhoneNumber==null){
+    else if (personalPincode == '' || personalPincode == null) {
       Toast.show('Please fill Personal Details')
     }
-    else if(personalEmail=='' || personalEmail==null){
+    else if (personalPhoneNumber == '' || personalPhoneNumber == null) {
       Toast.show('Please fill Personal Details')
     }
-    else if(personalEmergencyNumber=='' || personalEmergencyNumber==null){
+    else if (personalEmail == '' || personalEmail == null) {
       Toast.show('Please fill Personal Details')
     }
-    else if(personalDob=='' || personalDob==null){
+    else if (personalEmergencyNumber == '' || personalEmergencyNumber == null) {
       Toast.show('Please fill Personal Details')
     }
-    else if(businessName=='' || businessName==null){
+    else if (personalDob == '' || personalDob == null) {
+      Toast.show('Please fill Personal Details')
+    }
+    else if (businessName == '' || businessName == null) {
       Toast.show('Please fill Business Details')
     }
-    else if(gstNumber=='' || gstNumber==null){
+    else if (gstNumber == '' || gstNumber == null) {
       Toast.show('Please fill Business Details')
     }
-    else if(bussinessAddress=='' || bussinessAddress==null){
+    else if (bussinessAddress == '' || bussinessAddress == null) {
       Toast.show('Please fill Business Details')
     }
-    else if(businessLocation=='' || businessLocation==null){
+    else if (businessLocation == '' || businessLocation == null) {
       Toast.show('Please fill Business Details')
     }
-    else if(businessPhone=='' || businessPhone ==null){
+    else if (businessPhone == '' || businessPhone == null) {
       Toast.show('Please fill Business Details')
     }
-    else if(businessEmail=='' || businessEmail ==null){
+    else if (businessEmail == '' || businessEmail == null) {
       Toast.show('Please fill Business Details')
     }
     else if (photoName == '') {
@@ -219,6 +219,7 @@ const Documentation = ({ onPress }) => {
         axios.request(config)
           .then((response) => {
             console.log(response.data);
+            Toast.show(response.data.message)
             AsyncStorage.setItem(Storage.personalAddress, "")
             AsyncStorage.setItem(Storage.personalLocation, "")
             AsyncStorage.setItem(Storage.personalPincode, "")
@@ -427,9 +428,9 @@ const Documentation = ({ onPress }) => {
         />
         <View style={{ flexDirection: 'row' }}>
           <Text style={{ fontSize: 15, marginLeft: 10, color: '#000', fontFamily: 'Montserrat-Regular' }}>{'I agree to the '}</Text>
-          
-          <Text onPress={()=>setVisible(true)}
-           style={{ borderBottomWidth: 1, borderBottomColor: '#000', fontSize: 15, color: '#000' }}>Terms and Conditions</Text>
+
+          <Text onPress={() => setVisible(true)}
+            style={{ borderBottomWidth: 1, borderBottomColor: '#000', fontSize: 15, color: '#000' }}>Terms and Conditions</Text>
         </View>
       </View>
       <View style={styles.bottom}>
@@ -438,32 +439,36 @@ const Documentation = ({ onPress }) => {
           style={styles.arrow}>
           <BackArrow />
         </TouchableOpacity>
+
         <TouchableOpacity
           onPress={() => becomeAmember()}
           style={styles.button}>
           <Text style={styles.submit}>Submit</Text>
         </TouchableOpacity>
+
         <View style={{ width: 40 }} />
       </View>
       <Modal isVisible={isVisible}>
-        <View style={{ backgroundColor: '#FDEDB1', 
-        borderRadius: 16, 
-        paddingBottom: 20 }}>
-        <TouchableOpacity
-                        onPress={() => setVisible(false)}
-                        style={{ alignSelf: 'flex-end', margin: 5 }}>
-                        <CircleCross />
-                    </TouchableOpacity>
-                    <ScrollView style={{padding:20}}>
-           {data? <HTMLView
-                value={data
-                  .trim()
-                    .replace(new RegExp('<p>', 'g'), '<span>')
-                  }
-                addLineBreaks={false}
-            />:null}
-            <View style={{height:30}}/>
-            </ScrollView>
+        <View style={{
+          backgroundColor: '#FDEDB1',
+          borderRadius: 16,
+          paddingBottom: 20
+        }}>
+          <TouchableOpacity
+            onPress={() => setVisible(false)}
+            style={{ alignSelf: 'flex-end', margin: 5 }}>
+            <CircleCross />
+          </TouchableOpacity>
+          <ScrollView style={{ padding: 20 }}>
+            {data ? <HTMLView
+              value={data
+                .trim()
+                .replace(new RegExp('<p>', 'g'), '<span>')
+              }
+              addLineBreaks={false}
+            /> : null}
+            <View style={{ height: 30 }} />
+          </ScrollView>
 
         </View>
       </Modal>
@@ -506,10 +511,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    position: 'absolute',
-    bottom: 40,
-    left: 24,
-    right: 24
+    paddingHorizontal:24
+    // position: 'absolute',
+    // bottom: 40,
+    // left: 24,
+    // right: 24
   },
   arrow: {
     alignItems: 'center',

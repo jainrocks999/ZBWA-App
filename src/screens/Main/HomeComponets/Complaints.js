@@ -85,10 +85,11 @@ console.log('thisis item',item);
                 <View style={{ alignItems: 'center' }}>
                     <Text style={styles.add}>Add and view the status of your complaints</Text>
                 </View>
-                <View style={{ marginTop: 40 }}>
+                {/* <View style={{ marginTop: 40,borderWidth:1,flexGrow:1 }}> */}
                     <FlatList
                         data={data}
-                        // style={{backgroundColor:'white'}}
+                        style={{marginTop:30,marginBottom:60}}
+                        showsVerticalScrollIndicator={false}
                         renderItem={({ item }) => (
                             <TouchableOpacity
                                 onPress={() => {
@@ -112,8 +113,8 @@ console.log('thisis item',item);
                             </TouchableOpacity>
                         )}
                     />
-                    <View style={{height:50}}/>
-                </View>
+                    {/* <View style={{height:50}}/> */}
+                {/* </View> */}
             </View>
             <Modal isVisible={isVisible}>
                 <View style={styles.modal}>

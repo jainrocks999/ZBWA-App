@@ -33,7 +33,7 @@ const CurrentEvent=({data})=>{
                     borderColor: '#FCDA64',
                     marginBottom: 20,
                     borderRadius: 10,
-                    shadowColor: '#000',
+                    shadowColor: '#fff',
                     shadowOpacity: 0.26,
                     shadowOffset: { width: 0, height: 2 },
                     shadowRadius: 20,

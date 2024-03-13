@@ -233,8 +233,8 @@ const Register = () => {
                         />
                       </View>
                       <View style={[styles.border, { marginTop: 15 }]}>
-                        <Text style={[styles.ninety, { marginTop: 1.5 }]}>+91</Text>
-                        <TextInput style={styles.input}
+                        <Text style={[styles.ninety, { marginTop: 5 }]}>+91</Text>
+                        <TextInput style={[styles.input,{marginLeft:5}]}
                           placeholder="Phone Number"
                           placeholderTextColor={'#FFFFFF'}
                           keyboardType="number-pad"

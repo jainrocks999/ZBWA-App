@@ -32,6 +32,7 @@ const OrderCopies = () => {
         setLoader(true)
         axios.request(config)
         .then((response) => {
+            console.log('res',response);
           if(response.data.code=='200'){
               Toast.show(response.data.message)
               setData(response.data.data)

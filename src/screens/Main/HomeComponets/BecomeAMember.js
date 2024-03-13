@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, ScrollView } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import BusinessDetail from "../../../components/BusinessDetail";
@@ -92,6 +92,7 @@ const BecomeaMember = () => {
                         )}
                     />
                 </View>
+                <ScrollView style={{flexGrow:1}}>
                 <GestureRecognizer
                     onSwipeLeft={(state) => onSwipeLeft(state)}
                     onSwipeRight={(state) => onSwipeRight(state)}
@@ -105,6 +106,7 @@ const BecomeaMember = () => {
                         {selectedId == 3 ? <Documentation onPress={() => setSelectedId(selectedId - 1)} /> : null}
                     </View>
                 </GestureRecognizer>
+                </ScrollView>
             </View>
         </View>
     )

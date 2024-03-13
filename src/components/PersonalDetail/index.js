@@ -44,34 +44,35 @@ const PersonalDetail = () => {
 
     const handlePersonalDetails=()=>{
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-        if(address==''){
+        console.log('this is given address',address);
+        if(address=='' || address ==null){
             Toast.show('Please enter your address')
         }
-        else if(location==''){
+        else if(location=='' || location == null){
             Toast.show('Please enter your location')
         }
-        else if(pincode==''){
+        else if(pincode=='' || pincode == null){
             Toast.show('Please enter your pincode number')
         }
-        else if(phone==''){
+        else if(phone=='' || phone == null){
             Toast.show('Please enter your phone number')
         }
-        else if(phone.length<10){
+        else if(phone&&phone.length<10){
             Toast.show('Please enter 10 digit phone number ')
         }
-        else if(email==''){
+        else if(email=='' || email == null){
             Toast.show('Please enter your email address')
         }
         else if(reg.test(email)===false){
             Toast.show('Please enter valid email address')
         }
-        else if(emergencyNumber==''){
+        else if(emergencyNumber=='' || emergencyNumber == null){
             Toast.show('Please enter your emergency number')
         }
         else if(emergencyNumber.length<10){
             Toast.show('Please enter 10 digit emergency number')
         }
-        else if(dob==''){
+        else if(dob=='' || dob == null){
             Toast.show('Please enter DOB')
         }
         else{
@@ -119,7 +120,7 @@ const PersonalDetail = () => {
                             <TextInput 
                             value={address}
                             onChangeText={(val)=>setAddress(val)}
-                            style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium'}}
+                            style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium',width:'100%',height:40}}
                             />
                         </View>
                     </View>
@@ -129,7 +130,7 @@ const PersonalDetail = () => {
                             <TextInput
                              value={location}
                              onChangeText={(val)=>setLocation(val)}
-                             style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium'}} 
+                             style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium',width:'100%',height:40}} 
                             />
                         </View>
                     </View>
@@ -139,7 +140,7 @@ const PersonalDetail = () => {
                             <TextInput 
                              value={pincode}
                              onChangeText={(val)=>setPincode(val)}
-                             style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium'}}
+                             style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium',width:'100%',height:40}}
                              keyboardType="number-pad"
                              maxLength={6}
                            />
@@ -151,7 +152,7 @@ const PersonalDetail = () => {
                             <TextInput 
                              value={phone}
                              onChangeText={(val)=>setPhone(val)}
-                             style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium'}}
+                             style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium',width:'100%',height:40}}
                              keyboardType="number-pad"
                              maxLength={10}
                            />
@@ -163,8 +164,9 @@ const PersonalDetail = () => {
                             <TextInput 
                              value={email}
                              onChangeText={(val)=>setEmail(val)}
-                             style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium'}}
+                             style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium',width:'100%',height:40}}
                              keyboardType="email-address"
+                             
                             />
                         </View>
                     </View>
@@ -174,13 +176,13 @@ const PersonalDetail = () => {
                             <TextInput 
                              value={emergencyNumber}
                              onChangeText={(val)=>setEmergencyNumber(val)}
-                             style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium'}}
+                             style={{color:'#000000',fontSize:14,fontFamily:'Montserrat-Medium',width:'100%',height:40}}
                              keyboardType="number-pad"
                              maxLength={10}
                             />
                         </View>
                     </View>
-
+                    <View >
                     <View style={{ marginTop: 15 }}>
                         <Text style={styles.heading}>DOB</Text>
                         <TouchableOpacity
@@ -190,7 +192,7 @@ const PersonalDetail = () => {
                             <Claendar />
                         </TouchableOpacity>
                     </View>
-
+                    </View>
                     <View style={{ marginTop: 15 }}>
                         <View>
                             <TouchableOpacity
@@ -227,14 +229,18 @@ const PersonalDetail = () => {
                     </View>
                    
                 </View>
-
-                <View style={styles.bottom}>
+                 
+                <View 
+                // style={styles.bottom}
+                style={{marginTop:60,alignItems:'center',justifyContent:'center'}}
+                >
                     <TouchableOpacity 
                     onPress={()=>handlePersonalDetails()}
                     style={styles.touch1}>
                         <Text style={styles.text}>Submit</Text>
                     </TouchableOpacity>
                 </View>
+                
                 <DatePicker
                     modal
                     open={open}
@@ -287,7 +293,8 @@ const styles = StyleSheet.create({
         width: '100%',
         borderWidth: 1,
         borderColor: '#FCDA64',
-        marginTop: 5
+        marginTop: 5,
+        paddingHorizontal:8
     },
     touch: {
         height: 40,
