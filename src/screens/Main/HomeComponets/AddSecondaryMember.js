@@ -239,7 +239,7 @@ const AddSecondaryMember = ({route}) => {
                     </View>
                 </View>
                 <View style={{ marginTop: 15 }}>
-                    <Text style={styles.heading}>Phone Number</Text>
+                    <Text style={styles.heading}>Phone Number 1</Text>
                     <View style={styles.inputView}>
                         <TextInput 
                         value={phone}
@@ -251,7 +251,7 @@ const AddSecondaryMember = ({route}) => {
                     </View>
                 </View>
                 <View style={{ marginTop: 15 }}>
-                    <Text style={styles.heading}>Emergency Number</Text>
+                    <Text style={styles.heading}>Emergency Number 1</Text>
                     <View style={styles.inputView}>
                         <TextInput 
                         value={emergencyNumber}
@@ -263,7 +263,7 @@ const AddSecondaryMember = ({route}) => {
                     </View>
                 </View>
                 <View style={{ marginTop: 15 }}>
-                    <Text style={styles.heading}>Phone Number</Text>
+                    <Text style={styles.heading}>Phone Number 2</Text>
                     <View style={styles.inputView}>
                         <TextInput 
                         value={phone1}
@@ -275,7 +275,7 @@ const AddSecondaryMember = ({route}) => {
                     </View>
                 </View>
                 <View style={{ marginTop: 15 }}>
-                    <Text style={styles.heading}>Emergency Number</Text>
+                    <Text style={styles.heading}>Emergency Number 2</Text>
                     <View style={styles.inputView}>
                         <TextInput 
                         value={emergencyNumber1}

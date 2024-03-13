@@ -34,7 +34,6 @@ const HomeScreen = () => {
     const [loader, setLoader] = useState(false)
     const [banner, setBanner] = useState([])
     const [contact,setContact]=useState()
-    console.log(banner.length);
 
     useEffect(() => {
         handleBannerData()
@@ -42,7 +41,38 @@ const HomeScreen = () => {
 
     useEffect(() => {
         apiCall()
+        handleMember()
     }, [])
+
+    const handleMember=async()=>{
+        const user_token = await AsyncStorage.getItem(Storage.user_token)
+        let config = {
+            method: 'get',
+            url: 'http://45.79.123.102:49002/api/user/check/my/status',
+            headers: {
+                'Authorization': `${user_token}`
+            }
+        };
+        setLoader(true)
+        axios.request(config)
+            .then((response) => {
+                console.log('this is response',response.data);
+                if (response.data.code == '200') {
+                    // setContact(response.data.data)
+                    setLoader(false)
+                }
+                else {
+                    setLoader(false)
+                    Toast.show(response.data.message)
+                }
+            })
+            .catch((error) => {
+                setLoader(false)
+                console.log(error);
+            });
+
+
+    }
 
     const apiCall = async () => {
         const user_token = await AsyncStorage.getItem(Storage.user_token)
@@ -65,7 +95,6 @@ const HomeScreen = () => {
                     setLoader(false)
                     Toast.show(response.data.message)
                 }
-                console.log(JSON.stringify(response.data));
             })
             .catch((error) => {
                 setLoader(false)
@@ -89,7 +118,6 @@ const HomeScreen = () => {
                         arr.push({ img: item.banner })
                     )
                     setBanner(arr)
-                    console.log('this is response', response.data.data);
                     setLoader(false)
                 }
                 else {
@@ -99,7 +127,6 @@ const HomeScreen = () => {
             })
             .catch(function (error) {
                 setLoader(false)
-                console.log("error", error.response.data)
                 Toast.show(error.response.data.message)
             })
     }
@@ -127,7 +154,6 @@ const HomeScreen = () => {
               setLoader(true)
               axios.request(config)
               .then((response) => {
-                console.log('this is response data',response.data);
                 if(response.data.code=='200'){
                     setLoader(false)
                     navigation.navigate('SecondaryMember')
@@ -229,7 +255,6 @@ const HomeScreen = () => {
             navigation.navigate('OurPartner')
         }
     }
-    console.log('this is aray forr banner', banner);
     return (
         <View style={styles.container}>
             {loader ? <Loader /> : null}
