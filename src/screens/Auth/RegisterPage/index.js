@@ -233,7 +233,7 @@ const Register = () => {
                         />
                       </View>
                       <View style={[styles.border, { marginTop: 15 }]}>
-                        <Text style={[styles.ninety, { marginTop: 5 }]}>+91</Text>
+                        <Text style={[styles.ninety, { marginTop:Platform.OS=='android'?2: 5 }]}>+91</Text>
                         <TextInput style={[styles.input,{marginLeft:5}]}
                           placeholder="Phone Number"
                           placeholderTextColor={'#FFFFFF'}

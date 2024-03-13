@@ -16,7 +16,7 @@ import InChatViewFile from "../../../components/InChatViewFile";
 import Video from 'react-native-video';
 import VideoPlayerAndroid from "../../../components/VideoPlayerAndroid";
 import VideoPlayer from 'react-native-video-controls';
-// import RNFetchBlob from 'rn-fetch-blob'
+import RNFetchBlob from 'rn-fetch-blob'
 // import VideoPlayer from "../../../components/VideoPlayer";
 
 const ZBWGroup = () => {

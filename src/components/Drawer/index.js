@@ -142,7 +142,6 @@ const Drawer = () => {
                 </TouchableOpacity>
                 <TouchableOpacity 
                  onPress={()=>{
-                    // Alert.alert("Confirmation","Are you sure you want to sign out ") 
                     Alert.alert('Confirmation', 'Are you sure you want to Delete user?', [
                     {
                         text: 'Cancel',
@@ -154,7 +153,6 @@ const Drawer = () => {
                     }},
                     ]);
                 }}
-                // onPress={()=>handleDeleteUser()}
                 >
                 <Text style={styles.same}>Delete user</Text>
                 </TouchableOpacity>

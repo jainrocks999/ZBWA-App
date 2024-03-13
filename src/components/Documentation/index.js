@@ -15,7 +15,16 @@ import FormData, { getHeaders } from 'form-data';
 import CircleCross from "../../assets/Icon/CircleCross.svg";
 import HTMLView from "react-native-htmlview";
 
+
 const Documentation = ({ onPress }) => {
+
+  const [visible1,setVisible1]=useState(false)
+  const [visible2,setVisible2]=useState(false)
+  const [visible3,setVisible3]=useState(false)
+  const [visible4,setVisible4]=useState(false)
+  const [visible5,setVisible5]=useState(false)
+  const [visible6,setVisible6]=useState(false)
+
   const [toggleCheckBox, setToggleCheckBox] = useState(false)
   const [loader, setLoader] = useState(false)
   const [data, setData] = useState()
@@ -300,16 +309,78 @@ const Documentation = ({ onPress }) => {
     },
   }
 
-  // const launchCameraForPhoto = async () => {
-  //   launchCamera(checklistImage, response => {
-  //     if (response.didCancel) {
-  //     } else if (response.error) {
-  //     } else {
-
-  //       //   this.setState({imageObjectDic:response,imageEditView:true})
-  //     }
-  //   });
-  // }
+  const launchCameraForPhoto = async () => {
+    launchCamera(checklistImage, response => {
+      if (response.didCancel) {
+      } else if (response.error) {
+      } else {
+           const res=response.assets[0]
+           setPhoto(res.uri)
+           setPhotoName(res.fileName)
+           setPhotoType(res.type)
+       }
+    });
+  }
+  const launchCameraForCertificate = async () => {
+    launchCamera(checklistImage, response => {
+      if (response.didCancel) {
+      } else if (response.error) {
+      } else {
+        const res=response.assets[0]
+        setGst(res.uri)
+        setGstName(res.fileName)
+        setGstType(res.type)
+      }
+    });
+  }
+  const launchCameraForPan = async () => {
+    launchCamera(checklistImage, response => {
+      if (response.didCancel) {
+      } else if (response.error) {
+      } else {
+        const res=response.assets[0]
+        setPan(res.uri)
+        setPanName(res.fileName)
+        setPanType(res.type)
+      }
+    });
+  }
+  const launchCameraForAadhar = async () => {
+    launchCamera(checklistImage, response => {
+      if (response.didCancel) {
+      } else if (response.error) {
+      } else {
+        const res=response.assets[0]
+        setAadhar(res.uri)
+        setAadharName(res.fileName)
+        setAadharType(res.type)
+      }
+    });
+  }
+  const launchCameraForIec = async () => {
+    launchCamera(checklistImage, response => {
+      if (response.didCancel) {
+      } else if (response.error) {
+      } else {
+        const res=response.assets[0]
+        setIec(res.uri)
+        setIecName(res.fileName)
+        setIecType(res.type)
+      }
+    });
+  }
+  const launchCameraForBis= async () => {
+    launchCamera(checklistImage, response => {
+      if (response.didCancel) {
+      } else if (response.error) {
+      } else {
+        const res=response.assets[0]
+        setBis(res.uri)
+        setBisName(res.fileName)
+        setBisType(res.type)
+      }
+    });
+  }
 
   const _pickDocument = async (type) => {
     try {
@@ -365,7 +436,10 @@ const Documentation = ({ onPress }) => {
     <View style={styles.container}>
       {loader ? <Loader /> : null}
       <View style={styles.main}>
-        <TouchableOpacity onPress={() => _pickDocument('photograph')}
+        <TouchableOpacity onPress={() =>
+        //  _pickDocument('photograph')
+        setVisible1(true)
+        }
           style={[styles.touch, { marginTop: 5 }]}>
           <Upload />
           {photo ?
@@ -375,7 +449,10 @@ const Documentation = ({ onPress }) => {
               <Text style={{ color: 'red' }}>*</Text>
             </View>}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => _pickDocument('gstCertificate')}
+        <TouchableOpacity onPress={() => 
+          setVisible2(true)
+          // _pickDocument('gstCertificate')
+      }
           style={styles.touch}>
           <Upload />
           {gst ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{gstName}</Text> :
@@ -384,7 +461,11 @@ const Documentation = ({ onPress }) => {
               <Text style={{ color: 'red' }}>*</Text>
             </View>}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => _pickDocument('pancard')} style={styles.touch}>
+        <TouchableOpacity onPress={() =>{
+           setVisible3(true)
+          //  _pickDocument('pancard')
+          
+           }} style={styles.touch}>
           <Upload />
           {pan ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{panName}</Text> :
             <View style={styles.row}>
@@ -392,7 +473,13 @@ const Documentation = ({ onPress }) => {
               <Text style={{ color: 'red' }}>*</Text>
             </View>}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => _pickDocument('aadharcard')} style={styles.touch}>
+        <TouchableOpacity onPress={() =>
+          {
+              setVisible4(true)
+            //  _pickDocument('aadharcard')
+
+            }
+           } style={styles.touch}>
           <Upload />
           {aadhar ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{aadharName}</Text> :
             <View style={styles.row}>
@@ -400,14 +487,22 @@ const Documentation = ({ onPress }) => {
               <Text style={{ color: 'red' }}>*</Text>
             </View>}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => _pickDocument('iecCertificate')} style={styles.touch}>
+        <TouchableOpacity onPress={() =>{
+           setVisible5(true)
+          //  _pickDocument('iecCertificate')
+           }} style={styles.touch}>
           <Upload />
           {iec ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{iecName}</Text> :
             <View style={styles.row}>
               <Text style={styles.text}>{'IEC Certificate'}</Text>
             </View>}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => _pickDocument('bisCertificate')} style={styles.touch}>
+        <TouchableOpacity onPress={() =>
+          { 
+            setVisible6(true)
+          //  _pickDocument('bisCertificate')
+          }
+           } style={styles.touch}>
           <Upload />
           {bis ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{bisName}</Text> :
             <View style={styles.row}>
@@ -472,11 +567,244 @@ const Documentation = ({ onPress }) => {
 
         </View>
       </Modal>
+
+      <Modal isVisible={visible1}>
+                <View style={styles.first1}>
+                    <View style={styles.row1}>
+                        <View />
+                        <TouchableOpacity
+                            onPress={() => setVisible1(false)}
+                            style={styles.touch1}>
+                            <CircleCross />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.modal}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                setVisible1(false)
+                                launchCameraForPhoto()
+                            }}
+                            style={styles.camera}>
+                            <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                 setVisible1(false)
+                                _pickDocument('photograph')
+                            }
+                            }
+                            style={styles.button1}>
+                            <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Gallery</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal isVisible={visible2}>
+                <View style={styles.first1}>
+                    <View style={styles.row1}>
+                        <View />
+                        <TouchableOpacity
+                            onPress={() => setVisible2(false)}
+                            style={styles.touch1}>
+                            <CircleCross />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.modal}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                setVisible2(false)
+                                launchCameraForCertificate()
+                            }}
+                            style={styles.camera}>
+                            <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                setVisible2(false)
+                                _pickDocument('gstCertificate')
+                            }
+                            }
+                            style={styles.button1}>
+                            <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Gallery</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal isVisible={visible3}>
+                <View style={styles.first1}>
+                    <View style={styles.row1}>
+                        <View />
+                        <TouchableOpacity
+                            onPress={() => setVisible3(false)}
+                            style={styles.touch1}>
+                            <CircleCross />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.modal}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                setVisible3(false)
+                                launchCameraForPan()
+                            }}
+                            style={styles.camera}>
+                            <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                setVisible3(false)
+                                _pickDocument('pancard')
+                            }
+                            }
+                            style={styles.button1}>
+                            <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Gallery</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal isVisible={visible4}>
+                <View style={styles.first1}>
+                    <View style={styles.row1}>
+                        <View />
+                        <TouchableOpacity
+                            onPress={() => setVisible4(false)}
+                            style={styles.touch1}>
+                            <CircleCross />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.modal}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                setVisible4(false)
+                                launchCameraForAadhar()
+                            }}
+                            style={styles.camera}>
+                            <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                setVisible4(false)
+                                _pickDocument('aadharcard')
+                            }
+                            }
+                            style={styles.button1}>
+                            <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Gallery</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal isVisible={visible5}>
+                <View style={styles.first1}>
+                    <View style={styles.row1}>
+                        <View />
+                        <TouchableOpacity
+                            onPress={() => setVisible5(false)}
+                            style={styles.touch1}>
+                            <CircleCross />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.modal}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                setVisible5(false)
+                                launchCameraForIec()
+                            }}
+                            style={styles.camera}>
+                            <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                setVisible5(false)
+                                _pickDocument('iecCertificate')
+                            }
+                            }
+                            style={styles.button1}>
+                            <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Gallery</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal isVisible={visible6}>
+                <View style={styles.first1}>
+                    <View style={styles.row1}>
+                        <View />
+                        <TouchableOpacity
+                            onPress={() => setVisible6(false)}
+                            style={styles.touch1}>
+                            <CircleCross />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.modal}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                setVisible6(false)
+                                launchCameraForBis()
+                            }}
+                            style={styles.camera}>
+                            <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                 setVisible6(false)
+                                _pickDocument('bisCertificate')
+                            }
+                            }
+                            style={styles.button1}>
+                            <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Gallery</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
     </View>
   )
 }
 export default Documentation;
 const styles = StyleSheet.create({
+  modal: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    marginTop: 20
+},
+camera: {
+    backgroundColor: '#000',
+    width: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 40,
+    borderRadius: 8,
+},
+  button1: {
+    backgroundColor: '#000',
+    width: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 40,
+    borderRadius: 8
+},
+  first1: {
+    backgroundColor: '#FDEDB1',
+    height: 125,
+    borderRadius: 16,
+    width: '84%',
+    alignSelf: 'center',
+
+},
+  row1: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+},
+
+touch1: {
+    marginRight: 5,
+    marginTop: 5
+},
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF'

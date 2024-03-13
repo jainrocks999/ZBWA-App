@@ -82,7 +82,7 @@ export default StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 12,
     fontFamily: 'Montserrat-Regular',
-    marginTop:5
+    marginTop:Platform.OS=='android'?0:5
   },
   input:{
     color: '#FFFFFF',

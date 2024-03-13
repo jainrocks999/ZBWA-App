@@ -23,34 +23,8 @@ const ForgotPassword = () => {
   const [mobile, setMobile] = useState('')
   const [loader, setLoader] = useState(false)
   const [code, setCode] = useState('')
-  const [confirm, setConfirm] = useState(null);
+  const [show, setShow] = useState(false);
 
-  // const onAuthStateChanged=(user)=> {
-  //   if (user) {
-  //     // Some Android devices can automatically process the verification code (OTP) message, and the user would NOT need to enter the code.
-  //     // Actually, if he/she tries to enter it, he/she will get an error message because the code was already used in the background.
-  //     // In this function, make sure you hide the component(s) for entering the code and/or navigate away from this screen.
-  //     // It is also recommended to display a message to the user informing him/her that he/she has successfully logged in.
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-  //   return subscriber; // unsubscribe on unmount
-  // }, []);
-
-//   const  signInWithPhoneNumber =async(phoneNumber)=> {
-//     const confirmation = await auth().signInWithPhoneNumber(phoneNumber)
-//     console.log(confirmation);
-//     setConfirm(confirmation);
-//   }
-//  const confirmCode=async()=> {
-//     try {
-//       await confirm.confirm('884051');
-//     } catch (error) {
-//       console.log('Invalid code.');
-//     }
-//   }
 
   const manageSend = () => {
     if (mobile == '') {
@@ -73,7 +47,7 @@ const ForgotPassword = () => {
           if (response.data.code == '200') {
             setLoader(false)
             Toast.show(response.data.message)
-            setCode(response.data.data)
+            setShow(true)
             console.log('this is response', response.data);
             // navigation.replace('CreatePassword',{
             //   data:response.data.data,
@@ -114,8 +88,8 @@ const ForgotPassword = () => {
       })
     .then(function(response) {
       if(response.data.code=='200'){
-        setCode(response.data.data)
         setLoader(false)
+        setShow(true)
         Toast.show(response.data.message )
         console.log('this is response',response.data);
       }
@@ -226,7 +200,7 @@ const ForgotPassword = () => {
                             keyboardType="number-pad"
                             maxLength={10}
                           />
-                          {code ?
+                          {show ?
                             <Edit />
                             : <View>
                               <Text
@@ -236,7 +210,7 @@ const ForgotPassword = () => {
                             </View>}
                         </View>
                       </View>
-                     {code? <View style={{ marginTop: 10 }}>
+                     {show? <View style={{ marginTop: 10 }}>
                         <OtpInputs
                           handleChange={code => setCode(code)}
                           numberOfInputs={6}
@@ -251,7 +225,7 @@ const ForgotPassword = () => {
                           inputStyles={styles.otp1}
                         />
                       </View>:null}
-                     {code? <View style={{ marginTop: 15 }}>
+                     {show? <View style={{ marginTop: 15 }}>
                         <TouchableOpacity
                           activeOpacity={0.5}
                           onPress={() => resendOtp()}

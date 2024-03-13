@@ -85,7 +85,7 @@ export default StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 12,
     fontFamily: 'Montserrat-Regular',
-    marginTop:5
+    marginTop:Platform.OS=='ios'?5:0
   },
   input:{
     color: '#FFFFFF',

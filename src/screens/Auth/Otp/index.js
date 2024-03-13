@@ -18,7 +18,7 @@ const OtpPage = ({route}) => {
   const navigation = useNavigation()
   const data=route.params
   // console.log('this is route data',data);
-  const [code, setCode] = useState(data.data)
+  const [code, setCode] = useState()
   const [mobile,setMobile]=useState(data.mobile)
   const [loader,setLoader]=useState(false)
 
@@ -85,7 +85,6 @@ const OtpPage = ({route}) => {
           setLoader(false)
           console.log('this is resposs', response.data);
           Toast.show(response.data.message)
-          setCode(response.data.data)
         }
         else {
           setLoader(false)

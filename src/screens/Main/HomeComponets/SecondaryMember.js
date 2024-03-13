@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from "react";
-import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, Dimensions,Platform } from "react-native";
+import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, Dimensions,Platform ,Alert} from "react-native";
 import Header from "../../../components/CustomHeader";
 import Dash from "../../../assets/Icon/Dash.svg";
 import Plus from "../../../assets/Icon/Plus.svg";
@@ -35,9 +35,10 @@ const SecondaryMember = () => {
       })
       .then(function(response) {
         if(response.data.code=='200'){
+          Toast.show(response.data.message )
             setMember(response.data.data)
             setSecondaryMember(response.data.data.secondary_members)
-            console.log('this is member list',response.data);
+            console.log('this is member list',JSON.stringify(response.data));
             setLoader(false)
         }
         else{
@@ -51,7 +52,35 @@ const SecondaryMember = () => {
         Toast.show(error.response.data.message)
       })
   }
-  // console.log('this is secondary member',secondaryMember[0].documents.employeeSelfie.location);
+  const handleDeleteMember=async(id)=>{
+    const user_token=await AsyncStorage.getItem(Storage.user_token)
+    let config = {
+      method: 'get',
+      url: `http://45.79.123.102:49002/api/member/secondary/member/list/delete/${id}`,
+      headers: { 
+        'Authorization': `${user_token}`
+        }
+    };
+    setLoader(true)
+    axios.request(config)
+    .then((response) => {
+      if(response.data.code == '200'){
+        Toast.show(response.data.message)
+        handleApiCall()
+        setLoader(false)
+      }
+      else{
+        Toast.show(response.data.message)
+        setLoader(false)
+      }
+    })
+    .catch((error) => {
+      setLoader(false)
+      console.log(error);
+    });
+    
+  }
+
   return (
     <View style={styles.container}>
       {loader?<Loader/>:null}
@@ -68,7 +97,20 @@ const SecondaryMember = () => {
           numColumns={2}
           renderItem={({ item }) => (
             <View style={[styles.item]}>
-              <TouchableOpacity style={styles.touch}>
+              <TouchableOpacity
+                onPress={()=>{
+                  Alert.alert('Confirmation', 'Are you sure you want to Delete Secondary Member?', [
+                  {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                  },
+                  {text: 'OK', onPress: () =>{
+                      handleDeleteMember(item._id)
+                  }},
+                  ]);
+              }}
+               style={styles.touch}>
                 <Dash />
               </TouchableOpacity>
               <View style={styles.row}>

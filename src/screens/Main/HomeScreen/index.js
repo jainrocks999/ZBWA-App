@@ -34,6 +34,7 @@ const HomeScreen = () => {
     const [loader, setLoader] = useState(false)
     const [banner, setBanner] = useState([])
     const [contact,setContact]=useState()
+    const [showMember,setShowMember]=useState('')
 
     useEffect(() => {
         handleBannerData()
@@ -58,12 +59,12 @@ const HomeScreen = () => {
             .then((response) => {
                 console.log('this is response',response.data);
                 if (response.data.code == '200') {
-                    // setContact(response.data.data)
                     setLoader(false)
+                    setShowMember(response.data.message)
                 }
                 else {
                     setLoader(false)
-                    Toast.show(response.data.message)
+                    setShowMember(response.data.message)
                 }
             })
             .catch((error) => {
@@ -153,14 +154,16 @@ const HomeScreen = () => {
               };
               setLoader(true)
               axios.request(config)
+             
               .then((response) => {
-                if(response.data.code=='200'){
+                console.log('this is member data',showMember);
+                if(showMember=='Not a member'){
                     setLoader(false)
-                    navigation.navigate('SecondaryMember')
+                    setPremium(true)
                 }
                 else{
                     setLoader(false)
-                    setPremium(true)
+                    navigation.navigate('SecondaryMember')
                 }
               })
               .catch((error) => {
@@ -181,14 +184,22 @@ const HomeScreen = () => {
           setLoader(true)
           axios.request(config)
           .then((response) => {
-            if(response.data.code=='200'){
-                setLoader(false)
-                navigation.navigate('LegalSupport')
-            }
-            else{
+            if(showMember=='Not a member'){
                 setLoader(false)
                 setPremium(true)
             }
+            else{
+                setLoader(false)
+                navigation.navigate('LegalSupport')
+            }
+            // if(response.data.code=='200'){
+            //     setLoader(false)
+            //     navigation.navigate('LegalSupport')
+            // }
+            // else{
+            //     setLoader(false)
+            //     setPremium(true)
+            // }
           })
           .catch((error) => {
             setLoader(false)
@@ -207,14 +218,22 @@ const HomeScreen = () => {
               setLoader(true)
               axios.request(config)
               .then((response) => {
-                if(response.data.code=='200'){
-                    setLoader(false)
-                    navigation.navigate('OrderCopies')
-                }
-                else{
+                if(showMember=='Not a member'){
                     setLoader(false)
                     setPremium(true)
                 }
+                else{
+                    setLoader(false)
+                    navigation.navigate('OrderCopies')
+                }
+                // if(response.data.code=='200'){
+                //     setLoader(false)
+                //     navigation.navigate('OrderCopies')
+                // }
+                // else{
+                //     setLoader(false)
+                //     setPremium(true)
+                // }
               })
               .catch((error) => {
                 setLoader(false)
@@ -233,15 +252,25 @@ const HomeScreen = () => {
               };
               setLoader(true)
               axios.request(config)
+             
               .then((response) => {
-                if(response.data.code=='200'){
-                    setLoader(false)
-                    navigation.navigate('Complaints')
-                }
-                else{
+                console.log('this is response',response.data);
+                if(showMember=='Not a member'){
                     setLoader(false)
                     setPremium(true)
                 }
+                else{
+                    setLoader(false)
+                    navigation.navigate('Complaints')
+                }
+                // if(response.data.code=='200'){
+                //     setLoader(false)
+                //     navigation.navigate('Complaints')
+                // }
+                // else{
+                //     setLoader(false)
+                //     setPremium(true)
+                // }
               })
               .catch((error) => {
                 setLoader(false)
@@ -328,27 +357,27 @@ const HomeScreen = () => {
                 </View>
                 <View style={styles.view}>
                     <FlatList
-                        data={data}
+                        data={showMember=='Not a member'?data:data2}
                         numColumns={2}
-                        renderItem={({ item, index }) => (
+                        renderItem={({ item, index }) =>(
                             <TouchableOpacity
-                                activeOpacity={0.5}
-                                onPress={() => onItemPress(item.name)}
-                                style={styles.item}>
-                                {item.img}
-                                <Text style={styles.name}>{item.name}</Text>
-                            </TouchableOpacity>
+                            activeOpacity={0.5}
+                            onPress={() => onItemPress(item.name)}
+                            style={styles.item}>
+                            {item.img}
+                            <Text style={styles.name}>{item.name}</Text>
+                        </TouchableOpacity>
                         )}
                     />
                 </View>
             </ScrollView>
             <Modal isVisible={isVisible}>
                 <View style={{ backgroundColor: '#FDEDB1', 
-        height: 125, 
-        borderRadius: 16, 
-        paddingLeft: 20, 
-        width: '84%', 
-        alignSelf: 'center' }}>
+                    height: 125, 
+                    borderRadius: 16, 
+                    paddingLeft: 20, 
+                    width: '84%', 
+                    alignSelf: 'center' }}>
                     <View style={styles.row}>
                         <Text style={styles.contact}>Contact Us</Text>
                         <TouchableOpacity
@@ -471,6 +500,41 @@ const data = [
     {
         img: <Image16 />,
         name: 'Become a Member'
+    },
+    {
+        img: <Image17 />,
+        name: 'Secondary Member'
+    },
+    {
+        img: <Image18 />,
+        name: 'Complaints'
+    },
+    {
+        img: <Image19 />,
+        name: 'Events'
+    },
+    {
+        img: <Image20 />,
+        name: 'Our Partners'
+    },
+    {
+        img: <Image22 />,
+        name: 'Order Copies'
+    },
+    {
+        img: <Image21 />,
+        name: 'Price Chart'
+    },
+    {
+        img: <Image23 />,
+        name: 'Legal Support'
+    },
+]
+
+const data2 = [
+    {
+        img: <Image15 />,
+        name: 'ZBW News'
     },
     {
         img: <Image17 />,
