@@ -18,7 +18,9 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "react-native-push-notification";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Storage from "./src/components/LocalStorage";
-import messaging from "@react-native-firebase/messaging";
+// import messaging from "@react-native-firebase/messaging";
+import crashlytics from '@react-native-firebase/crashlytics';
+
 
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
@@ -61,18 +63,37 @@ const App = () => {
     requestPermissions: true,
   });
 
-  const getFCMToken = async () => {
-    try {
-      const token = await messaging().getToken();
-      console.log(token);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const getFCMToken = async () => {
+  //   try {
+  //     const token = await messaging().getToken();
+  //     console.log(token);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
-  useEffect(() => {
-    getFCMToken();
-  }, []);
+  // useEffect(() => {
+  //   Platform.OS=='ios'?getFCMToken():null
+  // }, []);
+
+  useEffect(async() => {
+    crashlytics().log('Analytics page just mounted')
+    getCrashlyticsDetail()
+    return () => {
+      crashlytics().log('Analytics page just unmounted')
+    }
+  }, [])
+
+  const getCrashlyticsDetail = async() => {
+    const user_id=await AsyncStorage.getItem(Storage.user_id)
+    const name=await AsyncStorage.getItem(Storage.username)
+    try {
+      crashlytics().setUserId(user_id)
+      crashlytics().setAttribute('username', name)
+    } catch (err) {
+      crashlytics().recordError(err)
+    }
+  }
 
   return (
     <Fragment>

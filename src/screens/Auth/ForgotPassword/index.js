@@ -14,6 +14,7 @@ import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
+import Constants from "../../../Redux/Constants";
 // import auth from '@react-native-firebase/auth';
 
 
@@ -37,7 +38,7 @@ const ForgotPassword = () => {
       setLoader(true)
       axios({
         method: 'post',
-        url: 'http://45.79.123.102:49002/api/user/send/otp',
+        url: `${Constants.MainUrl}user/send/otp`,
         data: {
           "mobile": mobile,
           "action": "reset_password"
@@ -80,7 +81,7 @@ const ForgotPassword = () => {
       
       axios({
         method: 'post',
-        url: 'http://45.79.123.102:49002/api/user/send/otp',
+        url: `${Constants.MainUrl}user/send/otp`,
         data: {
           "mobile": mobile,
           "action": "reset_password"
@@ -124,7 +125,7 @@ const ForgotPassword = () => {
       setLoader(true)
       axios({
         method: 'post',
-        url: 'http://45.79.123.102:49002/api/user/verify/otp',
+        url: `${Constants.MainUrl}user/verify/otp`,
         data: {
           "otp": code,
           "mobile": mobile,

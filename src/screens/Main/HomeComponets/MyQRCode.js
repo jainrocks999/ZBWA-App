@@ -13,6 +13,7 @@ import UpcommingEventQRCode from "../../../components/UpcommingEventQRCode";
 import PastEventQRCode from "../../../components/PastEventQRCode";
 import CurrentEventQRCode from "../../../components/CurrentEventQRCode";
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
+import Constants from "../../../Redux/Constants";
 
 const QRCode = () => {
   const navigation=useNavigation()
@@ -33,7 +34,7 @@ const QRCode = () => {
        console.log('this is user token',user_token);
       let config = {
           method: 'get',
-          url: 'http://45.79.123.102:49002/api/event/applied/event/qr',
+          url: `${Constants.MainUrl}event/applied/event/qr`,
           headers: {
               'Authorization': `${user_token}`
           }

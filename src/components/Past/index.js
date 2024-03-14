@@ -7,6 +7,7 @@ import Storage from "../LocalStorage";
 import Toast from "react-native-simple-toast";
 import Image from "react-native-scalable-image";
 import { useNavigation } from "@react-navigation/native";
+import Constants from "../../Redux/Constants";
 
 const Past = () => {
     const [loader, setLoader] = useState(false)
@@ -23,7 +24,7 @@ const Past = () => {
         setLoader(true)
         axios({
             method: 'get',
-            url: `http://45.79.123.102:49002/api/event/all/past/${page}`,
+            url: `${Constants.MainUrl}event/all/past/${page}`,
             headers: `Authorization: ${user_token}`
         })
             .then(function (response) {
@@ -50,7 +51,7 @@ const Past = () => {
         setLoader(true)
         axios({
             method: 'get',
-            url: `http://45.79.123.102:49002/api/event/all/past/${page}`,
+            url: `${Constants.MainUrl}event/all/past/${page}`,
             headers: `Authorization: ${user_token}`
         })
             .then(function (response) {

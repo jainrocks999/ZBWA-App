@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import Eye from "../../../assets/Icon/eye.svg";
 import Eye1 from "../../../assets/Icon/eye1.svg";
+import Constants from "../../../Redux/Constants";
 
 const CreatePassword = ({route}) => {
 
@@ -40,7 +41,7 @@ const CreatePassword = ({route}) => {
       setLoader(true)
     axios({
       method: 'post',
-      url: 'http://45.79.123.102:49002/api/user/set/mpin',
+      url: `${Constants.MainUrl}user/set/mpin`,
       data: {
         "mpin": pin,
         "userId":route.params.data

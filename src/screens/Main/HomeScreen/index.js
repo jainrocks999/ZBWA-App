@@ -25,6 +25,8 @@ import Image21 from "../../../assets/HomeImage/image21.svg";
 import Image22 from "../../../assets/HomeImage/image22.svg";
 import Image23 from "../../../assets/HomeImage/image23.svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from "../../../Redux/Constants";
+import Contact from "../HomeComponets/Contact";
 
 
 const HomeScreen = () => {
@@ -49,7 +51,7 @@ const HomeScreen = () => {
         const user_token = await AsyncStorage.getItem(Storage.user_token)
         let config = {
             method: 'get',
-            url: 'http://45.79.123.102:49002/api/user/check/my/status',
+            url: `${Constants.MainUrl}user/check/my/status`,
             headers: {
                 'Authorization': `${user_token}`
             }
@@ -79,7 +81,7 @@ const HomeScreen = () => {
         const user_token = await AsyncStorage.getItem(Storage.user_token)
         let config = {
             method: 'get',
-            url: 'http://45.79.123.102:49002/api/homepage/contact/us',
+            url: `${Constants.MainUrl}homepage/contact/us`,
             headers: {
                 'Authorization': `${user_token}`
             }
@@ -110,7 +112,7 @@ const HomeScreen = () => {
         setLoader(true)
         axios({
             method: 'get',
-            url: 'http://45.79.123.102:49002/api/slider/all',
+            url: `${Constants.MainUrl}slider/all`,
             headers: `Authorization: ${user_token}`
         })
             .then(function (response) {
@@ -147,7 +149,7 @@ const HomeScreen = () => {
 
             let config = {
                 method: 'get',
-                url: 'http://45.79.123.102:49002/api/member/secondary/member/list',
+                url: `${Constants.MainUrl}member/secondary/member/list`,
                 headers: { 
                   'Authorization': `${user_token}`
                 }
@@ -176,7 +178,7 @@ const HomeScreen = () => {
         else if (title == 'Legal Support') {
         let config = {
             method: 'get',
-            url: 'http://45.79.123.102:49002/api/legalsupport/all/1',
+            url: `${Constants.MainUrl}legalsupport/all/1`,
             headers: { 
               'Authorization': `${user_token}`
             }
@@ -210,7 +212,7 @@ const HomeScreen = () => {
             // navigation.navigate('OrderCopies')
             let config = {
                 method: 'get',
-                url: 'http://45.79.123.102:49002/api/ordercopie/all/1',
+                url: `${Constants.MainUrl}ordercopie/all/1`,
                 headers: { 
                   'Authorization': `${user_token}`
                 }
@@ -245,7 +247,7 @@ const HomeScreen = () => {
             // navigation.navigate('Complaints')
             let config = {
                 method: 'get',
-                url: 'http://45.79.123.102:49002/api/complaint/all',
+                url: `${Constants.MainUrl}complaint/all`,
                 headers: { 
                   'Authorization': `${user_token}`
                 }

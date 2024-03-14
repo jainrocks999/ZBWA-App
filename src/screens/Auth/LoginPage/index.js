@@ -13,6 +13,7 @@ import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
+import Constants from "../../../Redux/Constants";
 
 const Login = () => {
 
@@ -38,7 +39,7 @@ const Login = () => {
       setLoader(true)
     axios({
       method: 'post',
-      url: 'http://45.79.123.102:49002/api/user/login',
+      url: `${Constants.MainUrl}user/login`,
       data: {
         "mobile": mobile,
         "action": "password",
@@ -54,7 +55,7 @@ const Login = () => {
         let config = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: 'http://45.79.123.102:49002/api/user/update/fcm/token',
+          url: `${Constants.MainUrl}user/update/fcm/token`,
           headers: { 
             'Content-Type': 'application/json', 
             'Authorization': response.data.data.token, 

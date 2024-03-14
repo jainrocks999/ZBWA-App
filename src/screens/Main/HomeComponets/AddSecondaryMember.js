@@ -14,6 +14,7 @@ import Storage from "../../../components/LocalStorage";
 import axios from "axios";
 import Modal from "react-native-modal";
 import CircleCross from "../../../assets/Icon/CircleCross.svg";
+import Constants from "../../../Redux/Constants";
 
 
 const AddSecondaryMember = ({ route }) => {
@@ -120,7 +121,7 @@ const AddSecondaryMember = ({ route }) => {
 
             let config = {
                 method: 'post',
-                url: 'http://45.79.123.102:49002/api/member/secondary/create',
+                url: `${Constants.MainUrl}member/secondary/create`,
                 headers: {
                     'Authorization': `${user_token}`,
                     "Content-Type": "multipart/form-data",

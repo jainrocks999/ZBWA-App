@@ -13,6 +13,7 @@ import Loader from "../../../components/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import { EntryExitTransition, SharedTransitionType } from "react-native-reanimated";
+import Constants from "../../../Redux/Constants";
 
 const Login = () => {
 
@@ -32,7 +33,7 @@ const Login = () => {
       setLoader(true)
       axios({
         method: 'post',
-        url: 'http://45.79.123.102:49002/api/user/check/first/login',
+        url: `${Constants.MainUrl}user/check/first/login`,
         data: {
           "mobile": mobile,
         }

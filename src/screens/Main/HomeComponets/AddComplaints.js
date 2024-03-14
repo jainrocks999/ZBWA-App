@@ -10,6 +10,7 @@ import Loader from "../../../components/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import axios from "axios";
+import Constants from "../../../Redux/Constants";
 
 const AddComplaints = () => {
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
@@ -75,7 +76,7 @@ const AddComplaints = () => {
               let config = {
                 method: 'post',
                
-                url: 'http://45.79.123.102:49002/api/complaint/create/complain',
+                url: `${Constants.MainUrl}complaint/create/complain`,
                 headers: { 
                   'Content-Type': 'application/json', 
                   'Authorization': `${user_token}`

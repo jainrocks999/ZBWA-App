@@ -9,6 +9,7 @@ import Toast from "react-native-simple-toast";
 import axios from "axios";
 import HTMLView from "react-native-htmlview";
 import Image from "react-native-scalable-image";
+import Constants from "../../../Redux/Constants";
 const ZBWNews=()=>{
     const navigation=useNavigation()
     const [loader,setLoader]=useState(false)
@@ -25,7 +26,7 @@ const ZBWNews=()=>{
         setLoader(true)
         axios({
             method: 'get',
-            url: 'http://45.79.123.102:49002/api/news/all/1',
+            url: `${Constants.MainUrl}news/all/1`,
             headers: `Authorization: ${user_token}`
           })
           .then(function(response) {
@@ -51,7 +52,7 @@ const ZBWNews=()=>{
         setLoader(true)
         axios({
             method: 'get',
-            url: `http://45.79.123.102:49002/api/news/all/${page}`,
+            url: `${Constants.MainUrl}news/all/${page}`,
             headers: `Authorization: ${user_token}`
           })
           .then(function(response) {

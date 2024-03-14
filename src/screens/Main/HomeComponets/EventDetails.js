@@ -11,7 +11,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import HTMLView from "react-native-htmlview";
 import Modal from "react-native-modal";
-// import RNFetchBlob from "rn-fetch-blob";
+import RNFetchBlob from "rn-fetch-blob";
+import Constants from "../../../Redux/Constants";
 
 const EventDetails = ({ route }) => {
     const [isVisible, setVisible] = useState(false)
@@ -32,7 +33,7 @@ const EventDetails = ({ route }) => {
         setLoader(true)
         axios({
             method: 'get',
-            url: `http://45.79.123.102:49002/api/event/details/${route.params.id}`,
+            url: `${Constants.MainUrl}event/details/${route.params.id}`,
             headers: `Authorization: ${user_token}`
         })
             .then(function (response) {
@@ -73,7 +74,7 @@ const EventDetails = ({ route }) => {
 
         let config = {
             method: 'post',
-            url: `http://45.79.123.102:49002/api/event/apply/event/${id}`,
+            url: `${Constants.MainUrl}event/apply/event/${id}`,
             headers: {
                 'Authorization': `${user_token}`,
                 // 'Cookie': 'serv_app_zaveri=s%3Av6ba0gxNaizNDxd6SWf5FLmz-RHARUBk.6pns387tK1qMEqBKGAZUkWTyJyvPmocZWvHcYNcA2vA'
@@ -92,7 +93,7 @@ const EventDetails = ({ route }) => {
                 setLoader(false)
                 }
                 else{
-                    Toast.show(response.data.msg) 
+                    Toast.show(response.data.message) 
                     setLoader(false)
                 }
             })
@@ -110,23 +111,23 @@ const EventDetails = ({ route }) => {
     }
 
     const saveToGallery=()=>{
-        // const d = new Date(data.date);
-        // console.log(d);
-        // let day = d.getDate();
-        // let year=d.getFullYear()
-        // if (day.length < 2)
-        //     day = '0' + day;
-        // let month = d.getDate()+1
+        const d = new Date(data.date);
+        console.log(d);
+        let day = d.getDate();
+        let year=d.getFullYear()
+        if (day.length < 2)
+            day = '0' + day;
+        let month = d.getDate()+1
 
-        // const base64Image=qrCode
-        // var Base64Code = base64Image.split("data:image/png;base64,"); //base64Image is my image base64 string
-        // const dirs = RNFetchBlob.fs.dirs;
-        // var path = dirs.DCIMDir + `/${day}-${month}-${year}-${data.name}.png`;
-        // RNFetchBlob.fs.writeFile(path, Base64Code[1], 'base64')
-        //     .then((res) => { console.log("File : ", res)
-        //     Toast.show('QR Code saved successfully')
-        //     setVisible(false)
-        //  });
+        const base64Image=qrCode
+        var Base64Code = base64Image.split("data:image/png;base64,"); //base64Image is my image base64 string
+        const dirs = RNFetchBlob.fs.dirs;
+        var path = dirs.DCIMDir + `/${day}-${month}-${year}-${data.name}.png`;
+        RNFetchBlob.fs.writeFile(path, Base64Code[1], 'base64')
+            .then((res) => { console.log("File : ", res)
+            Toast.show('QR Code saved successfully')
+            setVisible(false)
+         });
     }
     return (
         <View style={{ backgroundColor: '#fff', flex: 1 }}>

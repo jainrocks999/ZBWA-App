@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import axios from "axios";
 import ScalableImage from "react-native-scalable-image";
+import Constants from '../../../Redux/Constants';
 
 const Splash = () => {
   const navigation = useNavigation();
@@ -32,7 +33,7 @@ const Splash = () => {
           'content-type': 'multipart/form-data',
           Accept: 'multipart/form-data',
         },
-        url: 'http://45.79.123.102:49002/api/account/version',
+        url: `${Constants.MainUrl}account/version`,
       });
       if (Platform.OS == 'android') {
         if (response.data.data.android_version > '4.0.6') {

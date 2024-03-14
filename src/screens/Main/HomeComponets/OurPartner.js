@@ -11,6 +11,7 @@ import Storage from "../../../components/LocalStorage";
 import Loader from "../../../components/Loader";
 import Toast from "react-native-simple-toast";
 import axios from "axios";
+import Constants from "../../../Redux/Constants";
 
 
 const OurPartner = () => {
@@ -30,7 +31,7 @@ const OurPartner = () => {
         setLoader(true)
         axios({
             method: 'get',
-            url: 'http://45.79.123.102:49002/api/partner/all/1',
+            url: `${Constants.MainUrl}partner/all/1`,
             headers: `Authorization: ${user_token}`
           })
           .then(function(response) {
@@ -57,7 +58,7 @@ const OurPartner = () => {
         setLoader(true)
         axios({
             method: 'get',
-            url: `http://45.79.123.102:49002/api/partner/all/${page}`,
+            url: `${Constants.MainUrl}partner/all/${page}`,
             headers: `Authorization: ${user_token}`
           })
           .then(function(response) {

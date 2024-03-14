@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loader from "../../../components/Loader";
 import Storage from "../../../components/LocalStorage";
 import Toast from "react-native-simple-toast";
+import Constants from "../../../Redux/Constants";
 
 const SecondaryMember = () => {
   const navigation = useNavigation()
@@ -30,7 +31,7 @@ const SecondaryMember = () => {
     setLoader(true)
     axios({
         method: 'get',
-        url: 'http://45.79.123.102:49002/api/member/secondary/member/list',
+        url: `${Constants.MainUrl}member/secondary/member/list`,
         headers: `Authorization: ${user_token}`
       })
       .then(function(response) {
@@ -56,7 +57,7 @@ const SecondaryMember = () => {
     const user_token=await AsyncStorage.getItem(Storage.user_token)
     let config = {
       method: 'get',
-      url: `http://45.79.123.102:49002/api/member/secondary/member/list/delete/${id}`,
+      url: `${Constants.MainUrl}member/secondary/member/list/delete/${id}`,
       headers: { 
         'Authorization': `${user_token}`
         }

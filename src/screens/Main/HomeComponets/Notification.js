@@ -7,6 +7,7 @@ import Storage from "../../../components/LocalStorage";
 import Header from "../../../components/CustomHeader";
 import {useNavigation} from "@react-navigation/native";
 import Loader from "../../../components/Loader";
+import Constants from "../../../Redux/Constants";
 
 const Notification=()=>{
 
@@ -28,7 +29,7 @@ const Notification=()=>{
 
         let config = {
             method: 'get',
-            url: 'http://45.79.123.102:49002/api/pushnotification/notification/1',
+            url: `${Constants.MainUrl}pushnotification/notification/1`,
             headers: {
                 'Authorization': `${user_token}`
             }
@@ -60,7 +61,7 @@ const Notification=()=>{
         setLoader(true)
         axios({
             method: 'get',
-            url: `http://45.79.123.102:49002/api/pushnotification/notification/${page}`,
+            url: `${Constants.MainUrl}pushnotification/notification/${page}`,
             headers: `Authorization: ${user_token}`
           })
           .then(function(response) {

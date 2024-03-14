@@ -15,6 +15,7 @@ import CheckBox from "@react-native-community/checkbox";
 import Modal from "react-native-modal";
 import CircleCross from "../../../assets/Icon/CircleCross.svg";
 import HTMLView from "react-native-htmlview";
+import Constants from "../../../Redux/Constants";
 
 
 const Register = () => {
@@ -43,7 +44,7 @@ const Register = () => {
 
     let config = {
       method: 'get',
-      url: 'http://45.79.123.102:49002/api/homepage/term/condition',
+      url: `${Constants.MainUrl}homepage/term/condition`,
       // headers: {
       //     'Authorization': `${user_token}`
       // }
@@ -105,7 +106,7 @@ const Register = () => {
       setLoader(true)
       axios({
         method: 'post',
-        url: 'http://45.79.123.102:49002/api/user/send/otp',
+        url: `${Constants.MainUrl}user/send/otp`,
         data: {
           "mobile": mobile,
           "action": "signup"

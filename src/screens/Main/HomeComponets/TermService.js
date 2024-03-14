@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
+import Constants from "../../../Redux/Constants";
 
 const Term =()=>{
    
@@ -25,7 +26,7 @@ const Term =()=>{
 
       let config = {
           method: 'get',
-          url: 'http://45.79.123.102:49002/api/homepage/term/condition',
+          url: `${Constants.MainUrl}homepage/term/condition`,
           headers: {
               'Authorization': `${user_token}`
           }

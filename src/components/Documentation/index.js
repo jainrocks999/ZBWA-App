@@ -14,6 +14,7 @@ import Modal from "react-native-modal";
 import FormData, { getHeaders } from 'form-data';
 import CircleCross from "../../assets/Icon/CircleCross.svg";
 import HTMLView from "react-native-htmlview";
+import Constants from "../../Redux/Constants";
 
 
 const Documentation = ({ onPress }) => {
@@ -65,7 +66,7 @@ const Documentation = ({ onPress }) => {
 
     let config = {
       method: 'get',
-      url: 'http://45.79.123.102:49002/api/homepage/term/condition',
+      url: `${Constants.MainUrl}homepage/term/condition`,
       headers: {
         'Authorization': `${user_token}`
       }
@@ -217,7 +218,7 @@ const Documentation = ({ onPress }) => {
 
       let config = {
         method: 'post',
-        url: 'http://45.79.123.102:49002/api/member/create',
+        url: `${Constants.MainUrl}member/create`,
         headers: {
           'Authorization': `${user_token}`,
           "Content-Type": "multipart/form-data",
@@ -436,8 +437,12 @@ const Documentation = ({ onPress }) => {
     <View style={styles.container}>
       {loader ? <Loader /> : null}
       <View style={styles.main}>
+      {/* <Text style={styles.title}>Your Photograph</Text> */}
+      <View style={styles.row}>
+              <Text style={styles.text1}>{'Your Photograph'}</Text>
+              <Text style={{ color: 'red' }}>*</Text>
+            </View>
         <TouchableOpacity onPress={() =>
-        //  _pickDocument('photograph')
         setVisible1(true)
         }
           style={[styles.touch, { marginTop: 5 }]}>
@@ -446,69 +451,78 @@ const Documentation = ({ onPress }) => {
             <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{photoName}</Text> :
             <View style={styles.row}>
               <Text style={styles.text}>{'Your Photograph'}</Text>
-              <Text style={{ color: 'red' }}>*</Text>
+              {/* <Text style={{ color: 'red' }}>*</Text> */}
             </View>}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => 
-          setVisible2(true)
-          // _pickDocument('gstCertificate')
-      }
-          style={styles.touch}>
+        
+
+        <View style={{marginTop: 15,}}>
+        <View style={styles.row}>
+              <Text style={styles.text1}>{'GST Certificate'}</Text>
+              <Text style={{ color: 'red' }}>*</Text>
+            </View>
+        <TouchableOpacity onPress={() => setVisible2(true)}
+          style={[styles.touch,{marginTop:5}]}>
           <Upload />
           {gst ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{gstName}</Text> :
             <View style={styles.row}>
               <Text style={styles.text}>{'GST Certificate'}</Text>
-              <Text style={{ color: 'red' }}>*</Text>
+              {/* <Text style={{ color: 'red' }}>*</Text> */}
             </View>}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() =>{
-           setVisible3(true)
-          //  _pickDocument('pancard')
-          
-           }} style={styles.touch}>
+        </View>
+
+        <View style={{marginTop:15,}}>
+        <View style={styles.row}>
+              <Text style={styles.text1}>{'PAN Card'}</Text>
+              <Text style={{ color: 'red' }}>*</Text>
+            </View>
+        <TouchableOpacity onPress={() =>{setVisible3(true)}} style={[styles.touch,{marginTop:5}]}>
           <Upload />
           {pan ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{panName}</Text> :
             <View style={styles.row}>
               <Text style={styles.text}>{'PAN Card'}</Text>
-              <Text style={{ color: 'red' }}>*</Text>
+              {/* <Text style={{ color: 'red' }}>*</Text> */}
             </View>}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() =>
-          {
-              setVisible4(true)
-            //  _pickDocument('aadharcard')
+        </View>
 
-            }
-           } style={styles.touch}>
+        <View style={{marginTop: 15,}}>
+        <View style={styles.row}>
+              <Text style={styles.text1}>{'Aadhar Card'}</Text>
+              <Text style={{ color: 'red' }}>*</Text>
+            </View>
+        <TouchableOpacity onPress={() =>{setVisible4(true)}} style={[styles.touch,{marginTop:5}]}>
           <Upload />
           {aadhar ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{aadharName}</Text> :
             <View style={styles.row}>
               <Text style={styles.text}>{'Aadhar Card'}</Text>
-              <Text style={{ color: 'red' }}>*</Text>
+              {/* <Text style={{ color: 'red' }}>*</Text> */}
             </View>}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() =>{
-           setVisible5(true)
-          //  _pickDocument('iecCertificate')
-           }} style={styles.touch}>
+        </View>
+
+        <View style={{marginTop: 15,}}>
+        <Text style={styles.title}>IEC Certificate</Text>
+        <TouchableOpacity onPress={() =>{setVisible5(true)}} style={[styles.touch,{marginTop:5}]}>
           <Upload />
           {iec ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{iecName}</Text> :
             <View style={styles.row}>
               <Text style={styles.text}>{'IEC Certificate'}</Text>
             </View>}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() =>
-          { 
-            setVisible6(true)
-          //  _pickDocument('bisCertificate')
-          }
-           } style={styles.touch}>
+        </View>
+
+        <View style={{marginTop: 15,}}>
+        <Text style={styles.title}>BIS Certificate</Text>
+        <TouchableOpacity onPress={() =>{setVisible6(true)}} style={[styles.touch,{marginTop:20}]}>
           <Upload />
           {bis ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{bisName}</Text> :
             <View style={styles.row}>
               <Text style={styles.text}>{'BIS Certificate'}</Text>
             </View>}
         </TouchableOpacity>
+        </View>
 
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, paddingHorizontal: 17, }}>
@@ -818,7 +832,7 @@ touch1: {
     width: '100%',
     borderWidth: 1,
     borderColor: '#FCDA64',
-    marginTop: 32,
+ 
     justifyContent: 'flex-start',
     paddingHorizontal: 10,
     flexDirection: 'row',
@@ -830,6 +844,12 @@ touch1: {
   },
   text: {
     marginLeft: 40,
+    fontSize: 13,
+    fontFamily: 'Montserrat-Medium',
+    color: '#a0a0a0',
+  },
+  text1: {
+    // marginLeft: 40,
     fontSize: 14,
     fontFamily: 'Montserrat-Medium',
     color: '#000000',
@@ -867,6 +887,11 @@ touch1: {
   submit: {
     fontFamily: 'Montserrat-Medium',
     color: '#000000',
+    fontSize: 14
+  },
+  title:{ 
+    color: '#000000',
+    fontFamily: 'Montserrat-Medium',
     fontSize: 14
   }
 })

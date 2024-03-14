@@ -12,6 +12,7 @@ import LottieView from 'lottie-react-native';
 import axios from "axios";
 import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
+import Constants from "../../../Redux/Constants";
 
 const CreatePassword = ({route}) => {
 
@@ -36,7 +37,7 @@ const CreatePassword = ({route}) => {
       setLoader(true)
       axios({
         method: 'post',
-        url: 'http://45.79.123.102:49002/api/user/change/pass',
+        url: `${Constants.MainUrl}user/change/pass`,
         data: {
           "password": newPass,
           "mobile": route.params.mobile

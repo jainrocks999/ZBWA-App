@@ -13,6 +13,7 @@ import Loader from "../../../components/Loader";
 import Toast from "react-native-simple-toast";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
+import Constants from "../../../Redux/Constants";
 
 const OtpPage = ({route}) => {
   const navigation = useNavigation()
@@ -37,7 +38,7 @@ const OtpPage = ({route}) => {
       setLoader(true)
       axios({
         method: 'post',
-        url: 'http://45.79.123.102:49002/api/user/signup',
+        url: `${Constants.MainUrl}user/signup`,
         data: {
           "mobile": mobile,
           "password": data.password,
@@ -74,7 +75,7 @@ const OtpPage = ({route}) => {
     setLoader(true)
     axios({
       method: 'post',
-      url: 'http://45.79.123.102:49002/api/user/send/otp',
+      url: `${Constants.MainUrl}user/send/otp`,
       data: {
         "mobile": mobile,
         "action": "signup"

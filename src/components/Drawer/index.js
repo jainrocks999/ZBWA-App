@@ -17,10 +17,13 @@ import Storage from "../../components/LocalStorage";
 import axios from "axios";
 import Toast from "react-native-simple-toast";
 import Loader from "../../components/Loader";
+import Constants from "../../Redux/Constants";
+import User from "../../assets/Icon/user.svg";
 
 const Drawer = () => {
     const navigation = useNavigation()
     const [loader,setLoader]=useState(false)
+    const [userName,setUserName]=useState('')
 
     const manageAbout=()=>{
         navigation.dispatch(DrawerActions.closeDrawer())
@@ -42,7 +45,7 @@ const Drawer = () => {
         const user_token=await AsyncStorage.getItem(Storage.user_token)
         let config = {
             method: 'post',
-            url: 'http://45.79.123.102:49002/api/user/logout',
+            url: `${Constants.MainUrl}user/logout`,
             headers: { 
               'Authorization': `${user_token}`,
             }
@@ -66,12 +69,14 @@ const Drawer = () => {
           });
           
     }
+
+
 
     const handleDeleteUser=async()=>{
         const user_token=await AsyncStorage.getItem(Storage.user_token)
         let config = {
             method: 'post',
-            url: 'http://45.79.123.102:49002/api/user/delete/user',
+            url: `${Constants.MainUrl}user/delete/user`,
             headers: { 
               'Authorization': `${user_token}`,
             }
@@ -96,6 +101,15 @@ const Drawer = () => {
           
     }
 
+    useEffect(()=>{
+       manageSignIn()
+    },[])
+
+    const manageSignIn=async()=>{
+      const userName=await AsyncStorage.getItem(Storage.username)
+      setUserName(userName)
+    }
+console.log('this is user name',userName);
     return (
         <View style={styles.container}>
             {loader?<Loader/>:null}
@@ -106,6 +120,10 @@ const Drawer = () => {
                     onPress={() => navigation.dispatch(DrawerActions.closeDrawer())}>
                     <DrawerCross />
                 </TouchableOpacity>
+            </View>
+            <View style={{marginTop:20,paddingHorizontal:15,flexDirection:'row',alignItems:'center'}}>
+                <User/>
+                <Text style={{marginLeft:6,fontSize:15,color:'#000',fontFamily:'Montserrat-SemiBold'}}>{userName}</Text>
             </View>
             <View style={styles.view1}>
                 <TouchableOpacity

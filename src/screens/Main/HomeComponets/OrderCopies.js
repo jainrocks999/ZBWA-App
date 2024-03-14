@@ -13,6 +13,7 @@ import Pdf1 from "../../../assets/Icon/pdf.svg";
 import Pdf from 'react-native-pdf';
 
 import Modal from "react-native-modal";
+import Constants from "../../../Redux/Constants";
 
 const OrderCopies = () => {
     const navigation = useNavigation()
@@ -33,7 +34,7 @@ const OrderCopies = () => {
 
         let config = {
             method: 'get',
-            url: 'http://45.79.123.102:49002/api/ordercopie/all/1',
+            url: `${Constants.MainUrl}ordercopie/all/1`,
             headers: {
                 'Authorization': `${user_token}`
             }

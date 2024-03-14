@@ -17,7 +17,7 @@ import Video from 'react-native-video';
 import VideoPlayerAndroid from "../../../components/VideoPlayerAndroid";
 import VideoPlayer from 'react-native-video-controls';
 import RNFetchBlob from 'rn-fetch-blob'
-// import VideoPlayer from "../../../components/VideoPlayer";
+import CircleCross1 from "../../../assets/Icon/CircleCross1.svg";
 
 const ZBWGroup = () => {
   const navigation = useNavigation()
@@ -445,7 +445,8 @@ const ZBWGroup = () => {
                   setVideoVisible(false)
                   setVideoUrl('')
                   }} style={styles.buttonCancel}>
-                    <Text style={styles.textBtn}>X</Text>
+                  <CircleCross1/>
+                    {/* <Text style={styles.textBtn}>X</Text> */}
                 </TouchableOpacity>
             </View>
         </Modal>

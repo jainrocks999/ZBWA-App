@@ -2,6 +2,7 @@ import React from "react";
 import { View,Text,StyleSheet,TouchableOpacity,Dimensions } from "react-native";
 import Pdf from "react-native-pdf";
 import { useNavigation } from "@react-navigation/native";
+import CircleCross from "../../../assets/Icon/CircleCross.svg";
 
 const ViewPdf=({route})=>{
     const navigation=useNavigation()
@@ -31,7 +32,8 @@ const ViewPdf=({route})=>{
         <TouchableOpacity
          onPress={()=>navigation.goBack()}
          style={styles.buttonCancel}>
-            <Text style={styles.textBtn}>X</Text>
+            <CircleCross/>
+            {/* <Text style={styles.textBtn}>X</Text> */}
         </TouchableOpacity>
     </View>
     )
@@ -48,7 +50,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         borderColor: 'black',
         left: 13,
-        top: 20,
+        top: 10,
     },
     textBtn: {
         fontSize: 18,

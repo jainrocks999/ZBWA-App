@@ -10,6 +10,7 @@ import Loader from "../../../components/Loader";
 import Storage from "../../../components/LocalStorage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-simple-toast";
+import Constants from "../../../Redux/Constants";
 
 
 const Complaints = () => {
@@ -31,7 +32,7 @@ const Complaints = () => {
         setLoader(true)
         axios({
             method: 'get',
-            url: 'http://45.79.123.102:49002/api/complaint/all',
+            url: `${Constants.MainUrl}complaint/all`,
             headers: `Authorization: ${user_token}`
           })
           .then(function(response) {

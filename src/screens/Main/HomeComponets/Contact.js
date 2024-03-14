@@ -7,6 +7,7 @@ import Loader from "../../../components/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import axios from "axios";
+import Constants from "../../../Redux/Constants";
 
 const Contact =()=>{
     const navigation=useNavigation()
@@ -21,7 +22,7 @@ const Contact =()=>{
       const user_token=await AsyncStorage.getItem(Storage.user_token)
       let config = {
         method: 'get',
-        url: 'http://45.79.123.102:49002/api/homepage/contact/us',
+        url: `${Constants.MainUrl}homepage/contact/us`,
         headers: { 
           'Authorization': `${user_token}`
         }

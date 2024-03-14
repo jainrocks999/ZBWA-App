@@ -7,6 +7,7 @@ import Storage from "../LocalStorage";
 import Toast from "react-native-simple-toast";
 import Image from "react-native-scalable-image";
 import { useNavigation } from "@react-navigation/native";
+import Constants from "../../Redux/Constants";
 
 const Current = () => {
     
@@ -25,7 +26,7 @@ const Current = () => {
         setLoader(true)
         axios({
             method: 'get',
-            url: 'http://45.79.123.102:49002/api/event/all/upcoming/1',
+            url: `${Constants.MainUrl}event/all/upcoming/1`,
             headers: `Authorization: ${user_token}`
           })
           .then(function(response) {
@@ -53,7 +54,7 @@ const Current = () => {
         setLoader(true)
         axios({
             method: 'get',
-            url: `http://45.79.123.102:49002/api/event/all/upcoming/${page}`,
+            url: `${Constants.MainUrl}event/all/upcoming/${page}`,
             headers: `Authorization: ${user_token}`
           })
           .then(function(response) {

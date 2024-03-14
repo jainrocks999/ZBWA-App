@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
+import Constants from "../../../Redux/Constants";
 
 
 const About = () => {
@@ -27,7 +28,7 @@ const About = () => {
 
         let config = {
             method: 'get',
-            url: 'http://45.79.123.102:49002/api/homepage/about/us',
+            url: `${Constants.MainUrl}homepage/about/us`,
             headers: {
                 'Authorization': `${user_token}`
             }

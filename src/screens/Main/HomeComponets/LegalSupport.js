@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import Toast from "react-native-simple-toast";
 import Loader from "../../../components/Loader";
+import Constants from "../../../Redux/Constants";
 
 const LegalSupport = () => {
     const navigation = useNavigation()
@@ -24,7 +25,7 @@ const LegalSupport = () => {
 
         let config = {
             method: 'get',
-            url: 'http://45.79.123.102:49002/api/legalsupport/all/1',
+            url: `${Constants.MainUrl}legalsupport/all/1`,
             headers: { 
               'Authorization': `${user_token}`
             }
