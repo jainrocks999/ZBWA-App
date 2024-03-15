@@ -38,7 +38,7 @@ import CreatePasswordForOldUser from "../screens/Auth/CreatePasswordForOldUser";
 import QREventDetails from "../components/EventDetailsForQRCode";
 import { createStackNavigator } from '@react-navigation/stack';
 import Notification from "../screens/Main/HomeComponets/Notification";
-
+import VideoView from "../screens/Main/HomeComponets/VideoView";
 
 const Stack = createStackNavigator();
 function Navigate() {
@@ -89,6 +89,7 @@ function Home(){
          <Stack1.Screen name='Contact' component={Contact}/>
          <Stack1.Screen name='Terms' component={TermService}/>
          <Stack1.Screen name="ViewPdf" component={ViewPdf}/>
+         <Stack1.Screen name="VideoView" component={VideoView}/>
          <Stack1.Screen name="EventDetails" component={EventDetails}/>
          <Stack1.Screen name="MyQRCode" component={MyQRCode}/>
          <Stack1.Screen name="QREventDetails" component={QREventDetails}/>

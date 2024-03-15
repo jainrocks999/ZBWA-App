@@ -54,11 +54,17 @@ const PersonalDetail = () => {
         else if(pincode=='' || pincode == null){
             Toast.show('Please enter your pincode number')
         }
+        else if(!pincode.match('[0-9]{6}')){
+            Toast.show('Please enter valid pincode number')
+        }
         else if(phone=='' || phone == null){
             Toast.show('Please enter your phone number')
         }
         else if(phone&&phone.length<10){
             Toast.show('Please enter 10 digit phone number ')
+        }
+        else if(!phone.match('[0-9]{10}')){
+            Toast.show('Please enter valid phone number')
         }
         else if(email=='' || email == null){
             Toast.show('Please enter your email address')
@@ -72,8 +78,11 @@ const PersonalDetail = () => {
         else if(emergencyNumber.length<10){
             Toast.show('Please enter 10 digit emergency number')
         }
+        else if(!emergencyNumber.match('[0-9]{10}')){
+            Toast.show('Please enter valid emergency number')
+        }
         else if(dob=='' || dob == null){
-            Toast.show('Please enter DOB')
+            Toast.show('Please select your DOB')
         }
         else{
             AsyncStorage.setItem(Storage.personalAddress,address)

@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>FirebaseAppDelegateProxyEnabled</key>
+    <false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -32,6 +34,8 @@
 		<dict>
 			<key>localhost</key>
 			<dict>
+				<key>NSAppTransportSecurity</key>
+				<true/>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
@@ -39,6 +43,8 @@
 	</dict>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Zaveri Bazaar Welfare using photo for upload document while becoming a member </string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Zaveri Bazaar Welfare would like to save photos from the app to your gallery</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Black.ttf</string>
@@ -50,6 +56,7 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

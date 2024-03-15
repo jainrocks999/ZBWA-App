@@ -57,28 +57,40 @@ const AddSecondaryMember = ({ route }) => {
             Toast.show('Please enter your last name')
         }
         else if (phone == '') {
-            Toast.show('Please enter your phone number')
+            Toast.show('Please enter your phone number1')
         }
         else if (phone.length < 10) {
-            Toast.show('Please enter 10 digit phone number')
+            Toast.show('Please enter 10 digit phone number1')
+        }
+        else if(!phone.match('[0-9]{10}')){
+            Toast.show('Please enter valid phone number1')
         }
         else if (emergencyNumber == '') {
-            Toast.show('Please enter your emergency number')
+            Toast.show('Please enter your emergency number1')
         }
         else if (emergencyNumber.length < 10) {
-            Toast.show('Please enter 10 digit emergency number')
+            Toast.show('Please enter 10 digit emergency number1')
+        }
+        else if(!emergencyNumber.match('[0-9]{10}')){
+            Toast.show('Please enter valid emergency number1')
         }
         else if (phone1 == '') {
-            Toast.show('Please enter your second phone number')
+            Toast.show('Please enter your phone number2')
         }
         else if (phone1.length < 10) {
-            Toast.show('Please enter 10 digit second phone number')
+            Toast.show('Please enter 10 digit phone number2')
+        }
+        else if (!phone1.match('[0-9]{10}')) {
+            Toast.show('Please enter valid phone number2')
         }
         else if (emergencyNumber1 == '') {
-            Toast.show('Please enter your second emergency number')
+            Toast.show('Please enter your emergency number2')
         }
         else if (emergencyNumber1.length < 10) {
-            Toast.show('Please enter 10 digit second emergency number')
+            Toast.show('Please enter 10 digit emergency number2')
+        }
+        else if (!emergencyNumber1.match('[0-9]{10}')) {
+            Toast.show('Please enter valid emergency number2')
         }
         else if (dob == '') {
             Toast.show('Please select date of birth')
@@ -261,7 +273,7 @@ const AddSecondaryMember = ({ route }) => {
                             value={firstName}
                             onChangeText={(val) => setFirstName(val)}
                             keyboardType="default"
-                            style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium' }}
+                            style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium',height:40,width:'100%' }}
                         />
                     </View>
                 </View>
@@ -272,54 +284,54 @@ const AddSecondaryMember = ({ route }) => {
                             value={lastName}
                             onChangeText={(val) => setLastName(val)}
                             keyboardType="default"
-                            style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium' }}
+                            style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium',height:40,width:'100%' }}
                         />
                     </View>
                 </View>
                 <View style={{ marginTop: 15 }}>
-                    <Text style={styles.heading}>Phone Number 1</Text>
+                    <Text style={styles.heading}>Phone Number1</Text>
                     <View style={styles.inputView}>
                         <TextInput
                             value={phone}
                             onChangeText={(val) => setPhone(val)}
                             keyboardType="number-pad"
-                            style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium' }}
+                            style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium',height:40,width:'100%' }}
                             maxLength={10}
                         />
                     </View>
                 </View>
                 <View style={{ marginTop: 15 }}>
-                    <Text style={styles.heading}>Emergency Number 1</Text>
+                    <Text style={styles.heading}>Emergency Number1</Text>
                     <View style={styles.inputView}>
                         <TextInput
                             value={emergencyNumber}
                             onChangeText={(val) => setEmergencyNumber(val)}
                             keyboardType="number-pad"
-                            style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium' }}
+                            style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium',height:40,width:'100%' }}
                             maxLength={10}
                         />
                     </View>
                 </View>
                 <View style={{ marginTop: 15 }}>
-                    <Text style={styles.heading}>Phone Number 2</Text>
+                    <Text style={styles.heading}>Phone Number2</Text>
                     <View style={styles.inputView}>
                         <TextInput
                             value={phone1}
                             onChangeText={(val) => setPhone1(val)}
                             keyboardType="number-pad"
-                            style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium' }}
+                            style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium',height:40,width:'100%' }}
                             maxLength={10}
                         />
                     </View>
                 </View>
                 <View style={{ marginTop: 15 }}>
-                    <Text style={styles.heading}>Emergency Number 2</Text>
+                    <Text style={styles.heading}>Emergency Number2</Text>
                     <View style={styles.inputView}>
                         <TextInput
                             value={emergencyNumber1}
                             onChangeText={(val) => setEmergencyNumber1(val)}
                             keyboardType="number-pad"
-                            style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium' }}
+                            style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium',height:40,width:'100%' }}
                             maxLength={10}
                         />
                     </View>
@@ -557,7 +569,8 @@ const styles = StyleSheet.create({
         width: '100%',
         borderWidth: 1,
         borderColor: '#FCDA64',
-        marginTop: 5
+        marginTop: 5,
+        paddingHorizontal:8
     },
     touchContainer: {
         height: 40,

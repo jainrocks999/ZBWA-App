@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Dimensions, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, Dimensions, ScrollView, TouchableOpacity, Platform } from "react-native";
 import Image from "react-native-scalable-image";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
@@ -11,7 +11,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import HTMLView from "react-native-htmlview";
 import Modal from "react-native-modal";
-import RNFetchBlob from "rn-fetch-blob";
+// import RNFetchBlob from "rn-fetch-blob";
+import RNFetchBlob from "react-native-blob-util";
 import Constants from "../../../Redux/Constants";
 
 const EventDetails = ({ route }) => {
@@ -111,6 +112,7 @@ const EventDetails = ({ route }) => {
     }
 
     const saveToGallery=()=>{
+        console.log('this is user details');
         const d = new Date(data.date);
         console.log(d);
         let day = d.getDate();
@@ -123,7 +125,8 @@ const EventDetails = ({ route }) => {
         var Base64Code = base64Image.split("data:image/png;base64,"); //base64Image is my image base64 string
         const dirs = RNFetchBlob.fs.dirs;
         var path = dirs.DCIMDir + `/${day}-${month}-${year}-${data.name}.png`;
-        RNFetchBlob.fs.writeFile(path, Base64Code[1], 'base64')
+        var pathIos=dirs.PictureDir + `/${day}-${month}-${year}-${data.name}.png`;
+        RNFetchBlob.fs.writeFile(Platform.OS=='android'?path:pathIos, Base64Code[1], 'base64')
             .then((res) => { console.log("File : ", res)
             Toast.show('QR Code saved successfully')
             setVisible(false)

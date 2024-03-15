@@ -41,6 +41,7 @@ const BusinessDetail = ({ onPress }) => {
 
     const handleBusinessDetails = () => {
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        var phone1 = '1234567890';
         if (name == '' || name== null) {
             Toast.show('Please enter your business name')
         }
@@ -58,6 +59,9 @@ const BusinessDetail = ({ onPress }) => {
         }
         else if (phone&&phone.length < 10) {
             Toast.show('Please enter 10 digit phone number ')
+        }
+        else if(!phone.match('[0-9]{10}')){
+            Toast.show('Please enter valid phone number')
         }
         else if (email == '' || email== null) {
             Toast.show('Please enter your email address')

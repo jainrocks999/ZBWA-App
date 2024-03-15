@@ -18,7 +18,7 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "react-native-push-notification";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Storage from "./src/components/LocalStorage";
-// import messaging from "@react-native-firebase/messaging";
+import messaging from "@react-native-firebase/messaging";
 import crashlytics from '@react-native-firebase/crashlytics';
 
 
@@ -63,18 +63,21 @@ const App = () => {
     requestPermissions: true,
   });
 
-  // const getFCMToken = async () => {
-  //   try {
-  //     const token = await messaging().getToken();
-  //     console.log(token);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+  const getFCMToken = async () => {
+    try {
+     
+     var token = await messaging().getToken();
+     AsyncStorage.setItem(Storage.fcm_token,token)
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  // useEffect(() => {
-  //   Platform.OS=='ios'?getFCMToken():null
-  // }, []);
+  useEffect(() => {
+   
+
+    Platform.OS=='ios'?getFCMToken():null
+  }, []);
 
   useEffect(async() => {
     crashlytics().log('Analytics page just mounted')

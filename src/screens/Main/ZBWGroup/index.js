@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Text, TouchableOpacity, TextInput, Image,Modal,StyleSheet, Alert } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, Image,Modal,StyleSheet, Alert, Platform } from "react-native";
 import HeaderArrow from "../../../assets/Icon/HeaderArrow.svg";
 import ChatLogo from "../../../assets/Icon/ChatLogo.svg";
 import { useNavigation } from "@react-navigation/native";
@@ -16,8 +16,11 @@ import InChatViewFile from "../../../components/InChatViewFile";
 import Video from 'react-native-video';
 import VideoPlayerAndroid from "../../../components/VideoPlayerAndroid";
 import VideoPlayer from 'react-native-video-controls';
-import RNFetchBlob from 'rn-fetch-blob'
+// import RNFetchBlob from 'rn-fetch-blob'
 import CircleCross1 from "../../../assets/Icon/CircleCross1.svg";
+import RNFetchBlob from "react-native-blob-util";
+import Toast from "react-native-simple-toast";
+// import VideoPlayer from "react-native-media-console";
 
 const ZBWGroup = () => {
   const navigation = useNavigation()
@@ -58,10 +61,14 @@ const ZBWGroup = () => {
     const user_id = await AsyncStorage.getItem(Storage.user_id)
     const username = await AsyncStorage.getItem(Storage.username)
     if (isAttachImage) {
+      console.log('this is image',isAttachImage);
+      console.log('this is image path',imagePath);
       setLoading(true)
       const reference = storage().ref(imagePath.substring(imagePath.lastIndexOf('/') + 1))
-      const pathToFile = imagePath
+      const pathToFile = Platform.OS === 'ios' ? imagePath.replace('file:///', '') :imagePath
+        console.log('this is file to path',pathToFile);
       await reference.putFile(pathToFile)
+      
       const url = await storage().ref(imagePath.substring(imagePath.lastIndexOf('/') + 1)).getDownloadURL()
       setImagePath('');
       setIsAttachImage(false);
@@ -86,7 +93,7 @@ const ZBWGroup = () => {
       setLoading(true)
       const reference = storage().ref(filePath.substring(filePath.lastIndexOf('/') + 1))
       const fileName = filePath.split('/').pop()
-      const pathToFile = filePath
+      const pathToFile = Platform.OS === 'ios' ? filePath.replace('file:///', '') :filePath
       await reference.putFile(pathToFile)
       const url = await storage().ref(filePath.substring(filePath.lastIndexOf('/') + 1)).getDownloadURL()
       await firestore().collection("chat").doc().set({
@@ -111,8 +118,8 @@ const ZBWGroup = () => {
     else if (isAttachVideo) {
       setLoading(true)
       const reference = storage().ref(videoPath.substring(videoPath.lastIndexOf('/') + 1))
-      const pathToFile = videoPath
-      await reference.putFile(videoPath)
+      const pathToFile = Platform.OS === 'ios' ? videoPath.replace('file:///', '') : videoPath
+      await reference.putFile(pathToFile)
       const url = await storage().ref(videoPath.substring(videoPath.lastIndexOf('/') + 1)).getDownloadURL()
       await firestore().collection("chat").doc().set({
         _id: message[0]._id,
@@ -149,8 +156,6 @@ const ZBWGroup = () => {
       }, { merge: true })
     }
   }
-  // const file='file:///data/user/0/com.zbwa/files/9a6ee0cc-e41d-4002-ad85-f6a71cc975cd/VID-20231013-WA0016.mp4'
-  // console.log('this is file uri',file.size);
   
   const _pickDocument = async () => {
     try {
@@ -161,18 +166,25 @@ const ZBWGroup = () => {
         allowMultiSelection: true,
       });
       const fileUri = result[0].fileCopyUri;
+      var extension = fileUri.split('.').pop(); 
+      console.log('this is exten',extension);
+      console.log('this is file',extension);
+      console.log('this is file uri',fileUri);
       if (!fileUri) {
         return;
       }
-      if (fileUri.indexOf('.pdf') !== -1 || fileUri.indexOf('.PDF') !== -1) {
+      // if (fileUri.indexOf('.pdf') !== -1 || fileUri.indexOf('.PDF') !== -1) {
+        if(extension=='pdf'||extension=='PDF'){
         setFilePath(fileUri);
         setIsAttachFile(true);
       }
-      else if (fileUri.indexOf('.png') !== -1 || fileUri.indexOf('.jpg') !== -1) {
+      else if(extension=='PNG' || extension=='JPG' || extension=='jpg' || extension=='png'){
+      // else if (fileUri.indexOf('.png') !== -1 || fileUri.indexOf('.jpg') !== -1) {
         setImagePath(fileUri);
         setIsAttachImage(true);
       }
-      else if (fileUri.indexOf('.mp4')) {
+      // else if (fileUri.indexOf('.mp4')) {
+        if(extension=='mp4' || extension=='MOV'){
         const MAX_SIZE_VIDEO = 8388608 //8*1024*1024
         RNFetchBlob.fs.stat(fileUri.replace('file:///', '').replace('file://', '').replace('file:/', ''))
         .then((stats) => {
@@ -193,7 +205,7 @@ const ZBWGroup = () => {
        
       }
       else {
-
+      Toast.show('Not Supported')
       }
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
@@ -410,7 +422,8 @@ const ZBWGroup = () => {
             )}
             onSend={args => console.log(args)}
           />
-        )}
+        )
+      }
         user={{
           _id: userId,
         }}
@@ -429,16 +442,16 @@ const ZBWGroup = () => {
             visible={videoVisile}
             onRequestClose={()=>setVideoVisible(false)}
             animationType="slide"
-            style={{ height: 600 }}
-            // onRequestClose={}
-        >
+            style={{ height: 600 }}>
             <View style={{ flex:1 }}>
+            
             <VideoPlayer
                 tapAnywhereToPause
                 pause={true}
                 controls={true}
-                source={{uri: videoUrl}}
+                source={{uri:videoUrl}}
                 disableBack
+                // onError={err => console.log(err)}
                 /> 
                 
                 <TouchableOpacity onPress={()=>{
@@ -464,7 +477,7 @@ const styles = StyleSheet.create({
       position: 'absolute',
       borderColor: 'black',
       left: 13,
-      top: 15,
+      top:Platform.OS=='android'? 15:50,
   },
   textBtn: {
       fontSize: 18,

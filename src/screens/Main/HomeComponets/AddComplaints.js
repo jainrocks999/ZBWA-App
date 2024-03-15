@@ -43,6 +43,9 @@ const AddComplaints = () => {
         else if(phone.length<10){
             Toast.show('Please enter 10 digit phone number ')
         }
+        else if(!phone.match('[0-9]{10}')){
+            Toast.show('Please enter valid phone number')
+        }
         else if(firmName==''){
             Toast.show('Please enter firm name')
         }
@@ -114,7 +117,7 @@ const AddComplaints = () => {
                         <TextInput
                         value={firstName}
                         onChangeText={(val)=>setFirstName(val)}
-                        style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                        style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium',height:40,width:'100%'}}
                         />
                     </View>
                 </View>
@@ -124,7 +127,7 @@ const AddComplaints = () => {
                         <TextInput 
                          value={lastName}
                          onChangeText={(val)=>setLastName(val)}
-                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium',height:40,width:'100%'}}
                         />
                     </View>
                 </View>
@@ -135,7 +138,7 @@ const AddComplaints = () => {
                          value={phone}
                          onChangeText={(val)=>setPhone(val)}
                          maxLength={10}
-                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium',height:40,width:'100%'}}
                          keyboardType="number-pad"
                         />
                     </View>
@@ -146,7 +149,7 @@ const AddComplaints = () => {
                         <TextInput 
                          value={firmName}
                          onChangeText={(val)=>setFirmName(val)}
-                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium',height:40,width:'100%'}}
                         />
                     </View>
                 </View>
@@ -156,7 +159,7 @@ const AddComplaints = () => {
                         <TextInput 
                          value={email}
                          onChangeText={(val)=>setEmail(val)}
-                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium',height:40,width:'100%'}}
                          keyboardType="email-address"
                         />
                     </View>
@@ -167,7 +170,7 @@ const AddComplaints = () => {
                         <TextInput 
                          value={address}
                          onChangeText={(val)=>setAddress(val)}
-                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
+                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium',height:40,width:'100%'}}
                         />
                     </View>
                 </View>
@@ -175,7 +178,7 @@ const AddComplaints = () => {
                     <View style={styles.row}>
                         <Text style={styles.type}>Issue Type</Text>
                     </View>
-                    <View style={styles.inputView}>
+                    <View style={styles.inputView2}>
                         <Dropdown
                             style={[styles.dropdown,]}
                             placeholderStyle={styles.placeholderStyle}
@@ -261,7 +264,16 @@ const styles = StyleSheet.create({
         width: '100%',
         borderWidth: 1,
         borderColor: '#FCDA64',
-        marginTop: 5
+        marginTop: 5,
+        paddingHorizontal:8
+    },
+    inputView2: {
+        height: 40,
+        width: '100%',
+        borderWidth: 1,
+        borderColor: '#FCDA64',
+        marginTop: 5,
+        // paddingHorizontal:8
     },
     row: {
         flexDirection: 'row',
@@ -288,7 +300,9 @@ const styles = StyleSheet.create({
         width: '100%',
         borderWidth: 1,
         borderColor: '#FCDA64',
-        marginTop: 5
+        marginTop: 5,
+        padding:8
+
     },
     buttonView: {
         marginTop: 40,
