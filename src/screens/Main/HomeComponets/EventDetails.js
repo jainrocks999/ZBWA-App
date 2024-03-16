@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Dimensions, ScrollView, TouchableOpacity, Platform } from "react-native";
+import { View, Text, Dimensions, ScrollView, TouchableOpacity, Platform ,Alert} from "react-native";
 import Image from "react-native-scalable-image";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
@@ -14,6 +14,7 @@ import Modal from "react-native-modal";
 // import RNFetchBlob from "rn-fetch-blob";
 import RNFetchBlob from "react-native-blob-util";
 import Constants from "../../../Redux/Constants";
+import { PERMISSIONS, checkMultiple, requestMultiple } from 'react-native-permissions';
 
 const EventDetails = ({ route }) => {
     const [isVisible, setVisible] = useState(false)
@@ -111,7 +112,7 @@ const EventDetails = ({ route }) => {
 
     }
 
-    const saveToGallery=()=>{
+    const saveToGallery1=()=>{
         console.log('this is user details');
         const d = new Date(data.date);
         console.log(d);
@@ -130,8 +131,44 @@ const EventDetails = ({ route }) => {
             .then((res) => { console.log("File : ", res)
             Toast.show('QR Code saved successfully')
             setVisible(false)
-         });
+         }).catch(err => 
+            {console.log("err", err)
+            setVisible(false)}
+            )
     }
+  
+    const saveToGallery = async () => {
+        await permission()
+        let date = new Date();
+        const { config, fs } = RNFetchBlob
+        let code=qrCode
+        const base64Image=code
+        var Base64Code = base64Image.split("data:image/png;base64,"); 
+        const dirPath = Platform.OS == 'ios' ? `${fs.dirs.DocumentDir}/QRCode` : `${fs.dirs.PictureDir}`
+        const filePath = dirPath + '/' + Math.floor(date.getTime() + date.getSeconds() / 2) + '.png'
+        fs.writeFile(filePath, Base64Code[1], 'base64').then(res => {
+        Platform.OS === 'ios' ?
+        RNFetchBlob.ios.previewDocument(filePath) :
+        RNFetchBlob.fs.scanFile([
+        { path: filePath, mime: 'image/png' },
+        ])
+        setVisible(false)
+        Toast.show('QR Code saved successfully')
+        }).catch(err => 
+            {console.log("err", err)
+            setVisible(false)}
+            )
+        }
+        
+        const permission = async () => {
+        const checkPermission = await checkMultiple(Platform.OS === 'android' ? [PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE, PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE] : [PERMISSIONS.IOS.PHOTO_LIBRARY, PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY])
+        if (checkPermission['ios.permission.PHOTO_LIBRARY'] === 'denied' || checkPermission['ios.permission.PHOTO_LIBRARY_ADD_ONLY'] === 'denied' || checkPermission['android.permission.WRITE_EXTERNAL_STORAGE'] == 'denied' || checkPermission['android.permission.READ_EXTERNAL_STORAGE'] == 'denied') {
+        const requestPermission = await requestMultiple(Platform.OS === 'android' ? [PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE, PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE] : [PERMISSIONS.IOS.PHOTO_LIBRARY, PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY])
+        }
+        }
+
+
+
     return (
         <View style={{ backgroundColor: '#fff', flex: 1 }}>
             {loader ? <Loader /> : null}
@@ -161,7 +198,6 @@ const EventDetails = ({ route }) => {
                         {renderDate(data.date)}
                         <Text style={{ color: '#000', fontFamily: 'Montserrat-Medium', fontSize: 13, marginLeft: 20 }}>{data.time}</Text>
                     </View>
-                    {/* <Text lineBreakMode="tail">{data.description}</Text> */}
                     <View style={{ marginTop: 5 }}>
                         <HTMLView
                             value={data.description.trim()
@@ -180,17 +216,12 @@ const EventDetails = ({ route }) => {
                     paddingBottom: 20,
 
                 }}>
-                    {/* <TouchableOpacity
-                        onPress={() => setVisible(false)}
-                        style={{ alignSelf: 'flex-end', margin: 5 }}>
-                        <CircleCross />
-                    </TouchableOpacity> */}
                     <View style={{alignItems:'center'}}>
                         <Image
                          source={{uri:qrCode}}
                         />
                         <TouchableOpacity
-                        onPress={()=>saveToGallery()}
+                        onPress={()=>Platform.OS=='ios'?saveToGallery():saveToGallery1()}
                          style={{backgroundColor:'#FCDA64',marginTop:20,paddingVertical:10,paddingHorizontal:10,borderRadius:6}}>
                             <Text style={{color:'#fff',fontFamily:'Montserrat-SemiBold',fontSize:14,marginTop:-2,}}>Save to Gallery</Text>
                         </TouchableOpacity>
@@ -210,6 +241,8 @@ const EventDetails = ({ route }) => {
                     disabled={isPremium==1?false:true}
                     onPress={() =>
                         handleApplyEvents(data._id)
+                        // saveToGallery()
+                        // saveToGallery()
                         // setVisible(true)
                     }
                     style={{

@@ -11,6 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		184E80C52BA4853C00E67AB2 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 184E80C42BA4853C00E67AB2 /* UserNotifications.framework */; };
 		186C73122B88A2F30009D34E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 186C73112B88A2F30009D34E /* GoogleService-Info.plist */; };
 		58B411AD79B1326D8299F5E4 /* Pods_ZBWA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35430321FBB0DD77A8F3E312 /* Pods_ZBWA.framework */; };
 		7A7AD9955C914245BFDFEA60 /* Montserrat-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A214A11FD787497B84121CB9 /* Montserrat-Black.ttf */; };
@@ -43,6 +44,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ZBWA/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ZBWA/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ZBWA/main.m; sourceTree = "<group>"; };
+		184E80C42BA4853C00E67AB2 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		186C73112B88A2F30009D34E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		188512002B90889200B8657B /* ZBWA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ZBWA.entitlements; path = ZBWA/ZBWA.entitlements; sourceTree = "<group>"; };
 		1A0637260337433D9B64433C /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.ttf"; path = "../src/assets/font/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				184E80C52BA4853C00E67AB2 /* UserNotifications.framework in Frameworks */,
 				58B411AD79B1326D8299F5E4 /* Pods_ZBWA.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -115,6 +118,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				184E80C42BA4853C00E67AB2 /* UserNotifications.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				35430321FBB0DD77A8F3E312 /* Pods_ZBWA.framework */,
 				5C2CC97EF37BEC7759CDDD17 /* Pods_ZBWA_ZBWATests.framework */,

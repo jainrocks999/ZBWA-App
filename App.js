@@ -8,7 +8,8 @@ import {
   Platform,
   SafeAreaView,
   FlatList,
-  StatusBar
+  StatusBar,
+  Alert
 } from 'react-native';
 import 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
@@ -64,18 +65,21 @@ const App = () => {
   });
 
   const getFCMToken = async () => {
-    try {
-     
-     var token = await messaging().getToken();
+     var token = await messaging().getToken()
      AsyncStorage.setItem(Storage.fcm_token,token)
-    } catch (e) {
-      console.log(e);
-    }
-  };
+}
+useEffect(() => {
+  const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+    PushNotification.localNotification({
+      message: remoteMessage.notification.body,
+      title: remoteMessage.notification.title,
+    });
+    console.log('this is remote notification',remoteMessage);
+  });
+  return unsubscribe;
+}, []);
 
   useEffect(() => {
-   
-
     Platform.OS=='ios'?getFCMToken():null
   }, []);
 
