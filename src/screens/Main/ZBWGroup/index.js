@@ -174,7 +174,7 @@ const ZBWGroup = () => {
         return;
       }
       // if (fileUri.indexOf('.pdf') !== -1 || fileUri.indexOf('.PDF') !== -1) {
-        if(extension=='pdf'||extension=='PDF'){
+       else if(extension=='pdf'||extension=='PDF'){
         setFilePath(fileUri);
         setIsAttachFile(true);
       }
@@ -184,7 +184,7 @@ const ZBWGroup = () => {
         setIsAttachImage(true);
       }
       // else if (fileUri.indexOf('.mp4')) {
-        if(extension=='mp4' || extension=='MOV'){
+       else if(extension=='mp4' || extension=='MOV'){
         const MAX_SIZE_VIDEO = 8388608 //8*1024*1024
         RNFetchBlob.fs.stat(fileUri.replace('file:///', '').replace('file://', '').replace('file:/', ''))
         .then((stats) => {
