@@ -159,7 +159,8 @@ const styles = StyleSheet.create({
     title: { 
         fontSize: 14, 
         fontFamily: 'Montserrat-SemiBold', 
-        color: '#000000' 
+        color: '#000000' ,
+        width:'90%'
     },
     number: { 
         color: '#000000', 

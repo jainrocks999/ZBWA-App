@@ -205,16 +205,26 @@ const Documentation = ({ onPress }) => {
         name: aadharName.substring(aadharName.lastIndexOf('/') + 1),
         type: aadharType,
       })
-      data.append("iec_certificate", {
-        uri: iec,
-        name: iecName.substring(iecName.lastIndexOf('/') + 1),
-        type: iecType
-      })
-      data.append("bis_certificate", {
-        uri: bis,
-        name: bisName.substring(bisName.lastIndexOf('/') + 1),
-        type: bisType
-      })
+      if(iec){
+        data.append("iec_certificate", {
+          uri: iec,
+          name: iecName.substring(iecName.lastIndexOf('/') + 1),
+          type: iecType
+        })}
+        else{
+          data.append("iec_certificate","")
+        }
+        if(bis){
+          data.append("bis_certificate", {
+            uri: bis,
+            name: bisName.substring(bisName.lastIndexOf('/') + 1),
+            type: bisType
+          })
+        }
+        else{
+          data.append("bis_certificate","")
+        }
+        
 
       let config = {
         method: 'post',
@@ -435,7 +445,9 @@ const Documentation = ({ onPress }) => {
 
   return (
     <View style={styles.container}>
+
       {loader ? <Loader /> : null}
+      <ScrollView style={{ flex: 1 }}>
       <View style={styles.main}>
       {/* <Text style={styles.title}>Your Photograph</Text> */}
       <View style={styles.row}>
@@ -448,7 +460,7 @@ const Documentation = ({ onPress }) => {
           style={[styles.touch, { marginTop: 5 }]}>
           <Upload />
           {photo ?
-            <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{photoName}</Text> :
+            <Text numberOfLines={1} style={[styles.text2, { marginRight: 20 }]}>{photoName}</Text> :
             <View style={styles.row}>
               <Text style={styles.text}>{'Your Photograph'}</Text>
               {/* <Text style={{ color: 'red' }}>*</Text> */}
@@ -464,7 +476,7 @@ const Documentation = ({ onPress }) => {
         <TouchableOpacity onPress={() => setVisible2(true)}
           style={[styles.touch,{marginTop:5}]}>
           <Upload />
-          {gst ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{gstName}</Text> :
+          {gst ? <Text numberOfLines={1} style={[styles.text2, { marginRight: 20 }]}>{gstName}</Text> :
             <View style={styles.row}>
               <Text style={styles.text}>{'GST Certificate'}</Text>
               {/* <Text style={{ color: 'red' }}>*</Text> */}
@@ -479,7 +491,7 @@ const Documentation = ({ onPress }) => {
             </View>
         <TouchableOpacity onPress={() =>{setVisible3(true)}} style={[styles.touch,{marginTop:5}]}>
           <Upload />
-          {pan ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{panName}</Text> :
+          {pan ? <Text numberOfLines={1} style={[styles.text2, { marginRight: 20 }]}>{panName}</Text> :
             <View style={styles.row}>
               <Text style={styles.text}>{'PAN Card'}</Text>
               {/* <Text style={{ color: 'red' }}>*</Text> */}
@@ -494,7 +506,7 @@ const Documentation = ({ onPress }) => {
             </View>
         <TouchableOpacity onPress={() =>{setVisible4(true)}} style={[styles.touch,{marginTop:5}]}>
           <Upload />
-          {aadhar ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{aadharName}</Text> :
+          {aadhar ? <Text numberOfLines={1} style={[styles.text2, { marginRight: 20 }]}>{aadharName}</Text> :
             <View style={styles.row}>
               <Text style={styles.text}>{'Aadhar Card'}</Text>
               {/* <Text style={{ color: 'red' }}>*</Text> */}
@@ -506,7 +518,7 @@ const Documentation = ({ onPress }) => {
         <Text style={styles.title}>IEC Certificate</Text>
         <TouchableOpacity onPress={() =>{setVisible5(true)}} style={[styles.touch,{marginTop:5}]}>
           <Upload />
-          {iec ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{iecName}</Text> :
+          {iec ? <Text numberOfLines={1} style={[styles.text2, { marginRight: 20 }]}>{iecName}</Text> :
             <View style={styles.row}>
               <Text style={styles.text}>{'IEC Certificate'}</Text>
             </View>}
@@ -515,9 +527,9 @@ const Documentation = ({ onPress }) => {
 
         <View style={{marginTop: 15,}}>
         <Text style={styles.title}>BIS Certificate</Text>
-        <TouchableOpacity onPress={() =>{setVisible6(true)}} style={[styles.touch,{marginTop:20}]}>
+        <TouchableOpacity onPress={() =>{setVisible6(true)}} style={[styles.touch,{marginTop:5}]}>
           <Upload />
-          {bis ? <Text numberOfLines={1} style={[styles.text, { marginRight: 20 }]}>{bisName}</Text> :
+          {bis ? <Text numberOfLines={1} style={[styles.text2, { marginRight: 20 }]}>{bisName}</Text> :
             <View style={styles.row}>
               <Text style={styles.text}>{'BIS Certificate'}</Text>
             </View>}
@@ -773,6 +785,7 @@ const Documentation = ({ onPress }) => {
                     </View>
                 </View>
             </Modal>
+            </ScrollView>
     </View>
   )
 }
@@ -848,6 +861,12 @@ touch1: {
     fontFamily: 'Montserrat-Medium',
     color: '#a0a0a0',
   },
+  text2: {
+    marginLeft: 40,
+    fontSize: 14,
+    fontFamily: 'Montserrat-Medium',
+    color: '#000000',
+  },
   text1: {
     // marginLeft: 40,
     fontSize: 14,
@@ -855,7 +874,7 @@ touch1: {
     color: '#000000',
   },
   bottom: {
-    marginTop: 128,
+    marginTop: 100,
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',

@@ -30,6 +30,7 @@ const ZBWNews=()=>{
             headers: `Authorization: ${user_token}`
           })
           .then(function(response) {
+            console.log('this is response',response);
             if(response.data.code=='200'){
                 setNews(response.data.data)
                 setPage(page+1)
@@ -101,7 +102,7 @@ const ZBWNews=()=>{
                             value={item.description.trim()
                                 .replace(new RegExp('<p>', 'g'), '<span>')}
                         />
-                        {item.multi_image[0].image?<View style={{marginTop:20,marginBottom:20}}>
+                        {item?.multi_image[0]?.image?<View style={{marginTop:20,marginBottom:20}}>
                          <Image
                             width={Dimensions.get('window').width - 68}
                             source={{ uri: item.multi_image[0].image }}></Image>

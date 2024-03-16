@@ -150,7 +150,7 @@ const OtpPage = ({route}) => {
                       <OtpInputs
                         handleChange={code => setCode(code)}
                         numberOfInputs={6}
-                        autofillFromClipboard={true}
+                        autofillFromClipboard={false}
                         keyboardType={'numeric'}
                         style={styles.inputView}
                         defaultValue={code}

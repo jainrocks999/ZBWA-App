@@ -11,8 +11,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import HTMLView from "react-native-htmlview";
 import Modal from "react-native-modal";
-// import RNFetchBlob from "rn-fetch-blob";
-import RNFetchBlob from "react-native-blob-util";
+import RNFetchBlob from "rn-fetch-blob";
+// import RNFetchBlob from "react-native-blob-util";
 import Constants from "../../../Redux/Constants";
 import { PERMISSIONS, checkMultiple, requestMultiple } from 'react-native-permissions';
 
@@ -79,7 +79,6 @@ const EventDetails = ({ route }) => {
             url: `${Constants.MainUrl}event/apply/event/${id}`,
             headers: {
                 'Authorization': `${user_token}`,
-                // 'Cookie': 'serv_app_zaveri=s%3Av6ba0gxNaizNDxd6SWf5FLmz-RHARUBk.6pns387tK1qMEqBKGAZUkWTyJyvPmocZWvHcYNcA2vA'
             },
             data: data
         };
@@ -113,28 +112,22 @@ const EventDetails = ({ route }) => {
     }
 
     const saveToGallery1=()=>{
-        console.log('this is user details');
-        const d = new Date(data.date);
-        console.log(d);
-        let day = d.getDate();
-        let year=d.getFullYear()
-        if (day.length < 2)
-            day = '0' + day;
-        let month = d.getDate()+1
-
-        const base64Image=qrCode
-        var Base64Code = base64Image.split("data:image/png;base64,"); //base64Image is my image base64 string
-        const dirs = RNFetchBlob.fs.dirs;
-        var path = dirs.DCIMDir + `/${day}-${month}-${year}-${data.name}.png`;
-        var pathIos=dirs.PictureDir + `/${day}-${month}-${year}-${data.name}.png`;
-        RNFetchBlob.fs.writeFile(Platform.OS=='android'?path:pathIos, Base64Code[1], 'base64')
-            .then((res) => { console.log("File : ", res)
-            Toast.show('QR Code saved successfully')
-            setVisible(false)
-         }).catch(err => 
-            {console.log("err", err)
-            setVisible(false)}
-            )
+            const d = new Date(data.date);
+            console.log(d);
+            let day = d.getDate();
+            let year=d.getFullYear()
+            if (day.length < 2)
+                day = '0' + day;
+            let month = d.getDate()+1
+            const base64Image=qrCode
+            var Base64Code = base64Image.split("data:image/png;base64,"); //base64Image is my image base64 string
+            const dirs = RNFetchBlob.fs.dirs;
+            var path = dirs.DCIMDir + `/${day}-${month}-${year}-${data.name}.png`;
+            RNFetchBlob.fs.writeFile(path, Base64Code[1], 'base64')
+                .then((res) => { console.log("File : ", res)
+                Toast.show('QR Code saved successfully')
+                setVisible(false)
+             });
     }
   
     const saveToGallery = async () => {

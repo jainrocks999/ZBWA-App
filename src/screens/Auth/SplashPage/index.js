@@ -124,7 +124,7 @@ const Splash = () => {
             </Text>
           </View>
           <Text style={{ fontSize: 14, color: '#000', fontFamily: 'Montserrat-SemiBold', textAlign: 'center', marginTop: 5 }}>
-            A newer version of this app is available for download. Please update it.
+            A newer version of this app is available for download.Kindly update the app.
           </Text>
 
           <View

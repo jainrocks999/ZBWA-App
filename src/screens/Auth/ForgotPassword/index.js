@@ -218,12 +218,21 @@ const ForgotPassword = () => {
                           // secureTextEntry
                           // value={code}
                           defaultValue={code}
-                          // autofillFromClipboard={true}
+                          autofillFromClipboard={false}
                           keyboardType={'numeric'}
                           style={styles.inputView1}
                           inputContainerStyles={{ width: 35, alignItems: 'center' }}
                           // inputContainerStyles={[styles.otp]}
                           inputStyles={styles.otp1}
+
+
+                        
+                       
+                         
+                       
+                        
+                        
+                        
                         />
                       </View>:null}
                      {show? <View style={{ marginTop: 15 }}>
