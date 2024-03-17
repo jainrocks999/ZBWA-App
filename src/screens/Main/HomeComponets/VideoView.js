@@ -5,25 +5,34 @@ import { useNavigation } from "@react-navigation/native";
 import CircleCross from "../../../assets/Icon/CircleCross.svg";
 import VideoPlayer from 'react-native-video-controls';
 
-const ViewPdf=()=>{
+const ViewPdf=({route})=>{
     const navigation=useNavigation()
     // console.log('this is route data',route.params.currentMessage.file.url);
     return(
         <View style={{ padding: 0,flex:1 }}>
-            {/* <Text>narenddxxl</Text> */}
-            <VideoPlayer
-                tapAnywhereToPause
-                pause={true}
-                controls={true}
-                source={{uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' ,type: 'mp4',}}
-                disableBack
-                onError={err => console.log(err)}
-                /> 
+        <Pdf
+            trustAllCerts={false}
+            source={{ uri: route.params.url, cache: true }}
+            onLoadComplete={(numberOfPages, filePath) => {
+                console.log(`Number of pages: ${numberOfPages}`);
+            }}
+            onPageChanged={(page, numberOfPages) => {
+                console.log(`Current page: ${page}`);
+            }}
+            onError={(error) => {
+                console.log("error    ",error);
+            }}
+            onPressLink={(uri) => {
+                console.log(`Link pressed: ${uri}`);
+            }}
+            style={{
+                width: Dimensions.get('window').width,
+                height: Dimensions.get('window').height,
+            }} />
         <TouchableOpacity
          onPress={()=>navigation.goBack()}
          style={styles.buttonCancel}>
             <CircleCross/>
-            {/* <Text style={styles.textBtn}>X</Text> */}
         </TouchableOpacity>
     </View>
     )

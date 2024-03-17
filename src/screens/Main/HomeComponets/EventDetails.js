@@ -11,8 +11,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import HTMLView from "react-native-htmlview";
 import Modal from "react-native-modal";
-import RNFetchBlob from "rn-fetch-blob";
-// import RNFetchBlob from "react-native-blob-util";
+// import RNFetchBlob from "rn-fetch-blob";
+import RNFetchBlob from "react-native-blob-util";
 import Constants from "../../../Redux/Constants";
 import { PERMISSIONS, checkMultiple, requestMultiple } from 'react-native-permissions';
 
@@ -129,6 +129,14 @@ const EventDetails = ({ route }) => {
                 setVisible(false)
              });
     }
+
+    const saveImage=()=>{
+        setVisible(false)
+        setTimeout(() => {
+            saveToGallery()
+        }, 500);
+       
+    }
   
     const saveToGallery = async () => {
         await permission()
@@ -147,6 +155,7 @@ const EventDetails = ({ route }) => {
         ])
         setVisible(false)
         Toast.show('QR Code saved successfully')
+        // saveToGallery()
         }).catch(err => 
             {console.log("err", err)
             setVisible(false)}
@@ -185,12 +194,14 @@ const EventDetails = ({ route }) => {
                     <Text>Image not Found</Text>
                     </View>
                 }
+
                 <View style={{ padding: 20 }}>
                     <Text style={{ fontSize: 14, color: '#000', fontFamily: 'Montserrat-SemiBold' }}>{data.name}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 6 }}>
                         {renderDate(data.date)}
                         <Text style={{ color: '#000', fontFamily: 'Montserrat-Medium', fontSize: 13, marginLeft: 20 }}>{data.time}</Text>
                     </View>
+                    {/* <Text onPress={()=>saveToGallery()} style={{fontSize:40}}>Save</Text> */}
                     <View style={{ marginTop: 5 }}>
                         <HTMLView
                             value={data.description.trim()
@@ -214,7 +225,7 @@ const EventDetails = ({ route }) => {
                          source={{uri:qrCode}}
                         />
                         <TouchableOpacity
-                        onPress={()=>Platform.OS=='ios'?saveToGallery():saveToGallery1()}
+                        onPress={()=>Platform.OS=='ios'?saveImage():saveToGallery1()}
                          style={{backgroundColor:'#FCDA64',marginTop:20,paddingVertical:10,paddingHorizontal:10,borderRadius:6}}>
                             <Text style={{color:'#fff',fontFamily:'Montserrat-SemiBold',fontSize:14,marginTop:-2,}}>Save to Gallery</Text>
                         </TouchableOpacity>

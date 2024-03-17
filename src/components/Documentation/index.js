@@ -608,7 +608,10 @@ const Documentation = ({ onPress }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible1(false)
-                                launchCameraForPhoto()
+                                setTimeout(() => {
+                                  launchCameraForPhoto()
+                                }, 500);
+                               
                             }}
                             style={styles.camera}>
                             <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
@@ -616,7 +619,10 @@ const Documentation = ({ onPress }) => {
                         <TouchableOpacity
                             onPress={() => {
                                  setVisible1(false)
-                                _pickDocument('photograph')
+                                 setTimeout(() => {
+                                  _pickDocument('photograph')
+                                 }, 500);
+                               
                             }
                             }
                             style={styles.button1}>
@@ -640,7 +646,10 @@ const Documentation = ({ onPress }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible2(false)
-                                launchCameraForCertificate()
+                                setTimeout(() => {
+                                  launchCameraForCertificate()
+                                }, 500);
+                               
                             }}
                             style={styles.camera}>
                             <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
@@ -648,7 +657,10 @@ const Documentation = ({ onPress }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible2(false)
-                                _pickDocument('gstCertificate')
+                                setTimeout(() => {
+                                  _pickDocument('gstCertificate')
+                                }, 500);
+                                
                             }
                             }
                             style={styles.button1}>
@@ -672,7 +684,10 @@ const Documentation = ({ onPress }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible3(false)
-                                launchCameraForPan()
+                                setTimeout(() => {
+                                  launchCameraForPan()
+                                }, 500);
+                                
                             }}
                             style={styles.camera}>
                             <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
@@ -680,7 +695,10 @@ const Documentation = ({ onPress }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible3(false)
-                                _pickDocument('pancard')
+                                setTimeout(() => {
+                                  _pickDocument('pancard')
+                                }, 500);
+                               
                             }
                             }
                             style={styles.button1}>
@@ -704,7 +722,10 @@ const Documentation = ({ onPress }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible4(false)
-                                launchCameraForAadhar()
+                                setTimeout(() => {
+                                  launchCameraForAadhar()
+                                }, 500);
+                                
                             }}
                             style={styles.camera}>
                             <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
@@ -712,7 +733,10 @@ const Documentation = ({ onPress }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible4(false)
-                                _pickDocument('aadharcard')
+                                setTimeout(() => {
+                                  _pickDocument('aadharcard')
+                                }, 500);
+                                
                             }
                             }
                             style={styles.button1}>
@@ -736,7 +760,10 @@ const Documentation = ({ onPress }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible5(false)
-                                launchCameraForIec()
+                                setTimeout(() => {
+                                  launchCameraForIec()
+                                }, 500);
+                                
                             }}
                             style={styles.camera}>
                             <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
@@ -744,7 +771,10 @@ const Documentation = ({ onPress }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible5(false)
-                                _pickDocument('iecCertificate')
+                                setTimeout(() => {
+                                  _pickDocument('iecCertificate')
+                                }, 500);
+                                
                             }
                             }
                             style={styles.button1}>
@@ -768,7 +798,10 @@ const Documentation = ({ onPress }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible6(false)
-                                launchCameraForBis()
+                                setTimeout(() => {
+                                  launchCameraForBis()
+                                }, 500);
+                                
                             }}
                             style={styles.camera}>
                             <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
@@ -776,7 +809,9 @@ const Documentation = ({ onPress }) => {
                         <TouchableOpacity
                             onPress={() => {
                                  setVisible6(false)
-                                _pickDocument('bisCertificate')
+                                 setTimeout(() => {
+                                  _pickDocument('bisCertificate')
+                                 }, 500);
                             }
                             }
                             style={styles.button1}>

@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView,Platform } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import BackArrow from "../../../assets/Icon/BackArrow.svg";
 import Arrow from "../../../assets/Icon/Arrow.svg";
@@ -244,7 +244,7 @@ const ForgotPassword = () => {
                         </TouchableOpacity>
                       </View>:null}
                     </View>
-                    <View style={{ marginTop:code? 27:105, alignItems: 'flex-end', }}>
+                    <View style={{ marginTop:code? 27:Platform.OS=='android'?105:27, alignItems: 'flex-end', }}>
                       <TouchableOpacity
                         onPress={()=>verifyOtp()}
                         disabled={code ? false : true}

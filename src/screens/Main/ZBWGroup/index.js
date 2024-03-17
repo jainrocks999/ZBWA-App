@@ -178,11 +178,16 @@ const ZBWGroup = () => {
         setFilePath(fileUri);
         setIsAttachFile(true);
       }
-      else if(extension=='PNG' || extension=='JPG' || extension=='jpg' || extension=='png'){
+      else if(extension=='PNG' || extension=='JPG' || extension=='jpg' || extension=='png' ||extension=='jpeg' ||extension=='JPEG'){
       // else if (fileUri.indexOf('.png') !== -1 || fileUri.indexOf('.jpg') !== -1) {
         setImagePath(fileUri);
         setIsAttachImage(true);
       }
+      else if(extension=='jpeg' || extension=='JPEG'){
+        // else if (fileUri.indexOf('.png') !== -1 || fileUri.indexOf('.jpg') !== -1) {
+          setImagePath(fileUri);
+          setIsAttachImage(true);
+        }
       // else if (fileUri.indexOf('.mp4')) {
        else if(extension=='mp4' || extension=='MOV'){
         const MAX_SIZE_VIDEO = 8388608 //8*1024*1024

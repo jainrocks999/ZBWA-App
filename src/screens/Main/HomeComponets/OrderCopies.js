@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions,Platform } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import BlackEye from "../../../assets/Icon/BlackEye.svg";
@@ -20,7 +20,7 @@ const OrderCopies = () => {
     const [loader, setLoader] = useState(false)
     const [data, setData] = useState()
     const [isVisible, setVisible] = useState(false)
-    const [isVisible1, setVisible1] = useState(false)
+    const [showPdf,setShowPdf]=useState(false)
     const [pdfData, setPdfData] = useState([])
     const [url, setUrl] = useState('')
 
@@ -60,6 +60,17 @@ const OrderCopies = () => {
             });
 
     }
+    console.log('this is setUUUrl',url);
+    const handlePdf=(item)=>{
+        navigation.navigate('VideoView',{
+            url:item.cert_pdf
+        })
+        // setUrl(item.cert_pdf)
+        // setTimeout(() => {
+        //     setShowPdf(true)
+        // }, 100);
+        
+    }
     return (
         <View style={styles.container}>
             {loader ? <Loader /> : null}
@@ -77,6 +88,7 @@ const OrderCopies = () => {
                                 onPress={() => {
                                     setPdfData(item.certificate_type)
                                     setVisible(true)
+                                    // setShowPdf(true)
                                 }}
                                 activeOpacity={0.5}>
                                 <BlackEye />
@@ -114,10 +126,14 @@ const OrderCopies = () => {
                                 <TouchableOpacity
                                     onPress={() => {
                                         setVisible(false)
-                                        setVisible1(true)
-                                        setUrl(item.cert_pdf)
+                                        handlePdf(item)
+                                        //  setShowPdf(true)
+                                        // setUrl(item.cert_pdf)
                                     }}
-                                    style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: data.length == index ? 0 : 1, paddingRight: 10, width: '93%', marginTop: 5 }}>
+                                    style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', 
+                                    // borderBottomWidth: data.length == index ? 0 : 1,
+                                     borderTopWidth: index==0?0:1,
+                                     paddingRight: 10, width: '93%', marginTop: 5 }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, marginBottom: 10 }}>
                                         <Text style={{ fontSize: 14, color: '#000', fontFamily: 'Montserrat-SemiBold' }}>{`${index + 1}. `}</Text>
                                         <Text numberOfLines={1} style={{ fontSize: 14, color: '#000', fontFamily: 'Montserrat-SemiBold', width: '90%' }}>{item.cert_pdf.substr(item.cert_pdf.lastIndexOf("/") + 1)}</Text>
@@ -134,22 +150,23 @@ const OrderCopies = () => {
                 </View>
             </Modal>
 
-            <Modal style={{ margin: 0 }} isVisible={isVisible1}>
+            <Modal style={{ margin: 0,marginTop:Platform.OS=='ios'?25:0 }} isVisible={showPdf}>
                 <View style={{
                     backgroundColor: '#FDEDB1',
                     borderRadius: 16,
                     flex: 1,
                     margin: 0
+                    
                 }}>
 
                     <TouchableOpacity
-                        onPress={() => setVisible1(false)}
+                        onPress={() => setShowPdf(false)}
                         style={{ alignSelf: 'flex-end', margin: 5 }}>
                         <CircleCross />
                     </TouchableOpacity>
                     <Pdf
                         trustAllCerts={false}
-                        source={{ uri: url, cache: true }}
+                        source={{ uri: 'http://45.79.123.102:49002/uploads/user-id-card (1)~cc1d.pdf', cache: true }}
                         onLoadComplete={(numberOfPages, filePath) => {
                             console.log(`Number of pages: ${numberOfPages}`);
                         }}

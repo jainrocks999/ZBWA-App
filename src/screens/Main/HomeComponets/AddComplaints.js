@@ -1,5 +1,5 @@
 import React, { useState,useRef } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView,Platform } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import axios from "axios";
 import Constants from "../../../Redux/Constants";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const AddComplaints = () => {
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
@@ -109,7 +110,16 @@ const AddComplaints = () => {
                 title={'Add Complaints'}
                 onPress={() => navigation.goBack()}
             />
-            <ScrollView style={styles.main}>
+            <ScrollView style={styles.main} 
+            contentContainerStyle={{ flexGrow: 1, }}
+            >
+            <KeyboardAwareScrollView
+            extraScrollHeight={-100}
+            enableOnAndroid={true}
+            keyboardShouldPersistTaps="handled"
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            contentContainerStyle={{ flexGrow: 1 }}
+            >
                 <Text style={styles.view}>Opposite Party Details:</Text>
                 <View style={{ marginTop: 18 }}>
                     <Text style={styles.first}>First Name</Text>
@@ -222,8 +232,10 @@ const AddComplaints = () => {
                         <Text style={styles.submit}>Submit</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{height:40}}/>
+                <View style={{height:240}}/>
+                </KeyboardAwareScrollView>
             </ScrollView>
+
         </View>
     )
 }

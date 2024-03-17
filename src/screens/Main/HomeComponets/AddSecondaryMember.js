@@ -434,7 +434,10 @@ const AddSecondaryMember = ({ route }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible1(false)
+                                setTimeout(() => {
                                 launchCameraForPhoto()
+                                }, 500);
+                               
                             }}
                             style={styles.camera}>
                             <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
@@ -442,7 +445,10 @@ const AddSecondaryMember = ({ route }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible1(false)
-                                _pickDocument('photograph')
+                                setTimeout(() => {
+                                    _pickDocument('photograph')
+                                }, 500);
+                               
                             }
                             }
                             style={styles.button}>
@@ -466,7 +472,10 @@ const AddSecondaryMember = ({ route }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible2(false)
-                                launchCameraForAadhar()
+                                setTimeout(() => {
+                                    launchCameraForAadhar()
+                                }, 500);
+                                
                             }}
                             style={styles.camera}>
                             <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
@@ -474,7 +483,10 @@ const AddSecondaryMember = ({ route }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible2(false)
-                                _pickDocument('aadharCard')
+                                setTimeout(() => {
+                                    _pickDocument('aadharCard')
+                                }, 500);
+                                
                             }}
                             style={styles.button}>
                             <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Gallery</Text>
@@ -497,7 +509,10 @@ const AddSecondaryMember = ({ route }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible3(false)
-                                launchCameraForSalary()
+                                setTimeout(() => {
+                                    launchCameraForSalary()
+                                }, 500);
+                                
                             }}
                             style={styles.camera}>
                             <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
@@ -505,7 +520,10 @@ const AddSecondaryMember = ({ route }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setVisible3(false)
-                                _pickDocument('salarySlip')
+                                setTimeout(() => {
+                                    _pickDocument('salarySlip')
+                                }, 500);
+                               
                             }}
                             style={styles.button}>
                             <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Gallery</Text>
