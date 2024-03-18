@@ -244,7 +244,7 @@ const ForgotPassword = () => {
                         </TouchableOpacity>
                       </View>:null}
                     </View>
-                    <View style={{ marginTop:code? 27:Platform.OS=='android'?105:27, alignItems: 'flex-end', }}>
+                    <View style={{ marginTop:show? 27:105, alignItems: 'flex-end', }}>
                       <TouchableOpacity
                         onPress={()=>verifyOtp()}
                         disabled={code ? false : true}

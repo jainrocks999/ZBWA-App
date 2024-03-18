@@ -359,7 +359,7 @@ const HomeScreen = () => {
                 </View>
                 <View style={styles.view}>
                     <FlatList
-                        data={showMember=='Not a member'?data:data2}
+                    data={showMember=='Not a member'?data:data2}
                         numColumns={2}
                         renderItem={({ item, index }) =>(
                             <TouchableOpacity
