@@ -14,6 +14,12 @@ import Toast from "react-native-simple-toast";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import Constants from "../../../Redux/Constants";
+import {
+  getHash,
+  startOtpListener,
+  useOtpVerify,
+  removeListener
+} from 'react-native-otp-verify';
 
 const OtpPage = ({route}) => {
   const navigation = useNavigation()
@@ -22,6 +28,33 @@ const OtpPage = ({route}) => {
   const [code, setCode] = useState()
   const [mobile,setMobile]=useState(data.mobile)
   const [loader,setLoader]=useState(false)
+  const [hashCode,setHashCode]=useState('')
+
+  const { hash, otp, message, timeoutError, stopListener, startListener } = useOtpVerify({numberOfDigits: 6});
+
+
+  useEffect(() => {
+    getHash().then(hash => {
+      // use this hash in the message.
+      setHashCode(hash[0])
+      console.log('thisis hash code',hash);
+    }).catch(console.log);
+  
+    startOtpListener(message => {
+      try {
+        const otp = /(\d{6})/g.exec(message)[1];
+        console.log('this is otp code',otp);
+        setCode(otp)
+      } catch (error) {
+        console.log(error);
+      }
+      // extract the otp using regex e.g. the below regex extracts 4 digit otp from message
+      
+      // setOtp(otp);
+    });
+    return () => removeListener();
+  }, []);
+
 
 
   const verifyOtp =async()=>{
@@ -78,7 +111,8 @@ const OtpPage = ({route}) => {
       url: `${Constants.MainUrl}user/send/otp`,
       data: {
         "mobile": mobile,
-        "action": "signup"
+        "action": "signup",
+        "hashkey":hashCode
       }
     })
       .then(function (response) {

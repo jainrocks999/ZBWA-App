@@ -39,6 +39,9 @@ import QREventDetails from "../components/EventDetailsForQRCode";
 import { createStackNavigator } from '@react-navigation/stack';
 import Notification from "../screens/Main/HomeComponets/Notification";
 import VideoView from "../screens/Main/HomeComponets/VideoView";
+import ViewId from "../screens/Main/HomeComponets/ViewId";
+import ViewIdSecondary from "../screens/Main/HomeComponets/ViewIdSecondary";
+import MyProfile from "../screens/Main/HomeComponets/MyProfile";
 
 const Stack = createStackNavigator();
 function Navigate() {
@@ -94,6 +97,9 @@ function Home(){
          <Stack1.Screen name="MyQRCode" component={MyQRCode}/>
          <Stack1.Screen name="QREventDetails" component={QREventDetails}/>
          <Stack1.Screen name="Notification" component={Notification}/>
+         <Stack1.Screen name="ViewId" component={ViewId}/>
+         <Stack1.Screen name="ViewIdSecondary" component={ViewIdSecondary}/>
+         <Stack1.Screen name="MyProfile" component={MyProfile}/>
       </Stack1.Navigator>
   )
 }

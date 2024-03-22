@@ -81,6 +81,7 @@ console.log('thisis item',item);
             <Header
                 title={'Complaints'}
                 onPress={() => navigation.goBack()}
+                onPress2={()=>navigation.navigate('Notification')}
             />
             <View style={styles.main}>
                 <View style={{ alignItems: 'center' }}>
@@ -107,7 +108,7 @@ console.log('thisis item',item);
                                     <Text style={styles.complainNumber}>{'Complain Number : '}</Text>
                                     <Text style={styles.text}>{item.complaintId}</Text>
                                 </View>
-                                <Text style={styles.name}>{item.accused.name}</Text>
+                                <Text style={styles.name}>{item?.accused?.name}</Text>
                                 <TouchableOpacity style={[styles.touch, { backgroundColor: item.status == 'Solved' ? '#35CD56' : '#359FCD', }]}>
                                     <Text style={styles.status}>{item.status}</Text>
                                 </TouchableOpacity>
@@ -130,15 +131,15 @@ console.log('thisis item',item);
                         {/* <Text style={styles.date1}>16 Oct, 2023</Text> */}
                         <View style={styles.row}>
                             <Text style={styles.same}>{'Opposite Party Name : '}</Text>
-                            <Text style={styles.name1}>{item?.accused.name}</Text>
+                            <Text style={styles.name1}>{item?.accused?.name}</Text>
                         </View>
                         <View style={styles.row}>
                             <Text style={styles.same}>{'Opposite Party Firm Name : '}</Text>
-                            <Text style={styles.name1}>{item?.accused.firmName}</Text>
+                            <Text style={styles.name1}>{item?.accused?.firmName}</Text>
                         </View>
                         <View style={{ marginTop: 6 }}>
                             <Text style={styles.same}>{'Details : '}</Text>
-                            <Text style={styles.name1}>{item.detail}</Text>
+                            <Text style={styles.name1}>{item?.detail}</Text>
                         </View>
                         <Text style={styles.same}></Text>
                         {/* <Text style={[styles.name1, { marginTop: 6 }]}>I need legal assistance in filling complaint agains Mr. Ashish Haval Proprietor in Narayal Manohar Haval, Kolhapur, for non payment.</Text> */}

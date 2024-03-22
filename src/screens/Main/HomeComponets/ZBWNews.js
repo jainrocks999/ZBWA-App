@@ -82,6 +82,7 @@ const ZBWNews=()=>{
             <Header
                title={"ZBW News"}
                onPress={()=>navigation.goBack()}
+               onPress2={()=>navigation.navigate('Notification')}
             />
             <View style={{paddingHorizontal:25}}>
                 <View style={styles.heading}>

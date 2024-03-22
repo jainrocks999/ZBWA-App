@@ -272,7 +272,7 @@ const Documentation = ({ onPress }) => {
             setBis('')
             setBisName('')
             setBisType('')
-
+            setToggleCheckBox(false)
             setLoader(false)
           })
           .catch((error) => {
@@ -296,7 +296,7 @@ const Documentation = ({ onPress }) => {
             setBis('')
             setBisName('')
             setBisType('')
-
+              setToggleCheckBox(false)
             setLoader(false)
           });
       }

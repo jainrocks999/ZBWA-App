@@ -58,6 +58,7 @@ const Term =()=>{
           <Header
           title={'Terms of Service'}
           onPress={()=>navigation.goBack()}
+          onPress2={()=>navigation.navigate('Notification')}
           />
            <ScrollView style={{padding:20}}>
            {data? <HTMLView

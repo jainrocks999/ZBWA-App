@@ -102,12 +102,12 @@ export default StyleSheet.create({
     height:35,
     borderColor:'#fff',
     marginTop:4,
-    width:'90%',
+    width:'85%',
     fontSize:12,
     fontFamily:'Montserrat-Regular'
   },
   otpText:{
-    color:'#FCDA64',
+    color:'#fff',
     fontFamily:'Montserrat-SemiBold',
     fontSize:12
   },

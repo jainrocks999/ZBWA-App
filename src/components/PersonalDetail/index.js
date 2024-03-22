@@ -212,8 +212,10 @@ const PersonalDetail = () => {
                         </View>
                         {fields.map((field, idx) => {
                             return (
+                                <View style={{marginTop:10}}>
+                                <Text style={styles.heading}>Members of Any Other Organisation</Text>
                                 <View style={[styles.inputView, {
-                                    marginTop: 15,
+                                    // marginTop: 15,
                                     flexDirection: 'row',
                                     alignItems: 'center',
                                     justifyContent: 'space-between',
@@ -232,6 +234,7 @@ const PersonalDetail = () => {
                                         onPress={() => handleRemove(idx)}>
                                         <Text style={{ fontSize: 11, fontFamily: 'Montserrat-Bold', color: '#fff' }}>Remove</Text>
                                     </TouchableOpacity>
+                                </View>
                                 </View>
                             );
                         })}

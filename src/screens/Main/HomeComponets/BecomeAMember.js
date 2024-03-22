@@ -61,6 +61,7 @@ const BecomeaMember = () => {
             <Header
                 title={"Become a Member"}
                 onPress={() => navigation.goBack()}
+                onPress2={()=>navigation.navigate('Notification')}
             />
             <View style={{ flex: 1 }}>
                 <View>

@@ -104,6 +104,7 @@ const Notification=()=>{
              title={'Notification'}
              onPress={() => navigation.goBack()}
              notification={false}
+             
             />
             <View style={{marginTop:15}}>
                 <FlatList

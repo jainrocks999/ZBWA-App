@@ -16,6 +16,12 @@ import Modal from "react-native-modal";
 import CircleCross from "../../../assets/Icon/CircleCross.svg";
 import HTMLView from "react-native-htmlview";
 import Constants from "../../../Redux/Constants";
+import {
+  getHash,
+  startOtpListener,
+  useOtpVerify,
+  removeListener
+} from 'react-native-otp-verify';
 
 
 const Register = () => {
@@ -33,6 +39,23 @@ const Register = () => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false)
   const [data, setData] = useState()
   const [isVisible, setVisible] = useState(false)
+  const [hashCode,setHashCode]=useState('')
+
+
+  useEffect(() => {
+    getHash().then(hash => {
+      // use this hash in the message.
+      console.log('thisis hash code',hash[0]);
+      setHashCode(hash[0])
+    }).catch(console.log);
+  
+    startOtpListener(message => {
+      // extract the otp using regex e.g. the below regex extracts 4 digit otp from message
+      const otp = /(\d{6})/g.exec(message)[1];
+     
+    });
+    return () => removeListener();
+  }, []);
 
   useEffect(() => {
     apiCall()
@@ -109,7 +132,8 @@ const Register = () => {
         url: `${Constants.MainUrl}user/send/otp`,
         data: {
           "mobile": mobile,
-          "action": "signup"
+          "action": "signup",
+          "hashkey":hashCode
         }
       })
         .then(function (response) {

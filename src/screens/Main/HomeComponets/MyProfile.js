@@ -13,49 +13,52 @@ const Contact =()=>{
     const navigation=useNavigation()
     const [loader,setLoader]=useState(false)
     const [data,setData]=useState()
+   
 
     useEffect(()=>{
       apiCall()
     },[])
 
-    const apiCall=async()=>{
-      const user_token=await AsyncStorage.getItem(Storage.user_token)
+    const apiCall = async () => {
+      const user_token = await AsyncStorage.getItem(Storage.user_token)
       let config = {
-        method: 'get',
-        url: `${Constants.MainUrl}homepage/contact/us`,
-        headers: { 
-          'Authorization': `${user_token}`
-        }
+          method: 'get',
+          url: `${Constants.MainUrl}user/my/profile`,
+          headers: {
+              'Authorization': `${user_token}`
+          }
       };
       setLoader(true)
       axios.request(config)
-      .then((response) => {
-        if(response.data.code=='200'){
-           Toast.show(response.data.message)
-           setData(response.data.data)
-           setLoader(false)
-        }
-        else{
-          setLoader(false)
-          Toast.show(response.data.message)
-        }
-        console.log(JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        setLoader(false)
-        console.log(error);
-      });
-      
-    }
+          .then((response) => {
+            console.log('response',response.data);
+              if (response.data.code == '200') {
+                  Toast.show(response.data.message)
+                  setData(response.data.data)
+                  setLoader(false)
+              }
+              else {
+                  setLoader(false)
+                  setData(response.data.data)
+                  Toast.show(response.data.message)
+              }
+          })
+          .catch((error) => {
+              setLoader(false)
+              console.log(error);
+          });
+
+  }
+
     return(
         <View style={{flex:1,backgroundColor:'#FFFFFF'}}>
           {loader?<Loader/>:null}
           <Header
-          title={'Contact Us'}
+          title={'My Profile'}
           onPress={()=>navigation.goBack()}
           onPress2={()=>navigation.navigate('Notification')}
           />
-         {data? <View style={{
+        {data?.user? <View style={{
                 width: '90%',
                 borderWidth: 1,
                 borderColor: '#FCDA64',
@@ -72,10 +75,11 @@ const Contact =()=>{
                 alignSelf:'center',
                 marginTop:20
                 }}>
-                  <Text style={{fontSize:15,color:'#000',fontFamily:'Montserrat-SemiBold'}}>{`Phone Number : ${data.phone}`}</Text>
-                  <Text style={{fontSize:15,color:'#000',fontFamily:'Montserrat-SemiBold',marginTop:6}}>{`Whatsapp Number : ${data.whatsapp}`}</Text>
-                  <Text style={{fontSize:15,color:'#000',fontFamily:'Montserrat-SemiBold',marginTop:6}}>{`Email Address : ${data.email}`}</Text>
-                  <Text style={{fontSize:15,color:'#000',fontFamily:'Montserrat-SemiBold',marginTop:6}}>{`Address : ${data.address}`}</Text>
+                 {data?.user?.firstName? <Text style={{fontSize:15,color:'#000',fontFamily:'Montserrat-SemiBold'}}>{`Name : ${data?.user?.firstName} ${data?.user?.lastName}`}</Text>:null}
+                 {data?.user?.businessName? <Text style={{fontSize:15,color:'#000',fontFamily:'Montserrat-SemiBold',marginTop:4}}>{`Business Name : ${data?.user?.businessName}`}</Text>:null}
+                 {data?.user?.gst?<Text style={{fontSize:15,color:'#000',fontFamily:'Montserrat-SemiBold',marginTop:4}}>{`GST Number : ${data?.user?.gst}`}</Text>:null}
+                 {data?.user?.phone?<Text style={{fontSize:15,color:'#000',fontFamily:'Montserrat-SemiBold',marginTop:4}}>{`Phone Number : ${data?.user?.phone}`}</Text>:null}
+
           </View>:null}
         </View>
     )

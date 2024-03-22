@@ -15,6 +15,12 @@ import Loader from "../../../components/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import Constants from "../../../Redux/Constants";
+import {
+  getHash,
+  startOtpListener,
+  useOtpVerify,
+  removeListener
+} from 'react-native-otp-verify';
 // import auth from '@react-native-firebase/auth';
 
 
@@ -25,6 +31,31 @@ const ForgotPassword = () => {
   const [loader, setLoader] = useState(false)
   const [code, setCode] = useState('')
   const [show, setShow] = useState(false);
+  const [hashCode,setHashCode]=useState('')
+  const { hash, otp, message, timeoutError, stopListener, startListener } = useOtpVerify({numberOfDigits: 6});
+
+console.log('this is hash code',hashCode);
+  useEffect(() => {
+    getHash().then(hash => {
+      // use this hash in the message.
+      console.log('thisis hash code',hash[0]);
+      setHashCode(hash[0])
+    }).catch(console.log);
+  
+    startOtpListener(message => {
+      // extract the otp using regex e.g. the below regex extracts 4 digit otp from message
+     try {
+      const otp = /(\d{6})/g.exec(message)[1];
+      console.log('this is otp code',message);
+      setCode(otp)
+     } catch (error) {
+      console.log(error);
+     }
+     
+      // setOtp(otp);
+    });
+    return () => removeListener();
+  }, []);
 
 
   const manageSend = () => {
@@ -41,7 +72,8 @@ const ForgotPassword = () => {
         url: `${Constants.MainUrl}user/send/otp`,
         data: {
           "mobile": mobile,
-          "action": "reset_password"
+          "action": "reset_password",
+          "hashkey":hashCode
         }
       })
         .then(function (response) {
@@ -84,7 +116,8 @@ const ForgotPassword = () => {
         url: `${Constants.MainUrl}user/send/otp`,
         data: {
           "mobile": mobile,
-          "action": "reset_password"
+          "action": "reset_password",
+          "hashkey":hashCode
         }
       })
     .then(function(response) {
@@ -204,10 +237,18 @@ const ForgotPassword = () => {
                           {show ?
                             <Edit />
                             : <View>
+                              <TouchableOpacity
+                              style={{
+                                borderWidth:1,
+                                backgroundColor:'#FCDA64',
+                                paddingHorizontal:4,
+                                paddingVertical:2,
+                                borderRadius:6
+                              }}
+                               onPress={() => manageSend()}>
                               <Text
-                                onPress={() => manageSend()}
-                              
                                 style={styles.otpText}>OTP</Text>
+                                </TouchableOpacity>
                             </View>}
                         </View>
                       </View>
@@ -224,15 +265,6 @@ const ForgotPassword = () => {
                           inputContainerStyles={{ width: 35, alignItems: 'center' }}
                           // inputContainerStyles={[styles.otp]}
                           inputStyles={styles.otp1}
-
-
-                        
-                       
-                         
-                       
-                        
-                        
-                        
                         />
                       </View>:null}
                      {show? <View style={{ marginTop: 15 }}>
@@ -266,4 +298,7 @@ const ForgotPassword = () => {
   )
 }
 export default ForgotPassword;
+
+
+
 

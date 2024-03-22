@@ -91,6 +91,7 @@ const OurPartner = () => {
             <Header
                 title={'Our Partners'}
                 onPress={() => navigation.goBack()}
+                onPress2={()=>navigation.navigate('Notification')}
             />
             <View style={styles.main}>
                 <FlatList

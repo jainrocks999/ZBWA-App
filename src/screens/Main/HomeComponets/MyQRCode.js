@@ -126,6 +126,7 @@ const managePress = (item) => {
             <Header
                 title={"My QR Code"}
                 onPress={() => navigation.goBack()}
+                onPress2={()=>navigation.navigate('Notification')}
             />
             <View style={{ flex: 1 }}>
                 <View>

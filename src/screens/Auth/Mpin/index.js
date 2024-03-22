@@ -74,7 +74,7 @@ const Login = () => {
 
             Toast.show(response.data.message )
             AsyncStorage.setItem(Storage.user_id,response.data.data._id)
-            AsyncStorage.setItem(Storage.username,response.data.data.name)
+            AsyncStorage.setItem(Storage.username,`${response.data.data.firstName} ${response.data.data.lastName}`)
             AsyncStorage.setItem(Storage.user_token,response.data.data.token)
             AsyncStorage.setItem(Storage.isPremium,JSON.stringify(response.data.data.isPrimary))
             navigation.reset({

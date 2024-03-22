@@ -57,6 +57,7 @@ const LegalSupport = () => {
             <Header
                 title={'Legal Support'}
                 onPress={() => navigation.goBack()}
+                onPress2={()=>navigation.navigate('Notification')}
             />
             <View style={styles.main}>
                 <FlatList

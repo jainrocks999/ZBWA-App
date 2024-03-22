@@ -60,6 +60,7 @@ const About = () => {
             <Header
                 title={'About Us'}
                 onPress={() => navigation.goBack()}
+                onPress2={()=>navigation.navigate('Notification')}
             />
             <ScrollView style={{padding:20}}>
            {data? <HTMLView

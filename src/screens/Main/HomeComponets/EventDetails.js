@@ -177,6 +177,7 @@ const EventDetails = ({ route }) => {
             <Header
                 title={"Event Details"}
                 onPress={() => navigation.goBack()}
+                onPress2={()=>navigation.navigate('Notification')}
             />
             {data ? <ScrollView>
                 {data.images[0].image?

@@ -62,9 +62,18 @@ const HomeScreen = () => {
                 console.log('this is response',response.data);
                 if (response.data.code == '200') {
                     setLoader(false)
+                    
+                    AsyncStorage.setItem("Member",response.data.message)
+                    AsyncStorage.setItem("Member_id",JSON.stringify(response.data.data.member_id))
+                    AsyncStorage.setItem("Member_dob",response.data.data.dob)
+                    AsyncStorage.setItem("Member_contact",response.data.data.emergencyContactNumber)
                     setShowMember(response.data.message)
                 }
                 else {
+                    AsyncStorage.setItem("Member_id",JSON.stringify(response.data.data.member_id))
+                    AsyncStorage.setItem("Member_dob",response.data.data.dob)
+                    AsyncStorage.setItem("Member_contact",response.data.data.emergencyContactNumber)
+                    AsyncStorage.setItem("Member",response.data.message)
                     setLoader(false)
                     setShowMember(response.data.message)
                 }
@@ -194,14 +203,6 @@ const HomeScreen = () => {
                 setLoader(false)
                 navigation.navigate('LegalSupport')
             }
-            // if(response.data.code=='200'){
-            //     setLoader(false)
-            //     navigation.navigate('LegalSupport')
-            // }
-            // else{
-            //     setLoader(false)
-            //     setPremium(true)
-            // }
           })
           .catch((error) => {
             setLoader(false)
@@ -209,7 +210,6 @@ const HomeScreen = () => {
           });
         }
         else if (title == 'Order Copies') {
-            // navigation.navigate('OrderCopies')
             let config = {
                 method: 'get',
                 url: `${Constants.MainUrl}ordercopie/all/1`,
@@ -228,14 +228,6 @@ const HomeScreen = () => {
                     setLoader(false)
                     navigation.navigate('OrderCopies')
                 }
-                // if(response.data.code=='200'){
-                //     setLoader(false)
-                //     navigation.navigate('OrderCopies')
-                // }
-                // else{
-                //     setLoader(false)
-                //     setPremium(true)
-                // }
               })
               .catch((error) => {
                 setLoader(false)
@@ -244,7 +236,6 @@ const HomeScreen = () => {
 
         }
         else if (title == 'Complaints') {
-            // navigation.navigate('Complaints')
             let config = {
                 method: 'get',
                 url: `${Constants.MainUrl}complaint/all`,
@@ -265,14 +256,6 @@ const HomeScreen = () => {
                     setLoader(false)
                     navigation.navigate('Complaints')
                 }
-                // if(response.data.code=='200'){
-                //     setLoader(false)
-                //     navigation.navigate('Complaints')
-                // }
-                // else{
-                //     setLoader(false)
-                //     setPremium(true)
-                // }
               })
               .catch((error) => {
                 setLoader(false)
@@ -523,10 +506,10 @@ const data = [
         img: <Image22 />,
         name: 'Order Copies'
     },
-    {
-        img: <Image21 />,
-        name: 'Price Chart'
-    },
+    // {
+    //     img: <Image21 />,
+    //     name: 'Price Chart'
+    // },
     {
         img: <Image23 />,
         name: 'Legal Support'
@@ -558,10 +541,10 @@ const data2 = [
         img: <Image22 />,
         name: 'Order Copies'
     },
-    {
-        img: <Image21 />,
-        name: 'Price Chart'
-    },
+    // {
+    //     img: <Image21 />,
+    //     name: 'Price Chart'
+    // },
     {
         img: <Image23 />,
         name: 'Legal Support'

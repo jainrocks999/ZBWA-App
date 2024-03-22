@@ -88,6 +88,7 @@ const SecondaryMember = () => {
       <Header
         title={'Secondary Member'}
         onPress={() => navigation.goBack()}
+        onPress2={()=>navigation.navigate('Notification')}
       />
       <View style={styles.main}>
         <Text style={styles.add}>Add upto 4 Secondary members</Text>
@@ -127,6 +128,21 @@ const SecondaryMember = () => {
                   {`${item.firstName} ${item.lastName}`}
                   {/* {item.title} */}
                   </Text>
+                  <TouchableOpacity
+                  onPress={()=>{
+                    navigation.navigate('ViewIdSecondary',{
+                      Id:item._id
+                    })
+                  }}
+                   style={{
+                    backgroundColor:'#FCDA64',
+                    paddingHorizontal:7,
+                    paddingVertical:3,
+                    marginTop:10,
+                    borderRadius:6
+                  }}>
+                    <Text style={{marginTop:-2,fontSize:13,color:'#000',fontFamily:'Montserrat-SemiBold'}}>View ID Card</Text>
+                  </TouchableOpacity>
               </View>
 
             </View>
@@ -168,7 +184,7 @@ const styles = StyleSheet.create({
   item: { 
     width: Dimensions.get('window').width/3+28, 
     // width:'40%',
-    height: 155, 
+    height: 185, 
     marginHorizontal: 20, 
     marginVertical: 15 
   },

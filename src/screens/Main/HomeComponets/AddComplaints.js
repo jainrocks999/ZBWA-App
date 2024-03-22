@@ -1,5 +1,5 @@
-import React, { useState,useRef } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView,Platform } from "react-native";
+import React, { useState, useRef } from "react";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Platform } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
@@ -12,235 +12,401 @@ import Storage from "../../../components/LocalStorage";
 import axios from "axios";
 import Constants from "../../../Redux/Constants";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Upload from "../../../assets/Icon/Upload.svg";
+import Modal from "react-native-modal";
+import CircleCross from "../../../assets/Icon/CircleCross.svg";
+import DocumentPicker from 'react-native-document-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 const AddComplaints = () => {
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
-    const [loader,setLoader]=useState(false)
-    const [firstName,setFirstName]=useState('')
-    const [lastName,setLastName]=useState('')
-    const [phone,setPhone]=useState('')
-    const [firmName,setFirmName]=useState('')
-    const [email,setEmail]=useState('')
-    const [address,setAddress]=useState('')
-    const [description,setDescription]=useState('')
+    const [loader, setLoader] = useState(false)
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [phone, setPhone] = useState('')
+    const [firmName, setFirmName] = useState('')
+    const [email, setEmail] = useState('')
+    const [address, setAddress] = useState('')
+    const [description, setDescription] = useState('')
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
-
+    const [visible,setVisible]=useState(false)
+    const [complaint,setComplaints]=useState('')
+    const [complaintName,setComplaintsName]=useState('')
+    const [complaintType,setComplaintsType]=useState('')
 
     const navigation = useNavigation()
 
-    const handlePress=async()=>{
-     const user_token =await AsyncStorage.getItem(Storage.user_token)
-     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-        if(firstName==''){
-           Toast.show('Please enter first name')
+    const handlePress = async () => {
+        const user_token = await AsyncStorage.getItem(Storage.user_token)
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if (firstName == '') {
+            Toast.show('Please enter first name')
         }
-        else if(lastName==''){
+        else if (lastName == '') {
             Toast.show('Please enter last name')
         }
-        else if(phone==''){
+        else if (phone == '') {
             Toast.show('Please enter phone number')
         }
-        else if(phone.length<10){
+        else if (phone.length < 10) {
             Toast.show('Please enter 10 digit phone number ')
         }
-        else if(!phone.match('[0-9]{10}')){
+        else if (!phone.match('[0-9]{10}')) {
             Toast.show('Please enter valid phone number')
         }
-        else if(firmName==''){
+        else if (firmName == '') {
             Toast.show('Please enter firm name')
         }
-        else if(email==''){
+        else if (email == '') {
             Toast.show('Please enter email address')
         }
-        else if(reg.test(email) === false){
+        else if (reg.test(email) === false) {
             Toast.show('Please enter valid email address')
         }
-        else if(address==''){
+        else if (address == '') {
             Toast.show('Please enter your full address')
         }
-        else if(value==null){
+        else if (value == null) {
             Toast.show('Please select issue type')
         }
-        else if(description==''){
-            Toast.show('Please enter description')
+        else if (description == '') {
+            Toast.show('Please enter issue description')
         }
-        else{
+        else {
             setLoader(true)
             let data = JSON.stringify({
-                "accusedName":`${firstName} ${lastName}` ,
+                "accusedName": `${firstName} ${lastName}`,
                 "phone": phone,
                 "firmName": firmName,
                 "email": email,
                 "address": address,
                 "subject": value,
                 "detail": description
-              });
-              
-              let config = {
+            });
+
+            let config = {
                 method: 'post',
-               
+
                 url: `${Constants.MainUrl}complaint/create/complain`,
-                headers: { 
-                  'Content-Type': 'application/json', 
-                  'Authorization': `${user_token}`
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `${user_token}`
                 },
-                data : data
-              };
-              
-              axios.request(config)
-              .then((response) => {
-                console.log(JSON.stringify(response.data));
-                Toast.show(response.data.message)
-                navigation.goBack()
-                setLoader(false)
-              })
-              .catch((error) => {
-                console.log(error);
-                setLoader(false)
-              });
+                data: data
+            };
+
+            axios.request(config)
+                .then((response) => {
+                    console.log(JSON.stringify(response.data));
+                    Toast.show(response.data.message)
+                    navigation.goBack()
+                    setLoader(false)
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setLoader(false)
+                });
         }
-        
+
     }
+    const checklistImage = {
+        title: 'Select Image',
+        quality: 0.7,
+        maxWidth: 500,
+        maxHeight: 500,
+        saveToPhotos: true,
+        storageOptions: {
+          skipBackup: true,
+          path: 'images',
+        },
+      }
+    
+      const launchCameraForPhoto = async () => {
+        launchCamera(checklistImage, response => {
+          if (response.didCancel) {
+          } else if (response.error) {
+          } else {
+               const res=response.assets[0]
+               setComplaints(res.uri)
+               setComplaintsName(res.fileName)
+               setComplaintsType(res.type)
+           }
+        });
+      }
+
+      const _pickDocument = async (type) => {
+        try {
+          const result = await DocumentPicker.pickSingle({
+            type: [DocumentPicker.types.images, DocumentPicker.types.pdf],
+          });
+          const res = result;
+          console.log('this is response data', result);
+            (res.uri)
+            setComplaints(res.uri)
+            setComplaintsName(res.name)
+            setComplaintsType(res.type)
+        
+        } catch (err) {
+          if (DocumentPicker.isCancel(err)) {
+            console.log('User cancelled file picker');
+          } else {
+            console.log('DocumentPicker err => ', err);
+            throw err;
+          }
+        }
+      };
+    
+
+
     const inputRef = useRef();
     return (
         <View style={styles.conatiner}>
-            {loader?<Loader/>:null}
+            {loader ? <Loader /> : null}
             <Header
                 title={'Add Complaints'}
                 onPress={() => navigation.goBack()}
+                onPress2={() => navigation.navigate('Notification')}
             />
-            <ScrollView style={styles.main} 
-            contentContainerStyle={{ flexGrow: 1, }}
+            <ScrollView style={styles.main}
+                contentContainerStyle={{ flexGrow: 1, }}
             >
-            <KeyboardAwareScrollView
-            extraScrollHeight={-100}
-            enableOnAndroid={true}
-            keyboardShouldPersistTaps="handled"
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            contentContainerStyle={{ flexGrow: 1 }}
-            >
-                <Text style={styles.view}>Opposite Party Details:</Text>
-                <View style={{ marginTop: 18 }}>
-                    <Text style={styles.first}>First Name</Text>
-                    <View style={styles.inputView}>
-                        <TextInput
-                        value={firstName}
-                        onChangeText={(val)=>setFirstName(val)}
-                        style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium',height:40,width:'100%'}}
-                        />
+                <KeyboardAwareScrollView
+                    extraScrollHeight={-100}
+                    enableOnAndroid={true}
+                    keyboardShouldPersistTaps="handled"
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    contentContainerStyle={{ flexGrow: 1 }}
+                >
+                    <Text style={styles.view}>Opposite Party Details:</Text>
+                    <View style={{ marginTop: 18 }}>
+                        <Text style={styles.first}>First Name</Text>
+                        <View style={styles.inputView}>
+                            <TextInput
+                                value={firstName}
+                                onChangeText={(val) => setFirstName(val)}
+                                style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium', height: 40, width: '100%' }}
+                            />
+                        </View>
                     </View>
-                </View>
-                <View style={{ marginTop: 15 }}>
-                    <Text style={styles.first}>Last Name</Text>
-                    <View style={styles.inputView}>
-                        <TextInput 
-                         value={lastName}
-                         onChangeText={(val)=>setLastName(val)}
-                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium',height:40,width:'100%'}}
-                        />
+                    <View style={{ marginTop: 15 }}>
+                        <Text style={styles.first}>Last Name</Text>
+                        <View style={styles.inputView}>
+                            <TextInput
+                                value={lastName}
+                                onChangeText={(val) => setLastName(val)}
+                                style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium', height: 40, width: '100%' }}
+                            />
+                        </View>
                     </View>
-                </View>
-                <View style={{ marginTop: 15 }}>
-                    <Text style={styles.first}>Phone Number</Text>
-                    <View style={styles.inputView}>
-                        <TextInput 
-                         value={phone}
-                         onChangeText={(val)=>setPhone(val)}
-                         maxLength={10}
-                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium',height:40,width:'100%'}}
-                         keyboardType="number-pad"
-                        />
+                    <View style={{ marginTop: 15 }}>
+                        <Text style={styles.first}>Phone Number</Text>
+                        <View style={styles.inputView}>
+                            <TextInput
+                                value={phone}
+                                onChangeText={(val) => setPhone(val)}
+                                maxLength={10}
+                                style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium', height: 40, width: '100%' }}
+                                keyboardType="number-pad"
+                            />
+                        </View>
                     </View>
-                </View>
-                <View style={{ marginTop: 15 }}>
-                    <Text style={styles.first}>Firm Name</Text>
-                    <View style={styles.inputView}>
-                        <TextInput 
-                         value={firmName}
-                         onChangeText={(val)=>setFirmName(val)}
-                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium',height:40,width:'100%'}}
-                        />
+                    <View style={{ marginTop: 15 }}>
+                        <Text style={styles.first}>Firm Name</Text>
+                        <View style={styles.inputView}>
+                            <TextInput
+                                value={firmName}
+                                onChangeText={(val) => setFirmName(val)}
+                                style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium', height: 40, width: '100%' }}
+                            />
+                        </View>
                     </View>
-                </View>
-                <View style={{ marginTop: 15 }}>
-                    <Text style={styles.first}>Email</Text>
-                    <View style={styles.inputView}>
-                        <TextInput 
-                         value={email}
-                         onChangeText={(val)=>setEmail(val)}
-                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium',height:40,width:'100%'}}
-                         keyboardType="email-address"
-                        />
+                    <View style={{ marginTop: 15 }}>
+                        <Text style={styles.first}>Email</Text>
+                        <View style={styles.inputView}>
+                            <TextInput
+                                value={email}
+                                onChangeText={(val) => setEmail(val)}
+                                style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium', height: 40, width: '100%' }}
+                                keyboardType="email-address"
+                            />
+                        </View>
                     </View>
-                </View>
-                <View style={{ marginTop: 15 }}>
-                    <Text style={styles.first}>Address</Text>
-                    <View style={styles.inputView}>
-                        <TextInput 
-                         value={address}
-                         onChangeText={(val)=>setAddress(val)}
-                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium',height:40,width:'100%'}}
-                        />
+                    <View style={{ marginTop: 15 }}>
+                        <Text style={styles.first}>Address</Text>
+                        <View style={styles.inputView}>
+                            <TextInput
+                                value={address}
+                                onChangeText={(val) => setAddress(val)}
+                                style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium', height: 40, width: '100%' }}
+                            />
+                        </View>
                     </View>
-                </View>
-                <View style={{ marginTop: 15 }}>
-                    <View style={styles.row}>
-                        <Text style={styles.type}>Issue Type</Text>
+                    <View style={{ marginTop: 15 }}>
+                        <View style={styles.row}>
+                            <Text style={styles.type}>Issue Type</Text>
+                        </View>
+                        <View style={styles.inputView2}>
+                            <Dropdown
+                                style={[styles.dropdown,]}
+                                placeholderStyle={styles.placeholderStyle}
+                                selectedTextStyle={styles.selectedTextStyle}
+                                data={data}
+                                maxHeight={300}
+                                labelField="label"
+                                valueField="value"
+                                placeholder={!isFocus ? 'Select the option' : '...'}
+                                searchPlaceholder="Search..."
+                                value={value}
+                                onFocus={() => setIsFocus(true)}
+                                onBlur={() => setIsFocus(false)}
+                                onChange={item => {
+                                    setValue(item.value);
+                                    setIsFocus(false);
+                                }}
+                            />
+                        </View>
                     </View>
-                    <View style={styles.inputView2}>
-                        <Dropdown
-                            style={[styles.dropdown,]}
-                            placeholderStyle={styles.placeholderStyle}
-                            selectedTextStyle={styles.selectedTextStyle}
-                            data={data}
-                            maxHeight={300}
-                            labelField="label"
-                            valueField="value"
-                            placeholder={!isFocus ? 'Select the option' : '...'}
-                            searchPlaceholder="Search..."
-                            value={value}
-                            onFocus={() => setIsFocus(true)}
-                            onBlur={() => setIsFocus(false)}
-                            onChange={item => {
-                                setValue(item.value);
-                                setIsFocus(false);
-                            }}
-                        />
+                    <View style={{ marginTop: 15 }}>
+                        <View style={styles.space}>
+                            <Text style={styles.issue}>Issue Description</Text>
+                        </View>
+                        <TouchableOpacity
+                            onPress={() => inputRef.current.focus()}
+                            style={styles.inputView1}>
+                            <TextInput
+                                ref={inputRef}
+                                value={description}
+                                multiline
+                                onChangeText={(val) => setDescription(val)}
+                                style={{ fontSize: 14, color: '#000000', fontFamily: 'Montserrat-Medium' }}
+                            />
+                        </TouchableOpacity>
                     </View>
-                </View>
-                <View style={{ marginTop: 15 }}>
-                    <View style={styles.space}>
-                        <Text style={styles.issue}>Issue Description</Text>
+                    <View style={{ marginTop: 15 }}>
+                        <Text style={styles.first}>Upload Complaints</Text>
+                        <TouchableOpacity
+                        onPress={()=>setVisible(true)}
+                         style={{
+                            height: 40,
+                            width: '100%',
+                            borderWidth: 1,
+                            borderColor: '#FCDA64',
+                            justifyContent: 'flex-start',
+                            paddingHorizontal: 10,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginTop:5
+                        }}>
+                            <Upload />
+                           {complaintName? <Text style={styles.text4}>{complaintName}</Text>:
+                            <Text style={styles.text}>{'Upload Complaints'}</Text>}
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity
-                    onPress={()=>inputRef.current.focus()}
-                     style={styles.inputView1}>
-                        <TextInput 
-                         ref={inputRef}
-                         value={description}
-                         multiline
-                         onChangeText={(val)=>setDescription(val)}
-                         style={{fontSize:14,color:'#000000',fontFamily:'Montserrat-Medium'}}
-                        />
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.buttonView}>
-                    <TouchableOpacity 
-                    onPress={()=>handlePress()}
-                    style={styles.touch}>
-                        <Text style={styles.submit}>Submit</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{height:240}}/>
+                    <View style={styles.buttonView}>
+                        <TouchableOpacity
+                            onPress={() => handlePress()}
+                            style={styles.touch}>
+                            <Text style={styles.submit}>Submit</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ height: 240 }} />
                 </KeyboardAwareScrollView>
             </ScrollView>
-
+            <Modal isVisible={visible}>
+                <View style={styles.first1}>
+                    <View style={styles.row1}>
+                        <View />
+                        <TouchableOpacity
+                            onPress={() => setVisible(false)}
+                            style={styles.touch1}>
+                            <CircleCross />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.modal}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                setVisible(false)
+                                setTimeout(() => {
+                                    launchCameraForPhoto()
+                                }, 500);
+                                
+                            }}
+                            style={styles.camera}>
+                            <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Camera</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                 setVisible(false)
+                                 setTimeout(() => {
+                                  _pickDocument()
+                                 }, 500);
+                            }
+                            }
+                            style={styles.button1}>
+                            <Text style={{ color: '#fff', fontFamily: 'Montserrat-SemiBold', fontSize: 14 }}>Gallery</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </View>
     )
 }
 export default AddComplaints;
 const styles = StyleSheet.create({
+    text4:{
+        marginLeft: 40,
+        fontSize: 14,
+        fontFamily: 'Montserrat-Medium',
+        color: '#000000',
+        marginRight:20
+    },
+    modal: {
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        marginTop: 20
+    },
+    camera: {
+        backgroundColor: '#000',
+        width: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+        borderRadius: 8,
+    },
+      button1: {
+        backgroundColor: '#000',
+        width: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+        borderRadius: 8
+    },
+    first1: {
+        backgroundColor: '#FDEDB1',
+        height: 125,
+        borderRadius: 16,
+        width: '84%',
+        alignSelf: 'center',
+    },
+      row1: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    
+    touch1: {
+        marginRight: 5,
+        marginTop: 5
+    },
+    text: {
+        marginLeft: 40,
+        fontSize: 13,
+        fontFamily: 'Montserrat-Medium',
+        color: '#a0a0a0',
+    },
     dropdown: {
         paddingHorizontal: 8,
     },
@@ -277,7 +443,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#FCDA64',
         marginTop: 5,
-        paddingHorizontal:8
+        paddingHorizontal: 8
     },
     inputView2: {
         height: 40,
@@ -313,7 +479,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#FCDA64',
         marginTop: 5,
-        padding:8
+        padding: 8
 
     },
     buttonView: {

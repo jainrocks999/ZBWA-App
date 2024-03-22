@@ -74,22 +74,22 @@ const AddSecondaryMember = ({ route }) => {
         else if(!emergencyNumber.match('[0-9]{10}')){
             Toast.show('Please enter valid emergency number1')
         }
-        else if (phone1 == '') {
-            Toast.show('Please enter your phone number2')
-        }
-        else if (phone1.length < 10) {
+        // else if (phone1 == '') {
+        //     Toast.show('Please enter your phone number2')
+        // }
+        else if (phone1 && phone1.length < 10) {
             Toast.show('Please enter 10 digit phone number2')
         }
-        else if (!phone1.match('[0-9]{10}')) {
+        else if (phone1 && !phone1.match('[0-9]{10}')) {
             Toast.show('Please enter valid phone number2')
         }
-        else if (emergencyNumber1 == '') {
-            Toast.show('Please enter your emergency number2')
-        }
-        else if (emergencyNumber1.length < 10) {
+        // else if (emergencyNumber1 == '') {
+        //     Toast.show('Please enter your emergency number2')
+        // }
+        else if (emergencyNumber1 && emergencyNumber1.length < 10) {
             Toast.show('Please enter 10 digit emergency number2')
         }
-        else if (!emergencyNumber1.match('[0-9]{10}')) {
+        else if (emergencyNumber1 && !emergencyNumber1.match('[0-9]{10}')) {
             Toast.show('Please enter valid emergency number2')
         }
         else if (dob == '') {
@@ -104,7 +104,10 @@ const AddSecondaryMember = ({ route }) => {
         else if (salary == '') {
             Toast.show('Please upload your Salary slip / Company authentication letter')
         }
-        else {
+        else{
+            
+        }
+        // else {
             setLoader(true)
             const data = new FormData()
             data.append('phone_number_1', phone);
@@ -161,7 +164,7 @@ const AddSecondaryMember = ({ route }) => {
                     navigation.goBack()
                     console.log(error.response.data);
                 });
-        }
+        // }
     }
 
     const checklistImage = {
@@ -264,6 +267,7 @@ const AddSecondaryMember = ({ route }) => {
             <Header
                 title={'Add Secondary Member'}
                 onPress={() => navigation.goBack()}
+                onPress2={()=>navigation.navigate('Notification')}
             />
             <ScrollView style={styles.main}>
                 <View style={{ marginTop: 0 }}>

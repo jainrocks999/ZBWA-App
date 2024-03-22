@@ -11,6 +11,7 @@ const Market = () => {
       <Header
         title={'Market'}
         onPress={() => navigation.goBack()}
+        onPress2={()=>navigation.navigate('Notification')}
       />
       <View style={styles.main}>
         <View style={styles.row}>

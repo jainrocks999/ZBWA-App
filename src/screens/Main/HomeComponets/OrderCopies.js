@@ -77,6 +77,7 @@ const OrderCopies = () => {
             <Header
                 title={'Order Copies'}
                 onPress={() => navigation.goBack()}
+                onPress2={()=>navigation.navigate('Notification')}
             />
             <View style={styles.main}>
                 <FlatList

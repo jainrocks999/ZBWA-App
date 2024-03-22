@@ -4,6 +4,7 @@ import HeaderArrow from "../../../assets/Icon/HeaderArrow.svg";
 import ChatLogo from "../../../assets/Icon/ChatLogo.svg";
 import { useNavigation } from "@react-navigation/native";
 import Attach from "../../../assets/Icon/Attach.svg";
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { GiftedChat, Actions, Send, Bubble } from 'react-native-gifted-chat'
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -156,6 +157,42 @@ const ZBWGroup = () => {
       }, { merge: true })
     }
   }
+
+  const checklistImage = {
+    title: 'Select Image',
+    quality: 0.7,
+    maxWidth: 500,
+    maxHeight: 500,
+    saveToPhotos: true,
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  }
+
+  const _pickGallery= async () => {
+    launchImageLibrary(checklistImage, response => {
+      if (response.didCancel) {
+      } else if (response.error) {
+      } else {
+        const res=response.assets[0]
+        setImagePath(res.uri);
+        setIsAttachImage(true);
+      }
+    });
+  }
+
+  const _pickCamera= async () => {
+    launchCamera(checklistImage, response => {
+      if (response.didCancel) {
+      } else if (response.error) {
+      } else {
+        const res=response.assets[0]
+        setImagePath(res.uri);
+        setIsAttachImage(true);
+      }
+    });
+  }
   
   const _pickDocument = async () => {
     try {
@@ -173,22 +210,18 @@ const ZBWGroup = () => {
       if (!fileUri) {
         return;
       }
-      // if (fileUri.indexOf('.pdf') !== -1 || fileUri.indexOf('.PDF') !== -1) {
        else if(extension=='pdf'||extension=='PDF'){
         setFilePath(fileUri);
         setIsAttachFile(true);
       }
       else if(extension=='PNG' || extension=='JPG' || extension=='jpg' || extension=='png' ||extension=='jpeg' ||extension=='JPEG'){
-      // else if (fileUri.indexOf('.png') !== -1 || fileUri.indexOf('.jpg') !== -1) {
         setImagePath(fileUri);
         setIsAttachImage(true);
       }
       else if(extension=='jpeg' || extension=='JPEG'){
-        // else if (fileUri.indexOf('.png') !== -1 || fileUri.indexOf('.jpg') !== -1) {
           setImagePath(fileUri);
           setIsAttachImage(true);
         }
-      // else if (fileUri.indexOf('.mp4')) {
        else if(extension=='mp4' || extension=='MOV'){
         const MAX_SIZE_VIDEO = 8388608 //8*1024*1024
         RNFetchBlob.fs.stat(fileUri.replace('file:///', '').replace('file://', '').replace('file:/', ''))
@@ -420,6 +453,8 @@ const ZBWGroup = () => {
             {...props}
             options={{
               ['Document']: (props) => { _pickDocument() },
+              ['Camera']: (props) => { _pickCamera() },
+              ['Gallery']: (props) => { _pickGallery() },
               Cancel: (props) => { console.log("Cancel") }
             }}
             icon={() => (
