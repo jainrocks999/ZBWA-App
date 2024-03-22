@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView,Platform } from "react-native";
 import Upload from "../../assets/Icon/Upload.svg";
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import BackArrow from "../../assets/Icon/BackArrow.svg";
@@ -15,6 +15,7 @@ import FormData, { getHeaders } from 'form-data';
 import CircleCross from "../../assets/Icon/CircleCross.svg";
 import HTMLView from "react-native-htmlview";
 import Constants from "../../Redux/Constants";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 const Documentation = ({ onPress }) => {
@@ -448,6 +449,12 @@ const Documentation = ({ onPress }) => {
 
       {loader ? <Loader /> : null}
       <ScrollView style={{ flex: 1 }}>
+      <KeyboardAwareScrollView
+                extraScrollHeight={Platform.OS=='android'?-200:100}
+                enableOnAndroid={true}
+                keyboardShouldPersistTaps="handled"
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                contentContainerStyle={{ flexGrow: 1 }}> 
       <View style={styles.main}>
       {/* <Text style={styles.title}>Your Photograph</Text> */}
       <View style={styles.row}>
@@ -820,6 +827,7 @@ const Documentation = ({ onPress }) => {
                     </View>
                 </View>
             </Modal>
+            </KeyboardAwareScrollView>
             </ScrollView>
     </View>
   )

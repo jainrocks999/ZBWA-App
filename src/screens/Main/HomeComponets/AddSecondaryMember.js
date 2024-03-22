@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView ,Platform} from "react-native";
 import Header from "../../../components/CustomHeader";
 import Upload from "../../../assets/Icon/Upload.svg";
 import { useNavigation } from "@react-navigation/native";
@@ -15,6 +15,8 @@ import axios from "axios";
 import Modal from "react-native-modal";
 import CircleCross from "../../../assets/Icon/CircleCross.svg";
 import Constants from "../../../Redux/Constants";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 
 
 const AddSecondaryMember = ({ route }) => {
@@ -270,6 +272,12 @@ const AddSecondaryMember = ({ route }) => {
                 onPress2={()=>navigation.navigate('Notification')}
             />
             <ScrollView style={styles.main}>
+            <KeyboardAwareScrollView
+                extraScrollHeight={Platform.OS=='android'?-200:100}
+                enableOnAndroid={true}
+                keyboardShouldPersistTaps="handled"
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                contentContainerStyle={{ flexGrow: 1 }}> 
                 <View style={{ marginTop: 0 }}>
                     <Text style={styles.heading}>First Name</Text>
                     <View style={styles.inputView}>
@@ -394,6 +402,7 @@ const AddSecondaryMember = ({ route }) => {
                     </TouchableOpacity>
                 </View>
                 <View style={{ height: 30 }} />
+                </KeyboardAwareScrollView>
             </ScrollView>
             <DatePicker
                 modal

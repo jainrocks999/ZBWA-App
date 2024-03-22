@@ -1147,6 +1147,8 @@ PODS:
     - React-Core
   - react-native-netinfo (11.3.1):
     - React-Core
+  - react-native-otp-verify (1.1.8):
+    - React-Core
   - react-native-pager-view (6.2.2):
     - React-Core
   - react-native-pdf (6.7.4):
@@ -1391,6 +1393,7 @@ DEPENDENCIES:
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-otp-verify (from `../node_modules/react-native-otp-verify`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -1526,6 +1529,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-picker"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
+  react-native-otp-verify:
+    :path: "../node_modules/react-native-otp-verify"
   react-native-pager-view:
     :path: "../node_modules/react-native-pager-view"
   react-native-pdf:
@@ -1665,6 +1670,7 @@ SPEC CHECKSUMS:
   react-native-document-picker: b4f4a23b73f864ce17965b284c0757648993805b
   react-native-image-picker: 2e2e82aba9b6a91a7c78f7d9afde341a2659c7b8
   react-native-netinfo: bdb108d340cdb41875c9ced535977cac6d2ff321
+  react-native-otp-verify: b524a7f44b691644bea08376d6a4782a2df57e09
   react-native-pager-view: 02a5c4962530f7efc10dd51ee9cdabeff5e6c631
   react-native-pdf: 79aa75e39a80c1d45ffe58aa500f3cf08f267a2e
   react-native-safe-area-context: 238cd8b619e05cb904ccad97ef42e84d1b5ae6ec

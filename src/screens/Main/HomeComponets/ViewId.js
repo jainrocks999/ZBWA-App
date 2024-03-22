@@ -8,7 +8,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import Constants from "../../../Redux/Constants";
 import Image1 from "react-native-scalable-image";
-import RNFetchBlob from "rn-fetch-blob";
 import Logo from "../../../assets/Icon/DrawerLogo.svg";
 
 const ViewId = () => {
@@ -66,49 +65,6 @@ const ViewId = () => {
     )
   }
 
-  const actualDownload = () => {
-    const { dirs } = RNFetchBlob.fs;
-    const configOptions = Platform.select({
-      ios: {
-        fileCache: true,
-        title: `terapanth_ka_itihaas.pdf`,
-        path: `${dirs.DocumentDir}/terapanth_ka_itihaas.pdf`,
-        appendExt: 'pdf',
-      },
-      android: {
-        fileCache: true,
-        addAndroidDownloads: {
-          useDownloadManager: true,
-          notification: true,
-          mediaScannable: true,
-          title: `${'test'}.pdf`,
-          path: `${dirs.DownloadDir}/${'test'}.pdf`,
-        },
-      },
-    });
-
-    RNFetchBlob.config(configOptions)
-      .fetch('GET', 'https://example.com/document.pdf', {})
-      .then((res) => {
-
-      })
-      .catch((e) => {
-        console.log(e.message)
-      });
-  }
-
-  const downloadFile = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        actualDownload();
-      } else {
-        Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -117,7 +73,7 @@ const ViewId = () => {
         title={'View ID Card'}
         onPress={() => navigation.goBack()}
         download={false}
-        onPress1={() => downloadFile()}
+        // onPress1={() => downloadFile()}
         onPress2={() => navigation.navigate('Notification')}
       />
       <ImageBackground

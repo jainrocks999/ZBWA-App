@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView,Platform } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import BackArrow from "../../../assets/Icon/BackArrow.svg";
 import Arrow from "../../../assets/Icon/Arrow.svg";
@@ -58,6 +58,7 @@ const OtpPage = ({route}) => {
 
 
   const verifyOtp =async()=>{
+    console.log('this is otp code',code);
     const fcm_token=await AsyncStorage.getItem(Storage.fcm_token)
     console.log(fcm_token);
     if(mobile==''){
@@ -81,7 +82,7 @@ const OtpPage = ({route}) => {
           "gst": data.gst,
           "email": "",
           "otp": code,
-          "fcm_token":fcm_token
+          "fcm_token":fcm_token==null?'':fcm_token
         }
       })
       .then(function(response) {
@@ -139,7 +140,7 @@ const OtpPage = ({route}) => {
        {loader?<Loader/>:null}
        <ScrollView contentContainerStyle={{ flexGrow: 1, }}>
         <KeyboardAwareScrollView
-          extraScrollHeight={-200}
+         extraScrollHeight={Platform.OS=='android'?-200:100}
           enableOnAndroid={true}
           keyboardShouldPersistTaps="handled"
           behavior={Platform.OS === "ios" ? "padding" : "height"}

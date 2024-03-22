@@ -5,7 +5,7 @@ import HeaderBell from "../../assets/Icon/HeaderBell.svg";
 import DownLoad from "../../assets/Icon/download.svg";
 import styles from "./style";
 
-const CustomHeader=({title,onPress,download,onPress1,onPress2})=>{
+const CustomHeader=({title,onPress,download,onPress1,onPress2,notification})=>{
     return(
         <View style={styles.container}>
             <TouchableOpacity
@@ -21,12 +21,15 @@ const CustomHeader=({title,onPress,download,onPress1,onPress2})=>{
             style={styles.touch}>
               <DownLoad/>
             </TouchableOpacity>:
-            <TouchableOpacity
+            <View>
+            {notification?null:<TouchableOpacity
             onPress={onPress2}
             activeOpacity={0.5}
             style={styles.touch}>
               <HeaderBell/>
             </TouchableOpacity>}
+            </View>
+            }
         </View>
     )
 }

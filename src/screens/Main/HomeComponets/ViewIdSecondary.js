@@ -8,7 +8,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import Constants from "../../../Redux/Constants";
 import Image1 from "react-native-scalable-image";
-import RNFetchBlob from "rn-fetch-blob";
 import Logo from "../../../assets/Icon/DrawerLogo.svg";
 
 const ViewId = ({ route }) => {
@@ -67,77 +66,11 @@ const ViewId = ({ route }) => {
     )
   }
 
-  async function downloadPdf() {
-    try {
-      const { config, fs } = RNFetchBlob;
-      const downloads = fs.dirs.DownloadDir;
-      const response = await fetch('https://example.com/document.pdf');
-      const blob = await response.blob();
-      const filePath = `${downloads}/document.pdf`;
-      const exists = await fs.exists(filePath);
-      if (exists) {
-        await fs.unlink(filePath);
-      }
-      const result = await config({
-        fileCache: true,
-        addAndroidDownloads: {
-          useDownloadManager: true,
-          notification: true,
-          path: filePath,
-          description: 'Downloading PDF document',
-          mediaScannable: true,
-        },
-      }).fetch('GET', blob.uri);
-      console.log('PDF document downloaded successfully', result.path());
-    } catch (err) {
-      console.warn(err);
-    }
-  }
+ 
+
+ 
 
 
-  const actualDownload = () => {
-    const { dirs } = RNFetchBlob.fs;
-    const configOptions = Platform.select({
-      ios: {
-        fileCache: true,
-        title: `terapanth_ka_itihaas.pdf`,
-        path: `${dirs.DocumentDir}/terapanth_ka_itihaas.pdf`,
-        appendExt: 'pdf',
-      },
-      android: {
-        fileCache: true,
-        addAndroidDownloads: {
-          useDownloadManager: true,
-          notification: true,
-          mediaScannable: true,
-          title: `${'test'}.pdf`,
-          path: `${dirs.DownloadDir}/${'test'}.pdf`,
-        },
-      },
-    });
-
-    RNFetchBlob.config(configOptions)
-      .fetch('GET', 'https://example.com/document.pdf', {})
-      .then((res) => {
-
-      })
-      .catch((e) => {
-        console.log('The file saved to ERROR', e.message)
-      });
-  }
-
-  const downloadFile = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        actualDownload();
-      } else {
-        Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  }
 
   return (
     <View style={{ flex: 1 }}>

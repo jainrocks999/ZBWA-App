@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView ,Platform} from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import BackArrow from "../../assets/Icon/BackArrow.svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../components/LocalStorage";
 import Toast from "react-native-simple-toast";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 const BusinessDetail = ({ onPress }) => {
@@ -102,6 +103,12 @@ const BusinessDetail = ({ onPress }) => {
     return (
         <View style={styles.container}>
             <ScrollView style={{ flex: 1 }}>
+            <KeyboardAwareScrollView
+                extraScrollHeight={Platform.OS=='android'?-200:100}
+                enableOnAndroid={true}
+                keyboardShouldPersistTaps="handled"
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                contentContainerStyle={{ flexGrow: 1 }}> 
                 <View style={styles.main}>
                     <View style={{}}>
                         <Text style={styles.heading}>Business Name</Text>
@@ -217,6 +224,7 @@ const BusinessDetail = ({ onPress }) => {
                     </TouchableOpacity>
                     <View style={{ width: 40 }} />
                 </View>
+                </KeyboardAwareScrollView>
             </ScrollView>
         </View>
     )

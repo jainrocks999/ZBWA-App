@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView,Platform } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import BackArrow from "../../../assets/Icon/BackArrow.svg";
 import Arrow from "../../../assets/Icon/Arrow.svg";
@@ -115,7 +115,7 @@ console.log('this is route',route.params);
       <ScrollView contentContainerStyle={{flexGrow:1,}}>
       <KeyboardAwareScrollView
       // style={{flex:1}}
-       extraScrollHeight={-200}
+      extraScrollHeight={Platform.OS=='android'?-200:100}
        enableOnAndroid={true}
        keyboardShouldPersistTaps="handled"
        behavior={Platform.OS === "ios" ? "padding" : "height"}

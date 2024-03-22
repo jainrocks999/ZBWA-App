@@ -103,7 +103,7 @@ const Notification=()=>{
             <Header
              title={'Notification'}
              onPress={() => navigation.goBack()}
-             notification={false}
+             notification={true}
              
             />
             <View style={{marginTop:15}}>

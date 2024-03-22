@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, Platform } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ForwardArrow from "../../../assets/Icon/ForwardArrow.svg";
 import Arrow from "../../../assets/Icon/Arrow.svg";
@@ -49,7 +49,7 @@ const Login = () => {
     .then(function(response) {
       if(response.data.code=='200'){
         let data = JSON.stringify({
-          "fcm_token": fcm_token
+          "fcm_token": fcm_token==null?'':fcm_token
         });
         
         let config = {
@@ -103,7 +103,7 @@ const Login = () => {
       {loader?<Loader/>:null}
       <ScrollView contentContainerStyle={{flexGrow:1,}}>
       <KeyboardAwareScrollView
-       extraScrollHeight={-200}
+       extraScrollHeight={Platform.OS=="android"?-200:100}
        enableOnAndroid={true}
        keyboardShouldPersistTaps="handled"
        behavior={Platform.OS === "ios" ? "padding" : "height"}

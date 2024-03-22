@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView,Platform } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import BackArrow from "../../../assets/Icon/BackArrow.svg";
 import Arrow from "../../../assets/Icon/Arrow.svg";
@@ -70,7 +70,7 @@ const CreatePassword = ({route}) => {
       {loader?<Loader/>:null}
       <ScrollView contentContainerStyle={{flexGrow:1,}}>
       <KeyboardAwareScrollView
-       extraScrollHeight={-200}
+        extraScrollHeight={Platform.OS=='android'?-200:100}
        enableOnAndroid={true}
        keyboardShouldPersistTaps="handled"
        behavior={Platform.OS === "ios" ? "padding" : "height"}

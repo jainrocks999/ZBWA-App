@@ -195,7 +195,7 @@ console.log('this is hash code',hashCode);
       {loader ? <Loader /> : null}
       <ScrollView contentContainerStyle={{ flexGrow: 1, }}>
         <KeyboardAwareScrollView
-          extraScrollHeight={-200}
+          extraScrollHeight={Platform.OS=='android'?-200:100}
           enableOnAndroid={true}
           keyboardShouldPersistTaps="handled"
           behavior={Platform.OS === "ios" ? "padding" : "height"}
