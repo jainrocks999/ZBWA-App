@@ -127,12 +127,13 @@ const ViewId = () => {
           <Logo/>
         </View>
         {data ? <View style={{ marginTop: 10, }}>
-          {data?.doc?.uploadedDocuments?.selfie?.location ? <Image style={{
-            height: 120, width: 120, borderRadius: 60
-          }}
+          {data?.doc?.uploadedDocuments?.selfie?.location ? 
+          <View style={{ height: 126, width: 126, borderRadius: 63, backgroundColor: '#fff', borderWidth: 3 ,borderColor:'#ff7372'}}>
+          <Image style={{height: 120, width: 120, borderRadius: 60}}
             source={{ uri: data?.doc?.uploadedDocuments?.selfie?.location }} />
+            </View>
             :
-            <View style={{ height: 120, width: 120, borderRadius: 60, backgroundColor: '#fff', borderWidth: 1 }}>
+            <View style={{ height: 120, width: 120, borderRadius: 60, backgroundColor: '#fff', borderWidth: 3 ,borderColor:'#ff7372'}}>
             </View>
           }
         </View> : null}
@@ -145,7 +146,6 @@ const ViewId = () => {
             source={{ uri:data?.qrcode}}
 
           /> : null}
-          {/* <Text style={{ fontSize: 16, marginTop: 15, fontFamily: 'Montserrat-SemiBold', color: '#000' }}>Director</Text> */}
           <Text style={{ fontSize: 16, marginTop: 4, fontFamily: 'Montserrat-SemiBold', color: '#000' }}>{`Date of Birth : `}{renderDate(data?.member?.personalDetails?.dob)}</Text>
 
           <Text style={{ fontSize: 16, marginTop: 4, fontFamily: 'Montserrat-SemiBold', color: '#000' }}>{`Emergency Contact : ${data?.member?.personalDetails?.emergencyContact}`}</Text>

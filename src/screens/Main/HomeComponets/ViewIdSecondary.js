@@ -155,12 +155,13 @@ const ViewId = ({ route }) => {
           <Logo />
         </View>
         {data ? <View style={{ marginTop: 10, }}>
-          {data?.member.documents?.employeeSelfie?.location ? <Image style={{
-            height: 120, width: 120, borderRadius: 60
-          }}
+          {data?.member.documents?.employeeSelfie?.location ? 
+          <View style={{ height: 126, width: 126, borderRadius: 63, backgroundColor: '#fff', borderWidth: 3 ,borderColor:'#ff7372'}}>
+          <Image style={{height: 120, width: 120, borderRadius: 60}}
             source={{ uri: data?.member.documents?.employeeSelfie?.location }} />
+            </View>
             :
-            <View style={{ height: 120, width: 120, borderRadius: 60, backgroundColor: '#fff' }}>
+            <View style={{  height: 120, width: 120, borderRadius: 60, backgroundColor: '#fff', borderWidth: 3 ,borderColor:'#ff7372' }}>
             </View>
           }
         </View> : null}
