@@ -191,7 +191,7 @@ const Drawer = () => {
           day = '0' + day;
         const month = d.getMonth() + 1
         return (
-          <Text numberOfLines={2} style={{ fontSize:14,color:'#000',fontFamily:'Montserrat-Medium' }}>{`Date of Birth : ${year}-${month}-${day}`}</Text>
+          <Text numberOfLines={2} style={{ fontSize:14,color:'#000',fontFamily:'Montserrat-Medium' }}>{`${year}-${month}-${day}`}</Text>
         )
       }
 
@@ -255,9 +255,23 @@ const Drawer = () => {
                 </TouchableOpacity>
             </View>
             {data?.data?.member_id!=0 && data?.data?.member_id!=null?<View style={{paddingLeft:15,marginTop:20}}>
-                <Text style={{fontSize:14,color:'#000',fontFamily:'Montserrat-Medium'}}>{`Member ID : ZBW-${data?.data?.member_id}`}</Text>
+
+              <View style={{flexDirection:'row',alignItems:'center'}}>
+                <Text style={{fontSize:15,color:'#000',fontFamily:'Montserrat-SemiBold'}}>{`Member ID : `}</Text>
+                <Text style={{fontSize:14,color:'#000',fontFamily:'Montserrat-Medium'}}>{`ZBW-${data?.data?.member_id}`}</Text>
+                </View>
+                <View style={{flexDirection:'row',alignItems:'center'}}>
+                <Text numberOfLines={2} style={{ fontSize:15,color:'#000',fontFamily:'Montserrat-SemiBold' }}>{`Date of Birth : `}</Text>
                 {renderDate(data?.data?.dob)}
-                <Text style={{fontSize:14,color:'#000',fontFamily:'Montserrat-Medium'}}>{`Phone Number : ${data?.data?.emergencyContactNumber}`}</Text>    
+                </View>
+                <View style={{flexDirection:'row',alignItems:'center'}}>
+                <Text style={{fontSize:15,color:'#000',fontFamily:'Montserrat-SemiBold'}}>{`Phone Number : `}</Text>    
+                <Text style={{fontSize:14,color:'#000',fontFamily:'Montserrat-Medium'}}>{`${data?.data?.emergencyContactNumber}`}</Text>    
+                 </View>
+                {/* <Text style={{fontSize:14,color:'#000',fontFamily:'Montserrat-Medium'}}>{`Member ID : ZBW-${data?.data?.member_id}`}</Text>
+                {renderDate(data?.data?.dob)}
+                <Text style={{fontSize:14,color:'#000',fontFamily:'Montserrat-Medium'}}>{`Phone Number : ${data?.data?.emergencyContactNumber}`}</Text>     */}
+            
             </View>:null}
            
             <View style={styles.view1}>
