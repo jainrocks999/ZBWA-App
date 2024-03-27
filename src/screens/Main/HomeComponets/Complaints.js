@@ -1,11 +1,11 @@
 import react, { useState, useEffect } from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, Dimensions } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, Dimensions, Platform, ImageBackground } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import Plus from "../../../assets/Icon/Plus.svg";
 import Modal from "react-native-modal";
 import CircleCross from "../../../assets/Icon/CircleCross.svg";
-import CircleCross1 from "../../../assets/Icon/CircleCross1.svg";
+import CircleCross2 from "../../../assets/Icon/CircleCross2.svg";
 import axios from "axios";
 import Loader from "../../../components/Loader";
 import Storage from "../../../components/LocalStorage";
@@ -13,6 +13,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-simple-toast";
 import Constants from "../../../Redux/Constants";
 import ScalableImage from "react-native-scalable-image";
+import Eye from "../../../assets/Icon/eye1.svg"
+import FastImage from "react-native-fast-image";
 
 
 const Complaints = () => {
@@ -145,7 +147,6 @@ const Complaints = () => {
                             <Text style={styles.same}>{'Details : '}</Text>
                             <Text style={styles.name1}>{item?.detail}</Text>
                         </View>
-                        {/* <Text style={styles.same}></Text> */}
                         {item?.complaintPhoto ? <Text style={styles.same}>{`Image :`}</Text> : null}
                         {item?.complaintPhoto ?
                             <View style={{ alignItems: 'center' }}>
@@ -153,15 +154,24 @@ const Complaints = () => {
                                     onPress={() => {
                                         setVisible(false)
                                         setImage(item.complaintPhoto)
-                                        setModal(true)
+                                        setTimeout(() => {
+                                            setModal(true)
+                                        }, 500);
+                                       
                                     }}
                                 >
-                                    <Image
+                                    <ImageBackground
                                         resizeMode="contain"
                                         style={{
                                             height: 200,
                                             width: 160,
-                                        }} source={{ uri: item.complaintPhoto }} />
+                                            alignItems:'center',
+                                            justifyContent:'center'
+                                        }} source={{ uri: item.complaintPhoto }} >
+                                            <View>
+                                                <Eye width={30} height={30}/>
+                                            </View>
+                                        </ImageBackground>
                                 </TouchableOpacity>
                             </View>
                             : null}
@@ -172,12 +182,22 @@ const Complaints = () => {
             visible={modal}
             onRequestClose={()=>setModal(false)}
             animationType="slide"
-            style={{ height: 600,margin:0 }}>
-            <View style={{ flex:1 }}>
+            style={{ margin:0 ,backgroundColor:'#000'}}>
+            <View style={{ flex:1 ,marginTop:Platform.OS=='ios'?35:0,alignItems:'center',justifyContent:'center'}}>
                     <View>
-                        <ScalableImage
+                        {/* <ScalableImage
                             source={{ uri: image }}
                             width={Dimensions.get('window').width}
+                            height={Dimensions.get('window').height}
+                        /> */}
+                        <FastImage
+                            style={{ width: Dimensions.get('window').width, height: Dimensions.get('window').height }}
+                            source={{
+                                uri: image,
+                                
+                                priority: FastImage.priority.normal,
+                            }}
+                            resizeMode={FastImage.resizeMode.contain}
                         />
                     </View>
                     <TouchableOpacity
@@ -192,10 +212,10 @@ const Complaints = () => {
                             alignItems: 'center',
                             position: 'absolute',
                             borderColor: 'black',
-                            left: 10,
+                            right: 10,
                             top: 10,
                         }}>
-                        <CircleCross1 />
+                        <CircleCross2 />
                     </TouchableOpacity>
                 </View>
 

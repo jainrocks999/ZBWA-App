@@ -11,8 +11,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import HTMLView from "react-native-htmlview";
 import Modal from "react-native-modal";
-import RNFetchBlob from "rn-fetch-blob";
-// import RNFetchBlob from "react-native-blob-util";
+// import RNFetchBlob from "rn-fetch-blob";
+import RNFetchBlob from "react-native-blob-util";
 import Constants from "../../../Redux/Constants";
 import { PERMISSIONS, checkMultiple, requestMultiple } from 'react-native-permissions';
 
