@@ -1,121 +1,125 @@
-import react, { useState,useEffect } from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
+import react, { useState, useEffect } from "react";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, Dimensions } from "react-native";
 import Header from "../../../components/CustomHeader";
-import { useNavigation ,useIsFocused} from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import Plus from "../../../assets/Icon/Plus.svg";
 import Modal from "react-native-modal";
 import CircleCross from "../../../assets/Icon/CircleCross.svg";
+import CircleCross1 from "../../../assets/Icon/CircleCross1.svg";
 import axios from "axios";
 import Loader from "../../../components/Loader";
 import Storage from "../../../components/LocalStorage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-simple-toast";
 import Constants from "../../../Redux/Constants";
+import ScalableImage from "react-native-scalable-image";
 
 
 const Complaints = () => {
     const navigation = useNavigation()
     const [isVisible, setVisible] = useState(false)
-    const [loader,setLoader]=useState(false)
-    const [data,setData]=useState()
+    const [loader, setLoader] = useState(false)
+    const [data, setData] = useState()
     const isFocused = useIsFocused();
-    const [item,setItem]=useState()
-    useEffect(()=>{
-        if(isFocused){ 
-       apiCall()
+    const [item, setItem] = useState()
+    const [modal, setModal] = useState(false)
+    const [image, setImage] = useState('')
+    useEffect(() => {
+        if (isFocused) {
+            apiCall()
         }
-    },[isFocused])
+    }, [isFocused])
 
-    const apiCall=async()=>{
-        const user_token=await AsyncStorage.getItem(Storage.user_token)
-       
+    const apiCall = async () => {
+        const user_token = await AsyncStorage.getItem(Storage.user_token)
+
         setLoader(true)
         axios({
             method: 'get',
             url: `${Constants.MainUrl}complaint/all`,
             headers: `Authorization: ${user_token}`
-          })
-          .then(function(response) {
-            if(response.data.code=='200'){
-                setData(response.data.data)
-                
-              setLoader(false)
-            }
-            else{
-              setLoader(false)
-              Toast.show(response.data.message )
-            }
-          })
-          .catch(function(error) {
-            setLoader(false)
-            Toast.show(error.response.data.message)
-          })
+        })
+            .then(function (response) {
+                console.log('this is rsponse', JSON.stringify(response.data));
+                if (response.data.code == '200') {
+                    setData(response.data.data)
+
+                    setLoader(false)
+                }
+                else {
+                    setLoader(false)
+                    Toast.show(response.data.message)
+                }
+            })
+            .catch(function (error) {
+                setLoader(false)
+                Toast.show(error.response.data.message)
+            })
     }
 
-    const renderDate=(date)=>{
+    const renderDate = (date) => {
         const d = new Date(date);
         let day = d.getDate();
-        let year=d.getFullYear()
+        let year = d.getFullYear()
         if (day.length < 2)
             day = '0' + day;
         const month = d.toLocaleString('default', { month: 'short' });
         return (
             <Text numberOfLines={2} style={styles.date}>{`${day} ${month} , ${year}`}</Text>
         )
-}
-const renderDate1=(date)=>{
-    const d = new Date(date);
-    let day = d.getDate();
-    let year=d.getFullYear()
-    if (day.length < 2)
-        day = '0' + day;
-    const month = d.toLocaleString('default', { month: 'short' });
-    return (
-        <Text numberOfLines={2} style={styles.date1}>{`${day} ${month} , ${year}`}</Text>
-    )
-}
-console.log('thisis item',item);
+    }
+    const renderDate1 = (date) => {
+        const d = new Date(date);
+        let day = d.getDate();
+        let year = d.getFullYear()
+        if (day.length < 2)
+            day = '0' + day;
+        const month = d.toLocaleString('default', { month: 'short' });
+        return (
+            <Text numberOfLines={2} style={styles.date1}>{`${day} ${month} , ${year}`}</Text>
+        )
+    }
     return (
         <View style={styles.container}>
-            {loader?<Loader/>:null}
+            {loader ? <Loader /> : null}
             <Header
                 title={'Complaints'}
                 onPress={() => navigation.goBack()}
-                onPress2={()=>navigation.navigate('Notification')}
+                onPress2={() => navigation.navigate('Notification')}
             />
             <View style={styles.main}>
                 <View style={{ alignItems: 'center' }}>
                     <Text style={styles.add}>Add and view the status of your complaints</Text>
                 </View>
                 {/* <View style={{ marginTop: 40,borderWidth:1,flexGrow:1 }}> */}
-                    <FlatList
-                        data={data}
-                        style={{marginTop:30,marginBottom:60}}
-                        showsVerticalScrollIndicator={false}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                onPress={() => {
-                                    setVisible(true)
-                                    setItem(item)
-                                }}
-                                style={[styles.elevation, { borderLeftColor: item.status == 'Solved' ? '#35CD56' : '#359FCD', }]}>
-                                <View style={styles.view}>
-                                    <Text style={styles.title}>{item.subject}</Text>
-                                    {renderDate(item.createdAt)}
-                                    {/* <Text style={styles.date}>{item.createdAt}</Text> */}
-                                </View>
-                                <View style={styles.view1}>
-                                    <Text style={styles.complainNumber}>{'Complain Number : '}</Text>
-                                    <Text style={styles.text}>{item.complaintId}</Text>
-                                </View>
-                                <Text style={styles.name}>{item?.accused?.name}</Text>
-                                <TouchableOpacity style={[styles.touch, { backgroundColor: item.status == 'Solved' ? '#35CD56' : '#359FCD', }]}>
-                                    <Text style={styles.status}>{item.status}</Text>
-                                </TouchableOpacity>
+                <FlatList
+                    data={data}
+                    style={{ marginTop: 30, marginBottom: 60 }}
+                    showsVerticalScrollIndicator={false}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity
+                            onPress={() => {
+                                setVisible(true)
+                                setItem(item)
+                            }}
+                            style={[styles.elevation, { borderLeftColor: item.status == 'Solved' ? '#35CD56' : '#359FCD', }]}>
+                            <View style={styles.view}>
+                                <Text style={styles.title}>{item.subject}</Text>
+                                {renderDate(item.createdAt)}
+                                {/* <Text style={styles.date}>{item.createdAt}</Text> */}
+                            </View>
+                            <View style={styles.view1}>
+                                <Text style={styles.complainNumber}>{'Complain Number : '}</Text>
+                                <Text style={styles.text}>{item.complaintId}</Text>
+                            </View>
+                            <Text style={styles.name}>{item?.accused?.name}</Text>
+                            <TouchableOpacity style={[styles.touch, { backgroundColor: item.status == 'Solved' ? '#35CD56' : '#359FCD', }]}>
+                                <Text style={styles.status}>{item.status}</Text>
                             </TouchableOpacity>
-                        )}
-                    />
-                    {/* <View style={{height:50}}/> */}
+                        </TouchableOpacity>
+                    )}
+                />
+                {/* <View style={{height:50}}/> */}
                 {/* </View> */}
             </View>
             <Modal isVisible={isVisible}>
@@ -125,7 +129,7 @@ console.log('thisis item',item);
                         style={{ alignSelf: 'flex-end', margin: 5 }}>
                         <CircleCross />
                     </TouchableOpacity>
-                   {item? <View style={{ padding: 15 }}>
+                    {item ? <View style={{ padding: 15 }}>
                         <Text style={styles.cheat}>{item?.subject}</Text>
                         {renderDate1(item?.createdAt)}
                         {/* <Text style={styles.date1}>16 Oct, 2023</Text> */}
@@ -141,11 +145,60 @@ console.log('thisis item',item);
                             <Text style={styles.same}>{'Details : '}</Text>
                             <Text style={styles.name1}>{item?.detail}</Text>
                         </View>
-                        <Text style={styles.same}></Text>
-                        {/* <Text style={[styles.name1, { marginTop: 6 }]}>I need legal assistance in filling complaint agains Mr. Ashish Haval Proprietor in Narayal Manohar Haval, Kolhapur, for non payment.</Text> */}
-
-                    </View>:null}
+                        {/* <Text style={styles.same}></Text> */}
+                        {item?.complaintPhoto ? <Text style={styles.same}>{`Image :`}</Text> : null}
+                        {item?.complaintPhoto ?
+                            <View style={{ alignItems: 'center' }}>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        setVisible(false)
+                                        setImage(item.complaintPhoto)
+                                        setModal(true)
+                                    }}
+                                >
+                                    <Image
+                                        resizeMode="contain"
+                                        style={{
+                                            height: 200,
+                                            width: 160,
+                                        }} source={{ uri: item.complaintPhoto }} />
+                                </TouchableOpacity>
+                            </View>
+                            : null}
+                    </View> : null}
                 </View>
+            </Modal>
+            <Modal
+            visible={modal}
+            onRequestClose={()=>setModal(false)}
+            animationType="slide"
+            style={{ height: 600,margin:0 }}>
+            <View style={{ flex:1 }}>
+                    <View>
+                        <ScalableImage
+                            source={{ uri: image }}
+                            width={Dimensions.get('window').width}
+                        />
+                    </View>
+                    <TouchableOpacity
+                        onPress={() => {
+                            setModal(false)
+                        }}
+                        style={{
+                            width: 35,
+                            height: 35,
+                            borderRadius: 50,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            position: 'absolute',
+                            borderColor: 'black',
+                            left: 10,
+                            top: 10,
+                        }}>
+                        <CircleCross1 />
+                    </TouchableOpacity>
+                </View>
+
             </Modal>
 
             <View style={styles.bottom}>
@@ -160,18 +213,18 @@ console.log('thisis item',item);
 }
 export default Complaints;
 const styles = StyleSheet.create({
-    container: { 
-        flex: 1, 
-        backgroundColor: '#FFFFFF' 
+    container: {
+        flex: 1,
+        backgroundColor: '#FFFFFF'
     },
-    main: { 
-        paddingHorizontal: 25, 
-        paddingTop: 14 
+    main: {
+        paddingHorizontal: 25,
+        paddingTop: 14
     },
-    add: { 
-        fontFamily: 'Montserrat-Medium', 
-        fontSize: 14, 
-        color: '#000000' 
+    add: {
+        fontFamily: 'Montserrat-Medium',
+        fontSize: 14,
+        color: '#000000'
     },
     elevation: {
         width: '100%',
@@ -192,100 +245,100 @@ const styles = StyleSheet.create({
         paddingVertical: 7,
         // margin:1
     },
-    view: { 
-        flexDirection: 'row', 
-        justifyContent: 'space-between', 
-        alignItems: 'center' 
+    view: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
-    title: { 
-        color: '#000000', 
-        fontFamily: 'Montserrat-SemiBold', 
-        fontSize: 14 
+    title: {
+        color: '#000000',
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: 14
     },
-    date: { 
-        color: '#000000', 
-        fontFamily: 'Montserrat-Regular', 
-        fontSize: 10 
+    date: {
+        color: '#000000',
+        fontFamily: 'Montserrat-Regular',
+        fontSize: 10
     },
-    view1: { 
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        marginTop: 6 
+    view1: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 6
     },
-    complainNumber: { 
-        fontFamily: 'Montserrat-Medium', 
-        fontSize: 12, 
-        color: '#000000' 
+    complainNumber: {
+        fontFamily: 'Montserrat-Medium',
+        fontSize: 12,
+        color: '#000000'
     },
-    text: { 
-        fontFamily: 'Montserrat-SemiBold', 
-        fontSize: 14, 
-        color: '#000000' 
+    text: {
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: 14,
+        color: '#000000'
     },
-    name: { 
-        fontFamily: 'Montserrat-Medium', 
-        fontSize: 12, 
-        color: '#000000', 
-        marginTop: 6 
+    name: {
+        fontFamily: 'Montserrat-Medium',
+        fontSize: 12,
+        color: '#000000',
+        marginTop: 6
     },
     touch: {
-        alignItems: 'center', 
-        justifyContent: 'center', 
+        alignItems: 'center',
+        justifyContent: 'center',
         alignSelf: 'flex-start',
-        paddingVertical: 2, 
-        paddingHorizontal: 10, 
-        marginTop: 8, 
+        paddingVertical: 2,
+        paddingHorizontal: 10,
+        marginTop: 8,
         borderRadius: 4
     },
-    status: { 
-        color: '#FFFFFF', 
-        fontSize: 8, 
+    status: {
+        color: '#FFFFFF',
+        fontSize: 8,
         fontFamily: 'Montserrat-Medium',
-        marginBottom: 2 
+        marginBottom: 2
     },
-    modal: { 
-        backgroundColor: '#FDEDB1', 
-        borderRadius: 16, 
-        paddingBottom: 20 
+    modal: {
+        backgroundColor: '#FDEDB1',
+        borderRadius: 16,
+        paddingBottom: 20
     },
-    cheat: { 
-        color: '#000000', 
-        fontFamily: 'Montserrat-SemiBold', 
-        fontSize: 14 
+    cheat: {
+        color: '#000000',
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: 14
     },
-    date1: { 
-        color: '#000000', 
-        fontFamily: 'Montserrat-Regular', 
-        fontSize: 10, 
-        marginTop: 6 
+    date1: {
+        color: '#000000',
+        fontFamily: 'Montserrat-Regular',
+        fontSize: 10,
+        marginTop: 6
     },
-    row: { 
-        marginTop: 6, 
-        flexDirection: 'row', 
-        alignItems: 'center' 
+    row: {
+        marginTop: 6,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
-    same: { 
-        color: '#000000', 
-        fontFamily: 'Montserrat-Medium', 
-        fontSize: 12 
+    same: {
+        color: '#000000',
+        fontFamily: 'Montserrat-Medium',
+        fontSize: 12
     },
-    name1: { 
-        color: '#000000', 
-        fontFamily: 'Montserrat-Regular', 
-        fontSize: 12, 
+    name1: {
+        color: '#000000',
+        fontFamily: 'Montserrat-Regular',
+        fontSize: 12,
     },
-    bottom: { 
-        position: 'absolute', 
-        bottom: 30, 
-        right: 20 
+    bottom: {
+        position: 'absolute',
+        bottom: 30,
+        right: 20
     },
-    plus: { 
-        height: 48, 
-        width: 48, 
-        borderRadius: 24, 
-        backgroundColor: '#FCDA64', 
-        alignItems: 'center', 
-        justifyContent: 'center' 
+    plus: {
+        height: 48,
+        width: 48,
+        borderRadius: 24,
+        backgroundColor: '#FCDA64',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 })
 // const data = [

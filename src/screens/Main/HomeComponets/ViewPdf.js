@@ -33,7 +33,6 @@ const ViewPdf=({route})=>{
          onPress={()=>navigation.goBack()}
          style={styles.buttonCancel}>
             <CircleCross/>
-            {/* <Text style={styles.textBtn}>X</Text> */}
         </TouchableOpacity>
     </View>
     )

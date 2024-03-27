@@ -75,22 +75,40 @@ const AddComplaints = () => {
         }
         else {
             setLoader(true)
-            let data = JSON.stringify({
-                "accusedName": `${firstName} ${lastName}`,
-                "phone": phone,
-                "firmName": firmName,
-                "email": email,
-                "address": address,
-                "subject": value,
-                "detail": description
-            });
+            // let data = JSON.stringify({
+            //     "accusedName": `${firstName} ${lastName}`,
+            //     "phone": phone,
+            //     "firmName": firmName,
+            //     "email": email,
+            //     "address": address,
+            //     "subject": value,
+            //     "detail": description
+            // });
+            const data = new FormData()
+            data.append("accusedName", `${firstName} ${lastName}`)
+            data.append("phone", phone)
+            data.append("firmName", firmName)
+            data.append("email", email)
+            data.append("address", address)
+            data.append("subject", value)
+            data.append("detail", description)
+            // data.append("complaintPhoto", personalAddress)
+            if(complaint){
+                data.append("complaintPhoto", {
+                  uri: complaint,
+                  name: complaintName.substring(complaintName.lastIndexOf('/') + 1),
+                  type: complaintType
+                })
+              }
+              else{
+                data.append("complaintPhoto","")
+              }
 
             let config = {
                 method: 'post',
-
                 url: `${Constants.MainUrl}complaint/create/complain`,
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "multipart/form-data",
                     'Authorization': `${user_token}`
                 },
                 data: data
