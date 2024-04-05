@@ -20,7 +20,7 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "react-native-push-notification";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Storage from "./src/components/LocalStorage";
-import messaging from "@react-native-firebase/messaging";
+// import messaging from "@react-native-firebase/messaging";
 import crashlytics from '@react-native-firebase/crashlytics';
 // import NetInfo from "@react-native-community/netinfo";
 import { useNetInfo } from "@react-native-community/netinfo";
@@ -73,25 +73,25 @@ const App = () => {
   });
 
 
-  const getFCMToken = async () => {
-    var token = await messaging().getToken()
-    console.log('this iifcm token',token);
-    AsyncStorage.setItem(Storage.fcm_token, token)
-  }
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      PushNotification.localNotification({
-        message: remoteMessage.notification.body,
-        title: remoteMessage.notification.title,
-      });
-      console.log('this is remote notification', remoteMessage);
-    });
-    return unsubscribe;
-  }, []);
+  // const getFCMToken = async () => {
+  //   var token = await messaging().getToken()
+  //   console.log('this iifcm token',token);
+  //   AsyncStorage.setItem(Storage.fcm_token, token)
+  // }
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+  //     PushNotification.localNotification({
+  //       message: remoteMessage.notification.body,
+  //       title: remoteMessage.notification.title,
+  //     });
+  //     console.log('this is remote notification', remoteMessage);
+  //   });
+  //   return unsubscribe;
+  // }, []);
 
-  useEffect(() => {
-    Platform.OS == 'ios' ? getFCMToken() : null
-  }, []);
+  // useEffect(() => {
+  //   Platform.OS == 'ios' ? getFCMToken() : null
+  // }, []);
 
 
 

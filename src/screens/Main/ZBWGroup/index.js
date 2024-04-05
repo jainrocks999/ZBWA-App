@@ -13,15 +13,11 @@ import DocumentPicker from 'react-native-document-picker';
 import InChatFileTransfer from "../../../components/InChatFileTransfer.js";
 import storage from '@react-native-firebase/storage';
 import Loading from "../../../components/Loader";
-import InChatViewFile from "../../../components/InChatViewFile";
-import Video from 'react-native-video';
-import VideoPlayerAndroid from "../../../components/VideoPlayerAndroid";
 import VideoPlayer from 'react-native-video-controls';
-// import RNFetchBlob from 'rn-fetch-blob'
 import CircleCross1 from "../../../assets/Icon/CircleCross1.svg";
 import RNFetchBlob from "react-native-blob-util";
 import Toast from "react-native-simple-toast";
-// import VideoPlayer from "react-native-media-console";
+import Compress from 'react-native-compressor';
 
 const ZBWGroup = () => {
   const navigation = useNavigation()
@@ -62,15 +58,21 @@ const ZBWGroup = () => {
     const user_id = await AsyncStorage.getItem(Storage.user_id)
     const username = await AsyncStorage.getItem(Storage.username)
     if (isAttachImage) {
-      console.log('this is image',isAttachImage);
-      console.log('this is image path',imagePath);
       setLoading(true)
-      const reference = storage().ref(imagePath.substring(imagePath.lastIndexOf('/') + 1))
-      const pathToFile = Platform.OS === 'ios' ? imagePath.replace('file:///', '') :imagePath
-        console.log('this is file to path',pathToFile);
+      const result = await Compress.Image.compress(imagePath, {
+        progressDivider: 10,
+        downloadProgress: (progress) => {
+          console.log('downloadProgress: ', progress);
+        },
+      });
+      const reference = storage().ref(result.substring(result.lastIndexOf('/') + 1))
+     
+      const pathToFile = Platform.OS === 'ios' ? result.replace('file:///', '') :result
       await reference.putFile(pathToFile)
       
-      const url = await storage().ref(imagePath.substring(imagePath.lastIndexOf('/') + 1)).getDownloadURL()
+      const url = await storage().ref(result.substring(result.lastIndexOf('/') + 1)).getDownloadURL()
+      
+       
       setImagePath('');
       setIsAttachImage(false);
       setLoading(false)

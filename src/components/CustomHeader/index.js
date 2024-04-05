@@ -22,7 +22,7 @@ const CustomHeader=({title,onPress,download,onPress1,onPress2,notification})=>{
               <DownLoad/>
             </TouchableOpacity>:
             <View>
-            {notification?null:<TouchableOpacity
+            {notification?<View style={{width:30}}/>:<TouchableOpacity
             onPress={onPress2}
             activeOpacity={0.5}
             style={styles.touch}>

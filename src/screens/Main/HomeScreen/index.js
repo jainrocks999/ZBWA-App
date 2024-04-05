@@ -21,9 +21,10 @@ import Image17 from "../../../assets/HomeImage/image17.svg";
 import Image18 from "../../../assets/HomeImage/image18.svg";
 import Image19 from "../../../assets/HomeImage/image19.svg";
 import Image20 from "../../../assets/HomeImage/image20.svg";
-import Image21 from "../../../assets/HomeImage/image21.svg";
+import OurTeam from "../../../assets/Icon/ourTeam.svg";
 import Image22 from "../../../assets/HomeImage/image22.svg";
 import Image23 from "../../../assets/HomeImage/image23.svg";
+import Image24 from "../../../assets/HomeImage/image24.svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "../../../Redux/Constants";
 import Contact from "../HomeComponets/Contact";
@@ -153,6 +154,9 @@ const HomeScreen = () => {
         }
         else if (title == 'Become a Member') {
             navigation.navigate('BecomeAMember')
+        }
+        else if(title=='Our Team'){
+            navigation.navigate('OurTeam')
         }
         else if (title == 'Secondary Member') {
 
@@ -506,6 +510,7 @@ const data = [
         img: <Image22 />,
         name: 'Order Copies'
     },
+    
     // {
     //     img: <Image21 />,
     //     name: 'Price Chart'
@@ -513,6 +518,10 @@ const data = [
     {
         img: <Image23 />,
         name: 'Legal Support'
+    },
+    {
+        img: <Image24 />,
+        name: 'Our Team'
     },
 ]
 
@@ -548,5 +557,9 @@ const data2 = [
     {
         img: <Image23 />,
         name: 'Legal Support'
+    },
+    {
+        img: <Image24 />,
+        name: 'Our Team'
     },
 ]

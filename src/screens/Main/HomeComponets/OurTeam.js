@@ -13,7 +13,6 @@ const LegalSupport = () => {
     const navigation = useNavigation()
     const [loader,setLoader]=useState(false)
     const [data,setData]=useState()
-    const [page,setPage]=useState(1)
 
 
     useEffect(()=>{
@@ -26,7 +25,7 @@ const LegalSupport = () => {
 
         let config = {
             method: 'get',
-            url: `${Constants.MainUrl}legalsupport/all/1`,
+            url: `${Constants.MainUrl}committee/member/all`,
             headers: { 
               'Authorization': `${user_token}`
             }
@@ -37,42 +36,6 @@ const LegalSupport = () => {
             if(response.data.code=='200'){
                 Toast.show(response.data.message)
                 setData(response.data.data)
-                setPage(page+1)
-                setLoader(false)
-            }
-            else{
-                setLoader(false)
-                Toast.show(response.data.message)
-            }
-            console.log(JSON.stringify(response.data));
-          })
-          .catch((error) => {
-            setLoader(false)
-            console.log(error);
-          });
-          
-    }
-
-    const handleApiOnReachEnd=async()=>{
-    
-        const user_token=await AsyncStorage.getItem(Storage.user_token)
-
-        let config = {
-            method: 'get',
-            url: `${Constants.MainUrl}legalsupport/all/${page}`,
-            headers: { 
-              'Authorization': `${user_token}`
-            }
-          };
-          setLoader(true)
-          axios.request(config)
-          .then((response) => {
-            if(response.data.code=='200'){
-                Toast.show(response.data.message)
-                var newData=response.data.data
-                var stateAssetArr = [...news, ...newData]
-                setData(stateAssetArr)
-                setPage(page+1)
                 setLoader(false)
             }
             else{
@@ -92,7 +55,7 @@ const LegalSupport = () => {
         <View style={styles.container}>
             {loader?<Loader/>:null}
             <Header
-                title={'Legal Support'}
+                title={'Our Team'}
                 onPress={() => navigation.goBack()}
                 onPress2={()=>navigation.navigate('Notification')}
             />
@@ -100,8 +63,6 @@ const LegalSupport = () => {
                 <FlatList
                     data={data}
                     numColumns={2}
-                    onEndReachedThreshold={0.5}
-                    onEndReached={()=>handleApiOnReachEnd()}
                     renderItem={({ item }) => (
                         <View style={styles.item}>
                             <View style={styles.view}>
@@ -113,7 +74,7 @@ const LegalSupport = () => {
                                     </View>
                                 </View>
                                 <Text style={styles.title}>{item.name}</Text>
-                                <Text style={styles.post}>{item.post}</Text>
+                                <Text style={styles.post}>{item.position}</Text>
                             </View>
 
                         </View>

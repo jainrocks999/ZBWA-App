@@ -36,7 +36,7 @@ const Splash = () => {
         url: `${Constants.MainUrl}account/version`,
       });
       if (Platform.OS == 'android') {
-        if (response.data.data.android_version > '4.0.7') {
+        if (response.data.data.android_version > '4.0.8') {
           console.log(response.data.data.android_version);
           setAndroidUrl(response.data.data.android_url);
           setModalVisible(true);
@@ -44,7 +44,7 @@ const Splash = () => {
           initial();
         }
       } else {
-        if (response.data.data.ios_version > '4.0.6') {
+        if (response.data.data.ios_version > '4.0.8') {
           setIosUrl(response.data.data.ios_url);
           setModalVisible(true);
         } else {

@@ -42,6 +42,7 @@ import VideoView from "../screens/Main/HomeComponets/VideoView";
 import ViewId from "../screens/Main/HomeComponets/ViewId";
 import ViewIdSecondary from "../screens/Main/HomeComponets/ViewIdSecondary";
 import MyProfile from "../screens/Main/HomeComponets/MyProfile";
+import OurTeam from "../screens/Main/HomeComponets/OurTeam";
 
 const Stack = createStackNavigator();
 function Navigate() {
@@ -100,6 +101,7 @@ function Home(){
          <Stack1.Screen name="ViewId" component={ViewId}/>
          <Stack1.Screen name="ViewIdSecondary" component={ViewIdSecondary}/>
          <Stack1.Screen name="MyProfile" component={MyProfile}/>
+         <Stack1.Screen name='OurTeam' component={OurTeam}/>
       </Stack1.Navigator>
   )
 }
