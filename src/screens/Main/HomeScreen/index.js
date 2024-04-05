@@ -21,7 +21,6 @@ import Image17 from "../../../assets/HomeImage/image17.svg";
 import Image18 from "../../../assets/HomeImage/image18.svg";
 import Image19 from "../../../assets/HomeImage/image19.svg";
 import Image20 from "../../../assets/HomeImage/image20.svg";
-import OurTeam from "../../../assets/Icon/ourTeam.svg";
 import Image22 from "../../../assets/HomeImage/image22.svg";
 import Image23 from "../../../assets/HomeImage/image23.svg";
 import Image24 from "../../../assets/HomeImage/image24.svg";
@@ -331,11 +330,12 @@ const HomeScreen = () => {
                     /> :
                         <View style={{ marginTop: -20 }}>
                             <Image
-                                resizeMode="center"
+                                // resizeMode="contain"
                                 style={{
                                     width: Dimensions.get('window').width - 40,
                                     height: 180, borderWidth: 1,
-                                    borderRadius: 20
+                                    borderRadius: 20,
+                                    resizeMode:'contain'
                                 }}
                                 source={{ uri: banner[0]?.img }} />
                         </View>
