@@ -53,7 +53,6 @@ const App = () => {
         title: notification.message,
         message: notification.title,
       });
-      console.log("NOTIFICATION:", notification);
       notification.finish(PushNotificationIOS.FetchResult.NoData);
     },
     onAction: function (notification) {

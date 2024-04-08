@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from "react";
-import { View, Text, TextInput, FlatList, Image,Platform, StyleSheet,Dimensions } from "react-native";
+import { View, Text, TextInput, FlatList, Image,Platform, StyleSheet,Dimensions, SafeAreaView } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
@@ -53,6 +53,7 @@ const LegalSupport = () => {
 
     return (
         <View style={styles.container}>
+ <SafeAreaView style={{flex:1}}>
             {loader?<Loader/>:null}
             <Header
                 title={'Our Team'}
@@ -60,9 +61,11 @@ const LegalSupport = () => {
                 onPress2={()=>navigation.navigate('Notification')}
             />
             <View style={styles.main}>
+               
                 <FlatList
                     data={data}
                     numColumns={2}
+                    style={{marginBottom:50}}
                     renderItem={({ item }) => (
                         <View style={styles.item}>
                             <View style={styles.view}>
@@ -70,6 +73,7 @@ const LegalSupport = () => {
                                     <View style={{ marginTop: -36 }}>
                                         <Image
                                         style={{height:82,width:82,borderRadius:82}}
+                                        resizeMode="center"
                                          source={{uri:item.upload_image}} />
                                     </View>
                                 </View>
@@ -80,7 +84,10 @@ const LegalSupport = () => {
                         </View>
                     )}
                 />
+               
+                {/* <View style={{height:60}}/> */}
             </View>
+            </SafeAreaView>
         </View>
     )
 }
@@ -92,7 +99,7 @@ const styles = StyleSheet.create({
     },
     main: { 
         alignItems: 'center', 
-        marginTop: 25 
+        // marginTop: 25 
     },
     item: { 
         // width: '40%', 

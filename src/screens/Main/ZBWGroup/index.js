@@ -18,6 +18,7 @@ import CircleCross1 from "../../../assets/Icon/CircleCross1.svg";
 import RNFetchBlob from "react-native-blob-util";
 import Toast from "react-native-simple-toast";
 import Compress from 'react-native-compressor';
+import axios from "axios";
 
 const ZBWGroup = () => {
   const navigation = useNavigation()
@@ -91,6 +92,28 @@ const ZBWGroup = () => {
           name: username,
         },
       }, { merge: true })
+
+      let data = JSON.stringify({
+        "userId":user_id,
+        "description": "Someone has added a video/picture.",
+        "title": "New Message on ZBWA Group"
+      });   
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://zbwa.org/api/pushnotification/chat',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : data
+      };
+      axios.request(config)
+      .then((response) => {
+        console.log("hi",JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     }
     else if (isAttachFile) {
       setLoading(true)
@@ -114,6 +137,27 @@ const ZBWGroup = () => {
           name: username,
         },
       }, { merge: true })
+      let data = JSON.stringify({
+        "userId":user_id,
+        "description": "Someone has added a video/picture.",
+        "title": "New Message on ZBWA Group"
+      });   
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://zbwa.org/api/pushnotification/chat',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : data
+      };
+      axios.request(config)
+      .then((response) => {
+        console.log("hi",JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
       setLoading(false)
       setFilePath('');
       setIsAttachFile(false);
@@ -139,6 +183,27 @@ const ZBWGroup = () => {
           name: username,
         },
       }, { merge: true })
+      let data = JSON.stringify({
+        "userId":user_id,
+        "description": "Someone has added a video/picture.",
+        "title": "New Message on ZBWA Group"
+      });   
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://zbwa.org/api/pushnotification/chat',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : data
+      };
+      axios.request(config)
+      .then((response) => {
+        console.log("hi",JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
       setLoading(false)
       setVideoPath('');
       setIsAttachVideo(false);
@@ -157,6 +222,27 @@ const ZBWGroup = () => {
           name: username,
         },
       }, { merge: true })
+      let data = JSON.stringify({
+        "userId":user_id,
+        "description":message[0].text ,
+        "title": "New Message on ZBWA Group"
+      });   
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://zbwa.org/api/pushnotification/chat',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : data
+      };
+      axios.request(config)
+      .then((response) => {
+        console.log("hi",JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     }
   }
 

@@ -102,12 +102,14 @@ const LegalSupport = () => {
                     numColumns={2}
                     onEndReachedThreshold={0.5}
                     onEndReached={()=>handleApiOnReachEnd()}
+                    style={{marginBottom:50}}
                     renderItem={({ item }) => (
                         <View style={styles.item}>
                             <View style={styles.view}>
                                 <View style={styles.view1}>
                                     <View style={{ marginTop: -36 }}>
                                         <Image
+                                        resizeMode="center"
                                         style={{height:82,width:82,borderRadius:82}}
                                          source={{uri:item.upload_image}} />
                                     </View>
