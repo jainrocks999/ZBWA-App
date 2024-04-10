@@ -73,10 +73,21 @@ const App = () => {
 
 
   // const getFCMToken = async () => {
-  //   var token = await messaging().getToken()
-  //   console.log('this iifcm token',token);
-  //   AsyncStorage.setItem(Storage.fcm_token, token)
-  // }
+  //   try {
+  //     const apnsToken = await messaging().getAPNSToken();
+  //     if (apnsToken) {
+  //       await messaging().setAPNSToken(apnsToken);
+  //     } else {
+  //       await messaging().setAPNSToken('APN_TOKEN');
+  //     }
+
+  //     var token = await messaging().getToken();
+  //     AsyncStorage.setItem(Storage.fcm_token,token)
+  //     console.log('this iifcm token', token);
+  //   } catch (err) {
+  //     console.log('thisis erroryo', err);
+  //   }
+  // };
   // useEffect(() => {
   //   const unsubscribe = messaging().onMessage(async (remoteMessage) => {
   //     PushNotification.localNotification({

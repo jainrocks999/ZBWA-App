@@ -342,11 +342,12 @@ const HomeScreen = () => {
                     /> :
                         <View style={{ marginTop: -20 }}>
                             <Image
-                                resizeMode="contain"
+                                // resizeMode="contain"
                                 style={{
                                     width: Dimensions.get('window').width - 40,
                                     height: 180, borderWidth: 1,
-                                    borderRadius: 20
+                                    borderRadius: 20,
+                                    resizeMode:'contain'
                                 }}
                                 source={{ uri: banner[0]?.img }} />
                         </View>

@@ -154,8 +154,7 @@ const EventDetails = ({ route }) => {
         { path: filePath, mime: 'image/png' },
         ])
         setVisible(false)
-        Toast.show('QR Code saved successfully')
-        // saveToGallery()
+        // Toast.show('QR Code saved successfully')
         }).catch(err => 
             {console.log("err", err)
             setVisible(false)}
@@ -202,7 +201,6 @@ const EventDetails = ({ route }) => {
                         {renderDate(data.date)}
                         <Text style={{ color: '#000', fontFamily: 'Montserrat-Medium', fontSize: 13, marginLeft: 20 }}>{data.time}</Text>
                     </View>
-                    {/* <Text onPress={()=>saveToGallery()} style={{fontSize:40}}>Save</Text> */}
                     <View style={{ marginTop: 5 }}>
                         <HTMLView
                             value={data.description.trim()
