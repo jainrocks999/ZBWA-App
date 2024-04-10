@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Dimensions, FlatList, Image, ScrollView, TouchableOpacity, StyleSheet, Linking } from "react-native";
+import { View, Text, Dimensions, FlatList, Image, ScrollView, TouchableOpacity, StyleSheet, Linking, Alert } from "react-native";
 import Menu from "../../../assets/Icon/Menu.svg";
 import Bell from "../../../assets/Icon/Bell.svg";
 import { ImageSlider } from "react-native-image-slider-banner";
@@ -24,6 +24,8 @@ import Image20 from "../../../assets/HomeImage/image20.svg";
 import Image22 from "../../../assets/HomeImage/image22.svg";
 import Image23 from "../../../assets/HomeImage/image23.svg";
 import Image24 from "../../../assets/HomeImage/image24.svg";
+import Image25 from "../../../assets/HomeImage/image25.svg";
+import Image26 from "../../../assets/HomeImage/image26.svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "../../../Redux/Constants";
 import Contact from "../HomeComponets/Contact";
@@ -157,6 +159,15 @@ const HomeScreen = () => {
         else if(title=='Our Team'){
             navigation.navigate('OurTeam')
         }
+        else if(title=='Our Achievements'){
+            Alert.alert('Comming soon.')
+            // navigation.navigate('OurTeam')
+        }
+        else if(title=='WHY BECOME A\nMEMBER ?'){
+            Alert.alert('Comming soon.')
+            // navigation.navigate('OurTeam')
+        }
+        
         else if (title == 'Secondary Member') {
 
             let config = {
@@ -354,7 +365,7 @@ const HomeScreen = () => {
                             onPress={() => onItemPress(item.name)}
                             style={styles.item}>
                             {item.img}
-                            <Text style={styles.name}>{item.name}</Text>
+                            <Text style={[styles.name,{textAlign:'center'}]}>{item.name}</Text>
                         </TouchableOpacity>
                         )}
                     />
@@ -455,6 +466,7 @@ const HomeScreen = () => {
 
             <BottomTab
                 onPress={() => setVisible(true)}
+                showMember={showMember}
             />
         </View>
     )
@@ -523,6 +535,14 @@ const data = [
         img: <Image24 />,
         name: 'Our Team'
     },
+    {
+        img: <Image25 />,
+        name: 'Our Achievements'
+    },
+    {
+        img: <Image26 />,
+        name: 'WHY BECOME A\nMEMBER ?'
+    },
 ]
 
 const data2 = [
@@ -561,5 +581,13 @@ const data2 = [
     {
         img: <Image24 />,
         name: 'Our Team'
+    },
+    {
+        img: <Image25 />,
+        name: 'Our Achievements'
+    },
+    {
+        img: <Image26 />,
+        name: `WHY BECOME A\nMEMBER ?`
     },
 ]

@@ -5,7 +5,7 @@ import Home from "../../assets/Icon/Home.svg";
 import People from "../../assets/Icon/People.svg";
 import Msg from "../../assets/Icon/Msg.svg";
 
-const BottomTab = ({onPress}) => {
+const BottomTab = ({onPress,showMember}) => {
     const navigation=useNavigation()
     return (
         <View style={{
@@ -27,11 +27,11 @@ const BottomTab = ({onPress}) => {
              activeOpacity={0.5}>
                 <People/>
             </TouchableOpacity>
-            <TouchableOpacity 
+            {showMember=='Not a member'?null:<TouchableOpacity 
             onPress={()=>navigation.navigate('ZBWGroup')}
             activeOpacity={0.5}>
                 <Msg/>
-            </TouchableOpacity>
+            </TouchableOpacity>}
         </View>
     )
 }

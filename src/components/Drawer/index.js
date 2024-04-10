@@ -8,6 +8,7 @@ import {
     LayoutAnimation,
     Alert,
     ImageBackground,
+    ScrollView,
 } from 'react-native';
 import DrawerLogo from "../../assets/Icon/DrawerLogo.svg";
 import DrawerCross from "../../assets/Icon/DrawerCross.svg";
@@ -35,9 +36,41 @@ const Drawer = () => {
     const [MemberContact,setMemberContact]=useState('')
     const [data,setData]=useState('')
 
+
+
     const manageAbout=()=>{
         navigation.dispatch(DrawerActions.closeDrawer())
         navigation.navigate('About')
+    }
+    const manageEvents=()=>{
+        navigation.dispatch(DrawerActions.closeDrawer())
+        navigation.navigate('Events')
+    }
+    const managePartners=()=>{
+        navigation.dispatch(DrawerActions.closeDrawer())
+        navigation.navigate('OurPartner')
+    } 
+    const manageOrder=()=>{
+        navigation.dispatch(DrawerActions.closeDrawer())
+        navigation.navigate('OrderCopies')
+       
+    }
+    const manageLegal=()=>{
+        navigation.dispatch(DrawerActions.closeDrawer())
+        navigation.navigate('LegalSupport')
+    }
+    const manageTeam=()=>{
+        navigation.dispatch(DrawerActions.closeDrawer())
+        navigation.navigate('OurTeam')
+    }
+    const manageAchievements=()=>{
+        navigation.dispatch(DrawerActions.closeDrawer())
+        Alert.alert('Comming soon.')
+    }
+    const manageMember=()=>{
+        navigation.dispatch(DrawerActions.closeDrawer())
+        Alert.alert('Comming soon.')
+        // navigation.navigate('About')
     }
     const manageContact=()=>{
         navigation.dispatch(DrawerActions.closeDrawer())
@@ -234,6 +267,7 @@ const Drawer = () => {
     return (
         <View style={styles.container}>
             {loader?<Loader/>:null}
+            <ScrollView  style={{marginBottom:50}}>
             <View style={styles.view}>
                 <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
                 <DrawerLogo />
@@ -286,6 +320,41 @@ const Drawer = () => {
                 <Text style={styles.about}>About Us</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                onPress={()=>manageEvents()}
+                >
+                <Text style={styles.same}>Events</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                onPress={()=>managePartners()}
+                >
+                <Text style={styles.same}>Our Partners</Text>
+                </TouchableOpacity>
+                {data?.message=='Already a member'?<TouchableOpacity
+                onPress={()=>manageOrder()}
+                >
+                <Text style={styles.same}>Order Copies</Text>
+                </TouchableOpacity>:null}
+                {data?.message=='Already a member'?<TouchableOpacity
+                onPress={()=>manageLegal()}
+                >
+                <Text style={styles.same}>Legal Support</Text>
+                </TouchableOpacity>:null}
+                <TouchableOpacity
+                onPress={()=>manageTeam()}
+                >
+                <Text style={styles.same}>Our Team</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                onPress={()=>manageAchievements()}
+                >
+                <Text style={styles.same}>Our Achievements</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                onPress={()=>manageMember()}
+                >
+                <Text style={styles.same}>WHY BECOME A MEMBER ?</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
                 onPress={()=>manageTerm()}
                 >
                 <Text style={styles.same}>Terms of Service</Text>
@@ -332,6 +401,7 @@ const Drawer = () => {
                 <Text style={styles.same}>My QR Code</Text>
                 </TouchableOpacity>
             </View>
+            </ScrollView>
             <View style={styles.bottom}>
                 <Text style={styles.about}>Version 1.1</Text>
             </View>
@@ -367,6 +437,7 @@ const Drawer = () => {
                         </View>
                         </View>
                         </Modal>
+                        {/* </ScrollView> */}
         </View>
     )
 }

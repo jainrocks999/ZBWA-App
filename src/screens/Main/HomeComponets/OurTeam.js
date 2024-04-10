@@ -73,7 +73,7 @@ const LegalSupport = () => {
                                     <View style={{ marginTop: -36 }}>
                                         <Image
                                         style={{height:82,width:82,borderRadius:82}}
-                                        resizeMode="center"
+                                        // resizeMode="center"
                                          source={{uri:item.upload_image}} />
                                     </View>
                                 </View>
