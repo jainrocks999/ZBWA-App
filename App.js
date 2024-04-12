@@ -20,7 +20,7 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "react-native-push-notification";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Storage from "./src/components/LocalStorage";
-// import messaging from "@react-native-firebase/messaging";
+import messaging from "@react-native-firebase/messaging";
 import crashlytics from '@react-native-firebase/crashlytics';
 // import NetInfo from "@react-native-community/netinfo";
 import { useNetInfo } from "@react-native-community/netinfo";
@@ -95,36 +95,37 @@ const App = () => {
   });
 
 
-  // const getFCMToken = async () => {
-  //   try {
-  //     const apnsToken = await messaging().getAPNSToken();
-  //     if (apnsToken) {
-  //       await messaging().setAPNSToken(apnsToken);
-  //     } else {
-  //       await messaging().setAPNSToken('APN_TOKEN');
-  //     }
+  const getFCMToken = async () => {
+    try {
+      const apnsToken = await messaging().getAPNSToken();
+      if (apnsToken) {
+        await messaging().setAPNSToken(apnsToken);
+      } else {
+        await messaging().setAPNSToken('APN_TOKEN');
+      }
 
-  //     var token = await messaging().getToken();
-  //     AsyncStorage.setItem(Storage.fcm_token,token)
-  //     console.log('this iifcm token', token);
-  //   } catch (err) {
-  //     console.log('thisis erroryo', err);
-  //   }
-  // };
-  // useEffect(() => {
-  //   const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-  //     PushNotification.localNotification({
-  //       message: remoteMessage.notification.body,
-  //       title: remoteMessage.notification.title,
-  //     });
-  //     console.log('this is remote notification', remoteMessage);
-  //   });
-  //   return unsubscribe;
-  // }, []);
+      var token = await messaging().getToken();
+      Alert.alert(token)
+      AsyncStorage.setItem(Storage.fcm_token,token)
+      console.log('this iifcm token', token);
+    } catch (err) {
+      console.log('thisis erroryo', err);
+    }
+  };
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      PushNotification.localNotification({
+        message: remoteMessage.notification.body,
+        title: remoteMessage.notification.title,
+      });
+      console.log('this is remote notification', remoteMessage);
+    });
+    return unsubscribe;
+  }, []);
 
-  // useEffect(() => {
-  //   Platform.OS == 'ios' ? getFCMToken() : null
-  // }, []);
+  useEffect(() => {
+    Platform.OS == 'ios' ? getFCMToken() : null
+  }, []);
 
 
 
