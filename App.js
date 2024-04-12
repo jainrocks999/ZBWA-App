@@ -24,7 +24,7 @@ import Storage from "./src/components/LocalStorage";
 import crashlytics from '@react-native-firebase/crashlytics';
 // import NetInfo from "@react-native-community/netinfo";
 import { useNetInfo } from "@react-native-community/netinfo";
-import Modal from "react-native-modal";
+import * as RootNavigation from "./src/navigation/RootNavigation";
 
 
 LogBox.ignoreLogs(['Warning: ...']);
@@ -41,8 +41,21 @@ PushNotification.createChannel(
 const App = () => {
 
   const { type, isConnected } = useNetInfo();
-  console.log('this is type and conection', type, isConnected);
 
+  const manageLogin=async()=>{
+  
+    const user_id=await AsyncStorage.getItem('user_token')
+    if(user_id==null){
+      console.log('this is working null');
+      RootNavigation.push('FirstPage')
+      // navigationRef.current?.dispatch(StackActions.push('FirstPage'));
+    }else if(user_id){
+      console.log('this is working');
+      RootNavigation.push('ZBWGroup')
+      
+      // navigationRef.current?.dispatch(StackActions.push('FirstPage'));
+    }
+  }
   PushNotification.configure({
     onRegister: function (token) {
       console.log("TOKEN:", token);
@@ -53,6 +66,16 @@ const App = () => {
         title: notification.message,
         message: notification.title,
       });
+      console.log('this is notifi',notification);
+      if(notification.userInteraction===true && notification.foreground==false && notification.title=='New Message on ZBWA Group') {
+        // RootNavigation.push('Splash')
+        manageLogin()
+      }
+      else{
+        if (notification.userInteraction==true && notification.foreground==true && notification.title=='New Message on ZBWA Group') {
+          manageLogin()
+        }
+      }
       notification.finish(PushNotificationIOS.FetchResult.NoData);
     },
     onAction: function (notification) {

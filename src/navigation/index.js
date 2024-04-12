@@ -43,12 +43,13 @@ import ViewId from "../screens/Main/HomeComponets/ViewId";
 import ViewIdSecondary from "../screens/Main/HomeComponets/ViewIdSecondary";
 import MyProfile from "../screens/Main/HomeComponets/MyProfile";
 import OurTeam from "../screens/Main/HomeComponets/OurTeam";
+import { navigationRef } from "./RootNavigation";
 
 const Stack = createStackNavigator();
 function Navigate() {
   
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
         initialRouteName="Splash"
         screenOptions={{headerShown: false}}>

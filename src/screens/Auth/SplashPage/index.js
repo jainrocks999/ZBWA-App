@@ -36,15 +36,14 @@ const Splash = () => {
         url: `${Constants.MainUrl}account/version`,
       });
       if (Platform.OS == 'android') {
-        if (response.data.data.android_version > '4.0.8') {
-          console.log(response.data.data.android_version);
+        if (response.data.data.android_version > '4.0.9') {
           setAndroidUrl(response.data.data.android_url);
           setModalVisible(true);
         } else {
           initial();
         }
       } else {
-        if (response.data.data.ios_version > '4.0.8') {
+        if (response.data.data.ios_version > '4.0.9') {
           setIosUrl(response.data.data.ios_url);
           setModalVisible(true);
         } else {
@@ -94,6 +93,7 @@ const Splash = () => {
 
   const openUrl = () => {
     if (Platform.OS == 'android') {
+      AsyncStorage.setItem('user_token','')
       Linking.openURL(androidUrl);
     } else {
       Linking.openURL(iosUrl);

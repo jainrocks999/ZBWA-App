@@ -147,13 +147,47 @@ const Complaints = () => {
                             <Text style={styles.same}>{'Details : '}</Text>
                             <Text style={styles.name1}>{item?.detail}</Text>
                         </View>
-                        {item?.complaintPhoto ? <Text style={styles.same}>{`Image :`}</Text> : null}
+                        {item?.complaintPhoto.length>0? <Text style={styles.same}>{`Image :`}</Text> : null}
                         {item?.complaintPhoto ?
-                            <View style={{ alignItems: 'center' }}>
+                        <FlatList
+                        data={item?.complaintPhoto}
+                        horizontal
+                         renderItem={({item})=>(
+                            <View style={{ alignItems: 'center',marginTop:20 }}>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setVisible(false)
+                                    setImage(item)
+                                    setTimeout(() => {
+                                        setModal(true)
+                                    }, 500);
+                                   
+                                }}
+                            >
+                                <ImageBackground
+                                    resizeMode="contain"
+                                    style={{
+                                        height: 200,
+                                        width: 160,
+                                        alignItems:'center',
+                                        justifyContent:'center'
+                                    }} source={{ uri: item }} >
+                                        <View>
+                                            <Eye width={30} height={30}/>
+                                        </View>
+                                    </ImageBackground>
+                            </TouchableOpacity>
+                        </View>
+                         )}
+
+                        />:null}
+                        {/* {item?.complaintPhoto ?
+                             item?.complaintPhoto.map(item=>(
+                            <View style={{ alignItems: 'center',marginTop:20 }}>
                                 <TouchableOpacity
                                     onPress={() => {
                                         setVisible(false)
-                                        setImage(item.complaintPhoto)
+                                        // setImage(item.complaintPhoto)
                                         setTimeout(() => {
                                             setModal(true)
                                         }, 500);
@@ -167,14 +201,14 @@ const Complaints = () => {
                                             width: 160,
                                             alignItems:'center',
                                             justifyContent:'center'
-                                        }} source={{ uri: item.complaintPhoto }} >
+                                        }} source={{ uri: item }} >
                                             <View>
                                                 <Eye width={30} height={30}/>
                                             </View>
                                         </ImageBackground>
                                 </TouchableOpacity>
                             </View>
-                            : null}
+                             )): null} */}
                     </View> : null}
                 </View>
             </Modal>
@@ -185,11 +219,6 @@ const Complaints = () => {
             style={{ margin:0 ,backgroundColor:'#000'}}>
             <View style={{ flex:1 ,marginTop:Platform.OS=='ios'?35:0,alignItems:'center',justifyContent:'center'}}>
                     <View>
-                        {/* <ScalableImage
-                            source={{ uri: image }}
-                            width={Dimensions.get('window').width}
-                            height={Dimensions.get('window').height}
-                        /> */}
                         <FastImage
                             style={{ width: Dimensions.get('window').width, height: Dimensions.get('window').height }}
                             source={{

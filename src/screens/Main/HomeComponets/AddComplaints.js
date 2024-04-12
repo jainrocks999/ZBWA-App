@@ -17,6 +17,8 @@ import Modal from "react-native-modal";
 import CircleCross from "../../../assets/Icon/CircleCross.svg";
 import DocumentPicker from 'react-native-document-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import Compress from 'react-native-compressor';
+
 
 const AddComplaints = () => {
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
@@ -34,10 +36,12 @@ const AddComplaints = () => {
     const [complaint,setComplaints]=useState('')
     const [complaintName,setComplaintsName]=useState('')
     const [complaintType,setComplaintsType]=useState('')
+    const [complaintArray,setComplaintArray]=useState([])
 
     const navigation = useNavigation()
 
     const handlePress = async () => {
+       console.log('this is length',complaintArray.length);
         const user_token = await AsyncStorage.getItem(Storage.user_token)
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
         if (firstName == '') {
@@ -73,17 +77,11 @@ const AddComplaints = () => {
         else if (description == '') {
             Toast.show('Please enter issue description')
         }
+        else if(complaintArray.length>4){
+            Toast.show('Only 4 images you can select for a complaint.')
+        }
         else {
             setLoader(true)
-            // let data = JSON.stringify({
-            //     "accusedName": `${firstName} ${lastName}`,
-            //     "phone": phone,
-            //     "firmName": firmName,
-            //     "email": email,
-            //     "address": address,
-            //     "subject": value,
-            //     "detail": description
-            // });
             const data = new FormData()
             data.append("accusedName", `${firstName} ${lastName}`)
             data.append("phone", phone)
@@ -92,18 +90,27 @@ const AddComplaints = () => {
             data.append("address", address)
             data.append("subject", value)
             data.append("detail", description)
-            // data.append("complaintPhoto", personalAddress)
-            if(complaint){
-                data.append("complaintPhoto", {
-                  uri: complaint,
-                  name: complaintName.substring(complaintName.lastIndexOf('/') + 1),
-                  type: complaintType
-                })
-              }
+            if(complaintArray.length==1){
+                data.append("complaintPhoto", complaintArray[0])
+            }
+            else if(complaintArray.length==2){
+                data.append("complaintPhoto", complaintArray[0])
+                data.append("complaintPhoto", complaintArray[1])
+            }
+            else if(complaintArray.length==3){
+                data.append("complaintPhoto", complaintArray[0])
+                data.append("complaintPhoto", complaintArray[1])
+                data.append("complaintPhoto", complaintArray[2])
+            }
+            else if(complaintArray.length==4){
+                data.append("complaintPhoto", complaintArray[0])
+                data.append("complaintPhoto", complaintArray[1])
+                data.append("complaintPhoto", complaintArray[2])
+                data.append("complaintPhoto", complaintArray[3])
+            }
               else{
-                data.append("complaintPhoto","")
+                data.append("complaintPhoto",'')
               }
-
             let config = {
                 method: 'post',
                 url: `${Constants.MainUrl}complaint/create/complain`,
@@ -113,7 +120,7 @@ const AddComplaints = () => {
                 },
                 data: data
             };
-
+          try {
             axios.request(config)
                 .then((response) => {
                     console.log(JSON.stringify(response.data));
@@ -125,6 +132,10 @@ const AddComplaints = () => {
                     console.log(error);
                     setLoader(false)
                 });
+            } catch (error) {
+                setLoader(false)
+            }
+           
         }
 
     }
@@ -139,31 +150,73 @@ const AddComplaints = () => {
           path: 'images',
         },
       }
-    
+
       const launchCameraForPhoto = async () => {
-        launchCamera(checklistImage, response => {
-          if (response.didCancel) {
-          } else if (response.error) {
-          } else {
-               const res=response.assets[0]
-               setComplaints(res.uri)
-               setComplaintsName(res.fileName)
-               setComplaintsType(res.type)
-           }
-        });
-      }
+        
+        try {
+            setComplaintArray([])
+            launchCamera(checklistImage, async (response) => {
+                if (response.didCancel) {
+                    // Handle cancelation
+                } else if (response.error) {
+                    // Handle error
+                } else {
+                    const res = response.assets[0];
+                    var arr = [];
+                    try {
+                        const compressedRes = await Compress.Image.compress(res.uri, {
+                            progressDivider: 10,
+                            downloadProgress: (progress) => {
+                                console.log('downloadProgress: ', progress);
+                            },
+                        });
+                        arr.push({ uri: compressedRes,type:res.type,name:res.fileName });
+                        setComplaintArray(arr)
+                    } catch (error) {
+                        console.error('Error occurred during compression:', error);
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('Error in launchCameraForPhoto:', error);
+        }
+    };
 
       const _pickDocument = async (type) => {
+        setComplaintArray([])
         try {
-          const result = await DocumentPicker.pickSingle({
-            type: [DocumentPicker.types.images, DocumentPicker.types.pdf],
+          const result = await DocumentPicker.pick({
+            // type: [DocumentPicker.types.images, DocumentPicker.types.pdf],
+            type: [DocumentPicker.types.images],
+            allowMultiSelection:true
           });
-          const res = result;
           console.log('this is response data', result);
-            (res.uri)
-            setComplaints(res.uri)
-            setComplaintsName(res.name)
-            setComplaintsType(res.type)
+          const promises = result.map(async (item) => {
+            console.log(item.uri);
+            const result1 = await Compress.Image.compress(item.uri, {
+                progressDivider: 10,
+                downloadProgress: (progress) => {
+                    console.log('downloadProgress: ', progress);
+                },
+            });
+        return { uri: result1,name:item.name,type:item.type }; // Return the object directly instead of pushing to arr
+        });
+        
+        Promise.all(promises)
+            .then((result) => {
+                setComplaintArray(result)
+                console.log("FINAL RESULT-------", result);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        
+            
+        console.log('ths is data',data);
+            // setComplaintArray(result)
+            setComplaints('')
+            setComplaintsName('')
+            setComplaintsType('')
         
         } catch (err) {
           if (DocumentPicker.isCancel(err)) {
@@ -317,7 +370,7 @@ const AddComplaints = () => {
                             marginTop:5
                         }}>
                             <Upload />
-                           {complaintName? <Text style={styles.text4}>{complaintName}</Text>:
+                           {complaintArray.length>0? <Text style={styles.text4}>{`${complaintArray.length} Image Attached`}</Text>:
                             <Text style={styles.text}>{'Upload Complaints'}</Text>}
                         </TouchableOpacity>
                     </View>
