@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Dimensions, ScrollView } from "react-native";
+import { View, Text, Dimensions, ScrollView,ImageBackground } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import Pdf from 'react-native-pdf';
@@ -55,7 +55,7 @@ const About = () => {
     }
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={{ flex: 1,  }}>
             {loader ? <Loader /> : null}
             <Header
                 title={'About Us'}
@@ -70,7 +70,7 @@ const About = () => {
             />:null}
              <View style={{height:30}}/>
             </ScrollView>
-        </View>
+        </ImageBackground>
     )
 }
 export default About;

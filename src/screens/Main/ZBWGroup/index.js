@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Text, TouchableOpacity, TextInput, Image,Modal,StyleSheet, Alert, Platform } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, Image,Modal,StyleSheet, Alert, Platform,ImageBackground } from "react-native";
 import HeaderArrow from "../../../assets/Icon/HeaderArrow.svg";
 import ChatLogo from "../../../assets/Icon/ChatLogo.svg";
 import { useNavigation } from "@react-navigation/native";
@@ -503,7 +503,7 @@ const ZBWGroup = () => {
     );
   };
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <ImageBackground source={require('../../../assets/Logo/background.png')} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       {loading ? <Loading /> : null}
      
       <View style={{ height: 45, backgroundColor: '#000000', width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -591,7 +591,7 @@ const ZBWGroup = () => {
                 </TouchableOpacity>
             </View>
         </Modal>
-    </View>
+    </ImageBackground>
   )
 }
 export default ZBWGroup;

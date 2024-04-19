@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Dimensions, FlatList, Image, ScrollView, TouchableOpacity, StyleSheet, Linking, Alert } from "react-native";
+import { View, Text, Dimensions, FlatList, Image, ScrollView, TouchableOpacity, StyleSheet, Linking, Alert,ImageBackground } from "react-native";
 import Menu from "../../../assets/Icon/Menu.svg";
 import Bell from "../../../assets/Icon/Bell.svg";
 import { ImageSlider } from "react-native-image-slider-banner";
@@ -284,7 +284,7 @@ const HomeScreen = () => {
         }
     }
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={styles.container}>
             {loader ? <Loader /> : null}
             <View style={styles.header}>
                 <TouchableOpacity
@@ -469,7 +469,7 @@ const HomeScreen = () => {
                 onPress={() => setVisible(true)}
                 showMember={showMember}
             />
-        </View>
+        </ImageBackground>
     )
 }
 export default HomeScreen;

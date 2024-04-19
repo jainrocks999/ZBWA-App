@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView ,Platform} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView ,Platform,ImageBackground} from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import BackArrow from "../../assets/Icon/BackArrow.svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -101,7 +101,7 @@ const BusinessDetail = ({ onPress }) => {
 
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../../assets/Logo/background.png')} style={styles.container}>
             <ScrollView style={{ flex: 1 }}>
             <KeyboardAwareScrollView
                 extraScrollHeight={Platform.OS=='android'?-200:100}
@@ -226,7 +226,7 @@ const BusinessDetail = ({ onPress }) => {
                 </View>
                 </KeyboardAwareScrollView>
             </ScrollView>
-        </View>
+        </ImageBackground>
     )
 }
 export default BusinessDetail;

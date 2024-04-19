@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, FlatList, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, ScrollView,ImageBackground } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import BusinessDetail from "../../../components/BusinessDetail";
@@ -57,7 +57,7 @@ const BecomeaMember = () => {
         }
     }
     return (
-        <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
             <Header
                 title={"Become a Member"}
                 onPress={() => navigation.goBack()}
@@ -109,7 +109,7 @@ const BecomeaMember = () => {
                 </GestureRecognizer>
                 </ScrollView>
             </View>
-        </View>
+        </ImageBackground>
     )
 }
 export default BecomeaMember;

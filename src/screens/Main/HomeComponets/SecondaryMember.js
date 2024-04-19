@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from "react";
-import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, Dimensions,Platform ,Alert} from "react-native";
+import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, Dimensions,Platform ,Alert,ImageBackground} from "react-native";
 import Header from "../../../components/CustomHeader";
 import Dash from "../../../assets/Icon/Dash.svg";
 import Plus from "../../../assets/Icon/Plus.svg";
@@ -83,7 +83,7 @@ const SecondaryMember = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <ImageBackground source={require('../../../assets/Logo/background.png')} style={styles.container}>
       {loader?<Loader/>:null}
       <Header
         title={'Secondary Member'}
@@ -158,7 +158,7 @@ const SecondaryMember = () => {
           <Plus />
         </TouchableOpacity>
       </View>
-    </View>
+    </ImageBackground>
   )
 }
 export default SecondaryMember;

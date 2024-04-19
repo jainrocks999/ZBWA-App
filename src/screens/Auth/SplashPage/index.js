@@ -36,7 +36,7 @@ const Splash = () => {
         url: `${Constants.MainUrl}account/version`,
       });
       if (Platform.OS == 'android') {
-        if (response.data.data.android_version > '4.0.9') {
+        if (response.data.data.android_version > '4.1.0') {
           setAndroidUrl(response.data.data.android_url);
           setModalVisible(true);
         } else {
@@ -124,7 +124,7 @@ const Splash = () => {
             </Text>
           </View>
           <Text style={{ fontSize: 14, color: '#000', fontFamily: 'Montserrat-SemiBold', textAlign: 'center', marginTop: 5 }}>
-            A newer version of this app is available for download.Kindly update the app.
+          A newer version of this app is available for update, Kindly update the app.
           </Text>
 
           <View
@@ -135,7 +135,7 @@ const Splash = () => {
               marginTop: 10,
             }}>
             <TouchableOpacity style={styles.popup} onPress={() => openUrl()}>
-              <Text style={styles.ModelBtntext}>Download Now</Text>
+              <Text style={styles.ModelBtntext}>Update Now</Text>
             </TouchableOpacity>
           </View>
         </View>

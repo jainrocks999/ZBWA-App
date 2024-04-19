@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import { View,Text } from "react-native";
+import { View,Text,ImageBackground } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-simple-toast";
@@ -51,7 +51,7 @@ const Contact =()=>{
   }
 
     return(
-        <View style={{flex:1,backgroundColor:'#FFFFFF'}}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={{flex:1,backgroundColor:'#FFFFFF'}}>
           {loader?<Loader/>:null}
           <Header
           title={'My Profile'}
@@ -81,7 +81,7 @@ const Contact =()=>{
                  {data?.user?.phone?<Text style={{fontSize:15,color:'#000',fontFamily:'Montserrat-SemiBold',marginTop:4}}>{`Phone Number : ${data?.user?.phone}`}</Text>:null}
 
           </View>:null}
-        </View>
+        </ImageBackground>
     )
 }
 export default Contact;

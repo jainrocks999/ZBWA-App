@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Dimensions, ScrollView, TouchableOpacity, Platform ,Alert} from "react-native";
+import { View, Text, Dimensions, ScrollView, TouchableOpacity, Platform ,Alert,ImageBackground} from "react-native";
 import Image from "react-native-scalable-image";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
@@ -11,8 +11,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Storage from "../../../components/LocalStorage";
 import HTMLView from "react-native-htmlview";
 import Modal from "react-native-modal";
-// import RNFetchBlob from "rn-fetch-blob";
-import RNFetchBlob from "react-native-blob-util";
+import RNFetchBlob from "rn-fetch-blob";
+// import RNFetchBlob from "react-native-blob-util";
 import Constants from "../../../Redux/Constants";
 import { PERMISSIONS, checkMultiple, requestMultiple } from 'react-native-permissions';
 
@@ -171,7 +171,7 @@ const EventDetails = ({ route }) => {
 
 
     return (
-        <View style={{ backgroundColor: '#fff', flex: 1 }}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={{ backgroundColor: '#fff', flex: 1 }}>
             {loader ? <Loader /> : null}
             <Header
                 title={"Event Details"}
@@ -261,7 +261,7 @@ const EventDetails = ({ route }) => {
                 </TouchableOpacity>
             </View>:null}
 
-        </View>
+        </ImageBackground>
     )
 }
 export default EventDetails;

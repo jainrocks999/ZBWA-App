@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from "react";
-import { View, Text, TextInput, FlatList, Image,Platform, StyleSheet,Dimensions, SafeAreaView } from "react-native";
+import { View, Text, TextInput, FlatList, Image,Platform, StyleSheet,Dimensions, SafeAreaView, ImageBackground } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
@@ -52,7 +52,7 @@ const LegalSupport = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={styles.container}>
  <SafeAreaView style={{flex:1}}>
             {loader?<Loader/>:null}
             <Header
@@ -88,7 +88,7 @@ const LegalSupport = () => {
                 {/* <View style={{height:60}}/> */}
             </View>
             </SafeAreaView>
-        </View>
+        </ImageBackground>
     )
 }
 export default LegalSupport;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView,Platform } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView,Platform, ImageBackground } from "react-native";
 import Upload from "../../assets/Icon/Upload.svg";
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import BackArrow from "../../assets/Icon/BackArrow.svg";
@@ -445,7 +445,7 @@ const Documentation = ({ onPress }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ImageBackground source={require('../../assets/Logo/background.png')} style={styles.container}>
 
       {loader ? <Loader /> : null}
       <ScrollView style={{ flex: 1 }}>
@@ -829,7 +829,7 @@ const Documentation = ({ onPress }) => {
             </Modal>
             </KeyboardAwareScrollView>
             </ScrollView>
-    </View>
+    </ImageBackground>
   )
 }
 export default Documentation;

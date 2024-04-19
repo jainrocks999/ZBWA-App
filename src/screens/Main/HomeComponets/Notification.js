@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-import { View,FlatList,Text } from "react-native";
+import { View,FlatList,Text, ImageBackground } from "react-native";
 import axios from "axios";
 import Toast from "react-native-simple-toast";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -98,7 +98,7 @@ const Notification=()=>{
         )
     }
     return(
-        <View style={{flex:1,backgroundColor:'#fff'}}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={{flex:1,backgroundColor:'#fff'}}>
             {loader?<Loader/>:null}
             <Header
              title={'Notification'}
@@ -141,7 +141,7 @@ const Notification=()=>{
 
             </View>
 
-        </View>
+        </ImageBackground>
     )
 }
 export default Notification;

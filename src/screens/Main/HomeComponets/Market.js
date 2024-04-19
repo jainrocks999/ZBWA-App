@@ -1,5 +1,5 @@
 import react from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet,ImageBackground } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import Metal from "../../../assets/LocalImage/Metal.svg";
@@ -7,7 +7,7 @@ import Metal from "../../../assets/LocalImage/Metal.svg";
 const Market = () => {
   const navigation = useNavigation()
   return (
-    <View style={styles.container}>
+    <ImageBackground source={require('../../../assets/Logo/background.png')} style={styles.container}>
       <Header
         title={'Market'}
         onPress={() => navigation.goBack()}
@@ -87,7 +87,7 @@ const Market = () => {
 
 
       </View>
-    </View>
+    </ImageBackground>
   )
 }
 export default Market;

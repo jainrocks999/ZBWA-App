@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions,Platform } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions,Platform,ImageBackground } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import BlackEye from "../../../assets/Icon/BlackEye.svg";
@@ -72,7 +72,7 @@ const OrderCopies = () => {
         
     }
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={styles.container}>
             {loader ? <Loader /> : null}
             <Header
                 title={'Order Copies'}
@@ -188,7 +188,7 @@ const OrderCopies = () => {
                 </View>
             </Modal>
 
-        </View>
+        </ImageBackground>
     )
 }
 export default OrderCopies;

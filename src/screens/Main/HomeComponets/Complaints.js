@@ -82,7 +82,7 @@ const Complaints = () => {
         )
     }
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={styles.container}>
             {loader ? <Loader /> : null}
             <Header
                 title={'Complaints'}
@@ -257,7 +257,7 @@ const Complaints = () => {
                     <Plus />
                 </TouchableOpacity>
             </View>
-        </View>
+        </ImageBackground>
     )
 }
 export default Complaints;

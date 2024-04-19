@@ -1,5 +1,5 @@
 import React from "react";
-import { View,Text,StyleSheet,TouchableOpacity,Dimensions } from "react-native";
+import { View,Text,StyleSheet,TouchableOpacity,Dimensions, ImageBackground } from "react-native";
 import Pdf from "react-native-pdf";
 import { useNavigation } from "@react-navigation/native";
 import CircleCross from "../../../assets/Icon/CircleCross.svg";
@@ -8,7 +8,7 @@ const ViewPdf=({route})=>{
     const navigation=useNavigation()
     console.log('this is route data',route.params.currentMessage.file.url);
     return(
-        <View style={{ padding: 0,flex:1 }}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={{ padding: 0,flex:1 }}>
             {/* <Text>narenddxxl</Text> */}
         <Pdf
             trustAllCerts={false}
@@ -34,7 +34,7 @@ const ViewPdf=({route})=>{
          style={styles.buttonCancel}>
             <CircleCross/>
         </TouchableOpacity>
-    </View>
+    </ImageBackground>
     )
 
 }

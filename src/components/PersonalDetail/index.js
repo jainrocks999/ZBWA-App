@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView,Platform } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView,Platform,ImageBackground } from "react-native";
 import DatePicker from 'react-native-date-picker'
 import Claendar from "../../assets/Icon/Calendar.svg";
 import Toast from "react-native-simple-toast";
@@ -121,7 +121,7 @@ const PersonalDetail = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../../assets/Logo/background.png')} style={styles.container}>
 
             <ScrollView style={{ flex: 1 }}>
             <KeyboardAwareScrollView
@@ -291,7 +291,7 @@ const PersonalDetail = () => {
                 <View style={{ height: 140 }} />
                 </KeyboardAwareScrollView>
             </ScrollView>
-        </View>
+        </ImageBackground>
     )
 }
 export default PersonalDetail;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, ScrollView,ImageBackground } from "react-native";
 import Image from "react-native-scalable-image";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -121,7 +121,7 @@ const managePress = (item) => {
 }
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
             {loader?<Loader/>:null}
             <Header
                 title={"My QR Code"}
@@ -174,7 +174,7 @@ const managePress = (item) => {
                 </GestureRecognizer>
                 </ScrollView>
             </View>
-        </View>
+        </ImageBackground>
     )
 }
 export default QRCode;

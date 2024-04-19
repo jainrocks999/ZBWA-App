@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View,Text, ScrollView } from "react-native";
+import { View,Text, ScrollView,ImageBackground } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import HTMLView from "react-native-htmlview";
@@ -53,7 +53,7 @@ const Term =()=>{
   }
   console.log('this is data',data);
     return(
-        <View style={{flex:1,backgroundColor:'#FFFFFF'}}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={{flex:1,backgroundColor:'#FFFFFF'}}>
            {loader ? <Loader /> : null}
           <Header
           title={'Terms of Service'}
@@ -70,7 +70,7 @@ const Term =()=>{
             />:null}
             <View style={{height:30}}/>
             </ScrollView>
-        </View>
+        </ImageBackground>
     )
 }
 export default Term;

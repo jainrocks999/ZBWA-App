@@ -1,5 +1,5 @@
 import react, { useState ,useEffect} from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet,Image,Linking } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet,Image,Linking,ImageBackground } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import Plus from "../../../assets/Icon/Plus.svg";
@@ -86,7 +86,7 @@ const OurPartner = () => {
 
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={styles.container}>
             {loader?<Loader/>:null}
             <Header
                 title={'Our Partners'}
@@ -124,7 +124,7 @@ const OurPartner = () => {
                     )}
                 />
             </View>
-        </View>
+        </ImageBackground>
     )
 }
 export default OurPartner;

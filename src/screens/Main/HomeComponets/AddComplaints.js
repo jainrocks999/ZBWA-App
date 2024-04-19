@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Platform } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Platform,ImageBackground } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
@@ -232,7 +232,7 @@ const AddComplaints = () => {
 
     const inputRef = useRef();
     return (
-        <View style={styles.conatiner}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={styles.conatiner}>
             {loader ? <Loader /> : null}
             <Header
                 title={'Add Complaints'}
@@ -420,7 +420,7 @@ const AddComplaints = () => {
                     </View>
                 </View>
             </Modal>
-        </View>
+        </ImageBackground>
     )
 }
 export default AddComplaints;

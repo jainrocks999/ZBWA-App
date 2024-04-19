@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from "react";
-import { View,Text,FlatList,StyleSheet,Dimensions } from "react-native";
+import { View,Text,FlatList,StyleSheet,Dimensions,ImageBackground } from "react-native";
 import Header from "../../../components/CustomHeader";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -77,7 +77,7 @@ const ZBWNews=()=>{
     }
 
     return(
-        <View style={styles.container}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={styles.container}>
             {loader?<Loader/>:null}
             <Header
                title={"ZBW News"}
@@ -113,7 +113,7 @@ const ZBWNews=()=>{
                     />
                 </View>
             </View>
-        </View>
+        </ImageBackground>
     )
 }
 export default ZBWNews;

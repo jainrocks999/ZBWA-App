@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text ,Dimensions,ScrollView} from "react-native";
+import { View, Text ,Dimensions,ScrollView, ImageBackground} from "react-native";
 import Image from "react-native-scalable-image";
 import Header from "../CustomHeader";
 import { useNavigation } from "@react-navigation/native";
@@ -22,7 +22,7 @@ const EventDetails = ({ route }) => {
         )
     }
     return (
-        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <ImageBackground source={require('../../assets/Logo/background.png')} style={{ flex: 1, backgroundColor: '#fff' }}>
             <Header
                 onPress={() => navigation.goBack()}
                 title={'QR Details'}
@@ -48,7 +48,7 @@ const EventDetails = ({ route }) => {
                         source={{ uri: data.qr_code }}
                     /> : null}
                 </View>
-        </View>
+        </ImageBackground>
     )
 
 }

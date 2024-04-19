@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView ,Platform} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView ,Platform,ImageBackground} from "react-native";
 import Header from "../../../components/CustomHeader";
 import Upload from "../../../assets/Icon/Upload.svg";
 import { useNavigation } from "@react-navigation/native";
@@ -264,7 +264,7 @@ const AddSecondaryMember = ({ route }) => {
 
 
     return (
-        <View style={styles.container}>
+        <ImageBackground source={require('../../../assets/Logo/background.png')} style={styles.container}>
             {loader ? <Loader /> : null}
             <Header
                 title={'Add Secondary Member'}
@@ -545,7 +545,7 @@ const AddSecondaryMember = ({ route }) => {
                 </View>
             </Modal>
 
-        </View>
+        </ImageBackground>
     )
 }
 export default AddSecondaryMember;
