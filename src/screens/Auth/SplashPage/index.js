@@ -36,7 +36,7 @@ const Splash = () => {
         url: `${Constants.MainUrl}account/version`,
       });
       if (Platform.OS == 'android') {
-        if (response.data.data.android_version > '4.1.0') {
+        if (response.data.data.android_version > '4.1.2') {
           setAndroidUrl(response.data.data.android_url);
           setModalVisible(true);
         } else {
